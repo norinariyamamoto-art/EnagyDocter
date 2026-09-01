@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Energy Doctor｜事業所投資診断ポータル</title>
+  <meta name="description" content="工場・事務棟・研究所・物流センターの設備・エネルギー・建屋・保全・BCPを横断し、何から投資すべきかを整理する事業所投資診断サービスです。">
+  <meta name="robots" content="noindex,nofollow">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config={theme:{extend:{colors:{navy:'#0D1B3D',blue:'#1E88E5',sky:'#64B5F6',green:'#2E7D32',mist:'#F4F8FC'}}}}
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="config.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body class="text-slate-800">
+<header class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
+    <a href="#top" class="flex items-center gap-3" aria-label="Energy Doctor トップ">
+      <span class="ed-logo" aria-hidden="true"><span>E</span></span>
+      <span><b class="block text-xl text-navy">Energy Doctor</b><small class="font-bold text-green">事業所投資診断ポータル</small></span>
+    </a>
+    <nav class="hidden gap-6 text-sm font-bold lg:flex">
+      <a href="#benefit">診断で分かること</a><a href="#report">A3レポート</a><a href="#radar">投資判断レーダー</a><a href="#solutions">解決策</a><a href="#story">Story</a><a href="#faq">FAQ</a>
+    </nav>
+    <a data-form class="hidden rounded-lg bg-green px-5 py-3 text-sm font-black text-white lg:block">無料診断を開始する</a>
+    <button id="mb" class="rounded border p-2 lg:hidden" aria-label="メニュー">☰</button>
+  </div>
+  <div id="mm" class="hidden border-t bg-white px-5 py-4 lg:hidden">
+    <div class="grid gap-3 font-bold"><a href="#benefit">診断で分かること</a><a href="#report">A3レポート</a><a href="#radar">投資判断レーダー</a><a href="#solutions">解決策</a><a href="#story">Story</a><a href="#faq">FAQ</a><a data-form class="rounded bg-green px-4 py-3 text-center text-white">無料診断を開始する</a></div>
+  </div>
+</header>
+
+<main>
+<section id="top" class="overflow-hidden bg-gradient-to-br from-white via-sky-50 to-blue-100">
+  <div class="mx-auto grid min-h-[720px] max-w-7xl items-center gap-10 px-5 py-16 lg:grid-cols-[.92fr_1.08fr]">
+    <div>
+      <p class="mb-5 inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-sm font-black text-blue">Energy Doctor｜事業所投資診断ポータル</p>
+      <h1 class="text-4xl font-black leading-tight text-navy sm:text-5xl lg:text-[56px]">工場のエネルギーを、<br><span class="text-green">“見える化”では終わらせない。</span></h1>
+      <p class="mt-6 text-xl font-black text-navy">設備・エネルギー・建屋・BCPを横断して、<br>何から投資すべきかを見える化する。</p>
+      <p class="mt-5 max-w-xl leading-8 text-slate-700">工場・事務棟・研究所・物流センターなど、事業所全体を俯瞰して課題を整理し、投資判断の優先順位をご提案します。</p>
+      <div id="reception-banner" class="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
+        <b>現在は受付準備中です。</b> サイトは先行公開し、模擬案件・運用確認完了後に診断受付を開始します。
+      </div>
+      <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+        <a data-form class="rounded-xl bg-green px-7 py-4 text-center font-black text-white shadow-xl">無料診断を開始する →</a>
+        <a href="#report" class="rounded-xl border-2 border-navy bg-white px-7 py-4 text-center font-black text-navy">A3レポートサンプルを見る ↓</a>
+      </div>
+      <p class="mt-4 text-sm font-bold text-slate-600">分からない項目は「不明」で回答できます。</p>
+    </div>
+
+    <div class="relative">
+      <div class="overflow-hidden rounded-3xl border border-white bg-white shadow-2xl">
+        <svg viewBox="0 0 800 620" class="w-full" role="img" aria-label="工場、事務棟、研究所、物流センターを走査するEnergy Doctorレーダー">
+          <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eaf5ff"/><stop offset="1" stop-color="#d9efdf"/></linearGradient><linearGradient id="scan"><stop stop-color="#2E7D32" stop-opacity="0"/><stop offset=".7" stop-color="#2E7D32" stop-opacity=".15"/><stop offset="1" stop-color="#64B5F6" stop-opacity=".6"/></linearGradient></defs>
+          <rect width="800" height="620" rx="32" fill="url(#bg)"/><path d="M0 500C180 420 300 540 450 465C600 390 690 430 800 370V620H0Z" fill="#cbe9d0"/><path d="M0 545C180 470 350 560 520 485C650 430 725 455 800 420" fill="none" stroke="#fff" stroke-width="34" opacity=".9"/>
+          <g class="building"><rect x="95" y="115" width="185" height="115" rx="10" fill="#d7eafa" stroke="#1E88E5" stroke-width="3"/><path d="M85 115L190 70L290 115Z" fill="#b8d8f4"/><text x="190" y="260" text-anchor="middle" font-size="20" font-weight="900" fill="#0D1B3D">研究所</text></g>
+          <g class="building b2"><rect x="485" y="105" width="165" height="145" rx="10" fill="#dbe8f5" stroke="#0D1B3D" stroke-width="3"/><text x="567" y="280" text-anchor="middle" font-size="20" font-weight="900" fill="#0D1B3D">事務棟</text></g>
+          <g class="building b3"><path d="M65 385H295V510H65Z" fill="#d7eafa" stroke="#1E88E5" stroke-width="3"/><path d="M65 385L115 345L165 385L215 345L265 385Z" fill="#b7d8f4"/><text x="180" y="542" text-anchor="middle" font-size="20" font-weight="900" fill="#0D1B3D">工場</text></g>
+          <g class="building b4"><rect x="520" y="380" width="215" height="125" rx="8" fill="#d8efdc" stroke="#2E7D32" stroke-width="3"/><path d="M505 380H750L710 345H540Z" fill="#b7dfbf"/><text x="627" y="538" text-anchor="middle" font-size="20" font-weight="900" fill="#0D1B3D">物流センター</text></g>
+          <g transform="translate(400 320)"><circle r="210" fill="none" stroke="#fff" stroke-width="2"/><circle r="165" fill="none" stroke="#fff" stroke-width="2"/><circle r="120" fill="none" stroke="#fff" stroke-width="2"/><circle r="75" fill="none" stroke="#fff" stroke-width="2"/><g class="radar"><path d="M0 0L210-24A212 212 0 01182 106Z" fill="url(#scan)"/><line x1="0" y1="0" x2="210" y2="-24" stroke="#64B5F6" stroke-width="5"/></g><circle r="54" fill="#fff" stroke="#0D1B3D" stroke-width="6"/><circle r="45" fill="none" stroke="#2E7D32" stroke-width="8" stroke-dasharray="75 25"/><text x="0" y="19" text-anchor="middle" font-size="54" font-weight="900" fill="#0D1B3D">E</text></g>
+          <text x="400" y="592" text-anchor="middle" font-size="17" font-weight="800" fill="#0D1B3D">事業所全体をスキャン中...</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="benefit" class="py-20">
+  <div class="mx-auto max-w-7xl px-5 text-center">
+    <p class="kicker">WHAT YOU GET</p><h2 class="title">診断すると、何が分かるのか。</h2>
+    <p class="lead">Energy Doctorは、単なる省エネ診断ではありません。課題を見つけ、優先順位を付け、次の行動まで整理します。</p>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <article class="card"><div class="num">01</div><h3>何が課題か</h3><p>設備・エネルギー・建屋・保全・BCPを横断して、優先確認事項を整理します。</p></article>
+      <article class="card"><div class="num">02</div><h3>何から着手するか</h3><p>優先課題TOP5と投資判断レーダーで、確認・投資の優先順位を見える化します。</p></article>
+      <article class="card"><div class="num">03</div><h3>次に何をするか</h3><p>資料確認、現地調査、基本構想、概算見積など、次の検討ステップまで整理します。</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="report" class="bg-mist py-20">
+  <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-[1.1fr_.9fr]">
+    <div class="report-preview">
+      <img src="assets/a3-report-p1.png" alt="Energy Doctor A3診断レポートのサンプル1ページ目">
+      <span class="sample-badge">SAMPLE</span>
+    </div>
+    <div><p class="kicker">A3 REPORT</p><h2 class="title">診断結果を、A3一枚に。</h2>
+      <p class="mt-6 leading-8 text-slate-600">課題を並べるだけでは、投資判断はできません。Energy Doctorでは「何が問題か」「何から着手すべきか」「次に何を確認すべきか」まで、経営層が把握しやすい形に整理します。</p>
+      <ul class="check-list mt-7"><li>設備・管理の状態</li><li>判断材料の充足度</li><li>対応の優先度</li><li>点数だけでは見逃せない最優先事項</li><li>投資判断レーダー</li><li>優先課題TOP5と投資ロードマップ</li></ul>
+      <button id="open-report" class="mt-8 rounded-xl border-2 border-navy bg-white px-7 py-4 font-black text-navy">A3レポートサンプルを見る</button>
+    </div>
+  </div>
+</section>
+
+<section id="radar" class="py-20">
+  <div class="mx-auto max-w-7xl px-5 text-center"><p class="kicker">INVESTMENT RADAR</p><h2 class="title">事業所全体を、ひとつの視点で。</h2>
+    <p class="lead">設備だけ、電気代だけ、建屋だけ。それぞれを個別に見るのではなく、事業所全体を俯瞰することで投資の順番が見えてきます。</p>
+    <div class="mt-12 grid items-center gap-10 lg:grid-cols-2">
+      <div class="radar-card">
+        <svg viewBox="0 0 520 430" class="w-full" aria-label="投資判断レーダーのイメージ">
+          <g transform="translate(260 210)"><g class="web-lines"><polygon points="0,-170 162,-53 100,138 -100,138 -162,-53"/><polygon points="0,-128 121,-40 75,104 -75,104 -121,-40"/><polygon points="0,-85 81,-26 50,69 -50,69 -81,-26"/><line x1="0" y1="0" x2="0" y2="-170"/><line x1="0" y1="0" x2="162" y2="-53"/><line x1="0" y1="0" x2="100" y2="138"/><line x1="0" y1="0" x2="-100" y2="138"/><line x1="0" y1="0" x2="-162" y2="-53"/></g><polygon class="radar-shape" points="0,-135 125,-41 84,116 -61,84 -140,-45"/></g>
+          <g class="radar-labels"><text x="260" y="22">エネルギー</text><text x="470" y="160">設備</text><text x="395" y="405">建屋</text><text x="125" y="405">保全</text><text x="50" y="160">BCP</text></g>
+        </svg>
+      </div>
+      <div class="grid gap-4 text-left sm:grid-cols-2"><div class="mini"><b>エネルギー</b><span>使用量・デマンド・改善余地</span></div><div class="mini"><b>設備</b><span>老朽化・故障・代替性</span></div><div class="mini"><b>建屋</b><span>結露・雨漏り・暑熱・修繕</span></div><div class="mini"><b>保全</b><span>履歴・予備品・管理体制</span></div><div class="mini sm:col-span-2"><b>BCP</b><span>停電・供給継続・重要負荷・復旧</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-navy py-20 text-white">
+  <div class="mx-auto max-w-7xl px-5"><div class="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><div><p class="kicker text-sky">ENERGY DOCTOR CYCLE</p><h2 class="mt-3 text-3xl font-black sm:text-4xl">診断で終わらない。<br>判断から改善へ。</h2><p class="mt-6 leading-8 text-slate-300">見える化 → 診断 → 優先順位 → 投資判断 → 実行 → 効果確認を循環させ、次の投資判断につなげます。</p></div><div class="cycle-row"><span>見える化</span><i>→</i><span>診断</span><i>→</i><span>優先順位</span><i>→</i><span>投資判断</span><i>→</i><span>実行</span><i>→</i><span>効果確認</span></div></div></div>
+</section>
+
+<section id="solutions" class="py-20">
+  <div class="mx-auto max-w-7xl px-5 text-center"><p class="kicker">FROM DIAGNOSIS TO SOLUTION</p><h2 class="title">診断の先に、必要な解決策を。</h2><p class="lead">Energy Doctorは、製品を販売するための診断ではありません。まず課題と優先順位を整理し、必要な場合に具体的な解決策を検討します。</p>
+    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <a data-solution="energy" class="card block text-left"><div class="text-4xl">📈</div><h3>省エネ・エネルギー監視</h3><p>電力監視、デマンド、EMS、高効率設備、運用改善</p><b class="more">製品・サービスへ →</b></a>
+      <a data-solution="bcp" class="card block text-left"><div class="text-4xl">🔋</div><h3>電源・BCP</h3><p>UPS、非常用小型発電機、蓄電池、重要負荷対策</p><b class="more">製品・サービスへ →</b></a>
+      <a data-solution="renewable" class="card block text-left"><div class="text-4xl">☀️</div><h3>太陽光・蓄電</h3><p>太陽光発電、蓄電システム、ピークカット、自立運転</p><b class="more">製品・サービスへ →</b></a>
+      <a data-solution="facility" class="card block text-left"><div class="text-4xl">🏗️</div><h3>設備・建屋更新</h3><p>受変電、モータ、インバータ、遮熱、屋根・外壁修繕</p><b class="more">製品・サービスへ →</b></a>
+    </div>
+  </div>
+</section>
+
+<section id="story" class="bg-mist py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="kicker">STORY</p><h2 class="title">Energy Doctorが生まれた理由</h2>
+    <div class="mt-8 story-copy"><p>設備更新、省エネ、建屋修繕、BCP。それぞれの提案はできても、経営者が本当に知りたいのは「結局、何から投資すべきなのか」ではないか。</p><p>Energy Doctorは、その問いを出発点にしています。設備や建物を個別に見るのではなく、事業所全体を俯瞰し、課題を共通の物差しで整理して、判断できる形にする。そのための診断プラットフォームとして企画しました。</p><p>本サービスは、澤電気機械の企業内中小企業診断士が、設備・エネルギーの現場経験と経営診断の視点を組み合わせて企画・設計しています。</p></div>
+    <div class="charter mt-12"><p class="kicker">ENERGY DOCTOR CHARTER</p><h3>エナジードクター憲章</h3><div class="mt-6 grid gap-4 md:grid-cols-2"><p><b>01｜全体を見る。</b><br>設備単体ではなく、事業所全体から課題を捉えます。</p><p><b>02｜根拠を分ける。</b><br>確認できた事実と、追加確認が必要な事項を区別します。</p><p><b>03｜売る前に判断する。</b><br>特定製品ありきではなく、投資の必要性と順序を先に考えます。</p><p><b>04｜行動につなげる。</b><br>診断で終わらず、次に何を確認・実行するかまで整理します。</p></div></div>
+  </div>
+</section>
+
+<section id="faq" class="py-20"><div class="mx-auto max-w-4xl px-5"><p class="kicker">FAQ</p><h2 class="title">よくあるご質問</h2>
+  <div class="mt-8 space-y-3"><details><summary>料金はかかりますか？</summary><p>初期の簡易診断とA3レポートは無償です。現地調査、詳細診断、設計、工事、機器提案等は別途ご相談します。</p></details><details><summary>回答時間は決まっていますか？</summary><p>時間制限は設けていません。分からない項目は「不明」を選択でき、必要な情報はその後の個別確認で補います。</p></details><details><summary>図面や写真をアップロードしますか？</summary><p>公開フォームにはファイル添付機能を設けません。必要な場合は受付後に提出方法をご案内します。</p></details><details><summary>AIが自動で投資判断を決めるのですか？</summary><p>採点・重大事項・優先順位は承認済みの診断ルールで算定し、正式なレポートは担当者が確認して発行します。</p></details></div>
+</div></section>
+
+<section id="contact" class="bg-gradient-to-r from-blue to-green py-20 text-white"><div class="mx-auto max-w-5xl px-5 text-center"><p class="font-black tracking-[.2em] text-white/80">START DIAGNOSIS</p><h2 class="mt-4 text-3xl font-black sm:text-4xl">何から投資すべきか。<br>まず、現状を整理するところから。</h2><p class="mt-5 leading-8">設備・エネルギー・建屋・BCPを横断して、投資判断の優先順位を整理します。</p><a data-form class="mt-8 inline-block rounded-xl bg-white px-8 py-4 font-black text-green">無料診断を開始する</a><p class="mt-4 text-sm text-white/85">分からない項目は「不明」で回答できます。</p></div></section>
+</main>
+
+<footer class="bg-[#08122a] py-9 text-slate-300"><div class="mx-auto flex max-w-7xl flex-col gap-6 px-5 lg:flex-row lg:items-center lg:justify-between"><div class="flex items-center gap-4"><img src="assets/sawa-logo.png" alt="澤電気機械株式会社 ロゴ" class="h-10 w-auto rounded bg-white p-1"><div><b class="text-white">Energy Doctor</b><p class="text-xs">澤電気機械株式会社が提供する事業所投資診断サービス</p></div></div><div class="text-sm"><a href="https://www.sawa-em.co.jp/" target="_blank" rel="noopener" class="underline">澤電気機械公式サイト</a><p class="mt-2">© <span id="yr"></span> SAWA DENKI KIKAI CO., LTD.</p></div></div></footer>
+
+<div id="report-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="A3レポートサンプル">
+  <button id="close-report" class="modal-close" aria-label="閉じる">×</button>
+  <div class="modal-body"><h2>Energy Doctor｜A3診断レポート SAMPLE</h2><p>架空データによる表示例です。</p><img src="assets/a3-report-p1.png" alt="A3レポート1ページ目"><img src="assets/a3-report-p2.png" alt="A3レポート2ページ目"></div>
+</div>
+</body></html>
