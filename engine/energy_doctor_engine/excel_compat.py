@@ -61,10 +61,72 @@ def avg_ignore_blank(*values: float | None) -> float:
     return sum(nums) / len(nums)
 
 
+def avg_or_none(*values: float | None) -> float | None:
+    """Same as avg_ignore_blank, but returns None instead of raising when
+    every member is blank -- lets a fully-blank AVERAGE() group compose into
+    weighted_score() below instead of aborting the whole formula.
+    (Corrective Patch 1 / ISS-03.)"""
+    nums = [v for v in values if v is not None]
+    if not nums:
+        return None
+    return sum(nums) / len(nums)
+
+
+class InsufficientDataError(ValueError):
+    """Every weighted component of a Web_KPI formula was blank (Unknown) --
+    there is no defined "score" for zero information, so this is raised
+    rather than silently returning 0 (which Corrective Patch 1 / ISS-03
+    explicitly says not to do). This is expected to be unreachable for any
+    realistic Forms submission (all required WQ answered Unknown); it is not
+    Excel's #VALUE! (that failure mode is what this patch removes)."""
+
+
+def weighted_score(terms: "list[tuple[float, float | None]]") -> float:
+    """Evaluate a fixed-weight formula (e.g. Web_DRI's
+    0.30*A + 0.25*B + 0.20*C + 0.15*D + 0.10*E, weights summing to 1) while
+    tolerating one or more blank (Unknown) terms.
+
+    Corrective Patch 1 / ISS-03: the source workbook already tolerates a
+    blank member *inside* an AVERAGE() range (that range's average is simply
+    taken over the remaining members -- see avg_or_none above). But several
+    Web_KPI terms reference a single WQ_Normalize score directly in
+    arithmetic (no AVERAGE wrapper), which is #VALUE! in Excel when that
+    score is blank. This function extends the *same* "ignore blank members,
+    renormalize over what's left" principle that AVERAGE() already applies
+    within one term, to the outer weighted sum across all of a formula's
+    terms -- so a directly-referenced blank term drops out and the
+    remaining weights are rescaled to sum back to 1, rather than forcing
+    that term to 0 (which Corrective Patch 1 explicitly rules out) or
+    raising #VALUE!. A term with a fully-blank AVERAGE() group (all of its
+    members Unknown) is handled identically once that group has been reduced
+    to None via avg_or_none.
+
+    This does not import any question-specific Unknown-handling rule from
+    V2.2 sheet `03_採点マトリクス` (see ED-DI-002) -- it is a generic,
+    question-agnostic fallback that only activates when a term is blank.
+    """
+    usable = [(w, v) for w, v in terms if v is not None]
+    total_weight = sum(w for w, _ in usable)
+    if total_weight == 0:
+        raise InsufficientDataError(
+            "every weighted component of this formula is Unknown/blank -- "
+            "no defined score for zero information"
+        )
+    return sum(w * v for w, v in usable) / total_weight
+
+
 def direct(value: float | None, context: str) -> float:
     """A formula that references a single WQ_Normalize score cell directly in
     arithmetic (e.g. `0.20*WQ_Normalize!D11`), not through AVERAGE. A blank
-    cell here is #VALUE! in Excel."""
+    cell here is #VALUE! in Excel.
+
+    Retained (with its own unit test) as documentation of that original
+    Excel-faithful #VALUE! behavior -- see Task 1A's ISSUES.md ISS-03. As of
+    Corrective Patch 1, no module in this package calls this any more: every
+    formula that used to route through it (Web_KPI's Web_DRI/Web_EPI, and
+    Issue_Candidate's shared U column via TOP5_Calc) now uses
+    weighted_score() instead, which tolerates the same blank case without
+    raising. Kept for reference/tests rather than deleted outright."""
     if value is None:
         raise ExcelValueError(
             f"{context}: referenced WQ_Normalize score is blank ("

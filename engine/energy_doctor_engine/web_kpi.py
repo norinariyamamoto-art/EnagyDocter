@@ -14,7 +14,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict
 
-from .excel_compat import avg_ignore_blank, blank_ge, direct, excel_round
+from .excel_compat import avg_or_none, excel_round, weighted_score
 from .wq_normalize import NormalizedWQ
 
 
@@ -88,45 +88,79 @@ def compute_web_kpi(norm: Dict[str, NormalizedWQ]) -> WebKPI:
 
     # Web_KPI!B5 = ROUND(0.40*AVERAGE(D4:D7)+0.20*AVERAGE(D8:D9,D11)
     #                     +0.20*AVERAGE(D12:D14)+0.20*AVERAGE(D15,D17), 0)
+    # Corrective Patch 1 / ISS-03: weighted_score() tolerates a fully-blank
+    # AVERAGE() group (all-Unknown) by dropping that term and rescaling the
+    # remaining weights, instead of Excel's #DIV/0! for AVERAGE() of nothing.
     web_edi = excel_round(
-        0.40 * avg_ignore_blank(d["WQ-101"], d["WQ-102"], d["WQ-103"], d["WQ-104"])
-        + 0.20 * avg_ignore_blank(d["WQ-201"], d["WQ-202"], d["WQ-204"])
-        + 0.20 * avg_ignore_blank(d["WQ-301"], d["WQ-302"], d["WQ-303"])
-        + 0.20 * avg_ignore_blank(d["WQ-401"], d["WQ-403"])
+        weighted_score(
+            [
+                (0.40, avg_or_none(d["WQ-101"], d["WQ-102"], d["WQ-103"], d["WQ-104"])),
+                (0.20, avg_or_none(d["WQ-201"], d["WQ-202"], d["WQ-204"])),
+                (0.20, avg_or_none(d["WQ-301"], d["WQ-302"], d["WQ-303"])),
+                (0.20, avg_or_none(d["WQ-401"], d["WQ-403"])),
+            ]
+        )
     )
 
     # Web_KPI!B6 = ROUND(0.30*AVERAGE(D4:D5,D8:D9,D13)+0.25*AVERAGE(D6:D7,D10)
     #                     +0.20*D11+0.15*AVERAGE(D15:D17)+0.10*D17, 0)
+    # Corrective Patch 1 / ISS-03: the 0.20*D11(WQ-204) and 0.10*D17(WQ-403)
+    # terms reference a single WQ_Normalize score directly (no AVERAGE
+    # wrapper) -- Excel's #VALUE! when that score is blank/Unknown. Feeding
+    # them through weighted_score() alongside the AVERAGE-based terms applies
+    # the same "drop blank, rescale remaining weights" treatment uniformly,
+    # so an Unknown WQ-204 or WQ-403 answer no longer crashes Web_DRI.
     web_dri = excel_round(
-        0.30 * avg_ignore_blank(d["WQ-101"], d["WQ-102"], d["WQ-201"], d["WQ-202"], d["WQ-302"])
-        + 0.25 * avg_ignore_blank(d["WQ-103"], d["WQ-104"], d["WQ-203"])
-        + 0.20 * direct(d["WQ-204"], "Web_KPI!B6 term 0.20*D11(WQ-204)")
-        + 0.15 * avg_ignore_blank(d["WQ-401"], d["WQ-402"], d["WQ-403"])
-        + 0.10 * direct(d["WQ-403"], "Web_KPI!B6 term 0.10*D17(WQ-403)")
+        weighted_score(
+            [
+                (0.30, avg_or_none(d["WQ-101"], d["WQ-102"], d["WQ-201"], d["WQ-202"], d["WQ-302"])),
+                (0.25, avg_or_none(d["WQ-103"], d["WQ-104"], d["WQ-203"])),
+                (0.20, d["WQ-204"]),
+                (0.15, avg_or_none(d["WQ-401"], d["WQ-402"], d["WQ-403"])),
+                (0.10, d["WQ-403"]),
+            ]
+        )
     )
 
     # Web_KPI!B7 = ROUND(0.30*E19+0.25*AVERAGE(E6,E14)
     #                     +0.25*AVERAGE(E7,IF(C18="ない",15,IF(OR(C18="不明",C18=""),40,75)))
     #                     +0.20*IF(D11>=80,20,IF(D11>=50,60,100)), 0)
+    # ISS-02: "UNKNOWN" (this module's canonical Unknown sentinel, see
+    # forms_adapter.py) is added alongside "不明"/"" here so a WQ-404 answer
+    # normalized from any of the three accepted Unknown spellings still takes
+    # this branch, exactly as a literal "不明" already did.
     if c18 == "ない":
         guardrail_urgency = 15
-    elif c18 in ("不明", ""):
+    elif c18 in ("不明", "", "UNKNOWN"):
         guardrail_urgency = 40
     else:
         guardrail_urgency = 75
 
-    if blank_ge(d["WQ-204"], 80):
+    # ISS-03: previously this branch relied on blank_ge()'s Excel-faithful
+    # "blank text sorts above any number" quirk, which made an Unknown
+    # WQ-204 silently resolve to 20 (the >=80 branch) -- a side effect of
+    # comparison semantics, not a considered Unknown treatment. Made
+    # explicit here as its own weighted_score() term instead, so an Unknown
+    # WQ-204 drops out of Web_EPI and rescales like every other blank term,
+    # consistent with how it's now handled in Web_DRI above.
+    if d["WQ-204"] is None:
+        epi_wq204_term = None
+    elif d["WQ-204"] >= 80:
         epi_wq204_term = 20
-    elif blank_ge(d["WQ-204"], 50):
+    elif d["WQ-204"] >= 50:
         epi_wq204_term = 60
     else:
         epi_wq204_term = 100
 
     web_epi = excel_round(
-        0.30 * direct(e["WQ-405"], "Web_KPI!B7 term 0.30*E19(WQ-405)")
-        + 0.25 * avg_ignore_blank(e["WQ-103"], e["WQ-303"])
-        + 0.25 * avg_ignore_blank(e["WQ-104"], guardrail_urgency)
-        + 0.20 * epi_wq204_term
+        weighted_score(
+            [
+                (0.30, e["WQ-405"]),
+                (0.25, avg_or_none(e["WQ-103"], e["WQ-303"])),
+                (0.25, avg_or_none(e["WQ-104"], guardrail_urgency)),
+                (0.20, epi_wq204_term),
+            ]
+        )
     )
 
     return WebKPI(

@@ -12,6 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List
 
+from .forms_adapter import normalize_forms_response
 from .guardrail import GuardrailEntry, evaluate_guardrail, top_guardrail
 from .issue_candidate import IssueCandidate, build_issue_candidates
 from .top5_calc import Top5CalcRow, compute_top5_calc
@@ -33,6 +34,9 @@ class PipelineResult:
 
 
 def run_pipeline(forms_response: Dict[str, str]) -> PipelineResult:
+    # Corrective Patch 1 / ISS-02: absorb "不明" / "分からない" / blank before
+    # anything else sees the answers. See forms_adapter.py.
+    forms_response = normalize_forms_response(forms_response)
     normalized = normalize(forms_response)
     web_kpi = compute_web_kpi(normalized)
 

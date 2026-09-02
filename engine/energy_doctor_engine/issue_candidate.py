@@ -30,7 +30,7 @@ class IssueCandidate:
     name: str
     main_wq: str
     i: float  # Impact
-    u: float  # Urgency
+    u: "float | None"  # Urgency (WQ_Normalize!E19 -- blank if WQ-405 is Unknown)
     p: float  # Probability/state
     r: float  # Risk (Web_DRI-derived, shared across all issues)
     c: float  # Confidence/evidence
@@ -145,7 +145,11 @@ def build_issue_candidates(
             u=e19,
             p=(75 if c303 == "明確な影響あり" else 40),
             r=r, c=g["WQ-301"], o=60, guard_add=0,
-            fire=1 if (c301 != "特になし" and c301 != "不明") else 0,
+            # ISS-02/03: "UNKNOWN" (forms_adapter.py's canonical sentinel for
+            # 不明/分からない/blank) must be excluded here exactly like the
+            # original formula excludes a literal "不明", or an Unknown
+            # WQ-301 answer would incorrectly fire this issue.
+            fire=1 if (c301 != "特になし" and c301 != "不明" and c301 != "UNKNOWN") else 0,
         )
     )
     # BL-02 建屋点検・修繕優先順位の整理 (row13)
@@ -214,7 +218,11 @@ def build_issue_candidates(
             p=(0 if c18 == "ない" else 75),
             r=r, c=g["WQ-404"], o=60,
             guard_add=(0 if c18 == "ない" else 12),
-            fire=1 if (c18 != "ない" and c18 != "不明" and c18 != "") else 0,
+            # ISS-02/03: add "UNKNOWN" alongside the original "不明"/""
+            # exclusions -- an Unknown WQ-404 answer must not fire this
+            # Guardrail-derived issue any more than a literal "不明" already
+            # didn't.
+            fire=1 if (c18 != "ない" and c18 != "不明" and c18 != "" and c18 != "UNKNOWN") else 0,
         )
     )
     # CU-01 顧客固有課題のヒアリング (row19)

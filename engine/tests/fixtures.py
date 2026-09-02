@@ -93,3 +93,32 @@ TC_C_FORMS_RESPONSE = {
     "WQ-405": "3か月以内",
     "WQ-501": "",
 }
+
+# Corrective Patch 1 / ISS-06 regression fixture: deliberately built so
+# MG-01/MG-02/MG-03 (all in field "管理") land on an exact 3-way TOP_SCORE
+# tie (WQ-401="ない", WQ-402="基準なし", WQ-403="計画なし" each score P=75 in
+# Issue_Candidate; every other input shared by the three -- I/U/R/C/O -- is
+# identical since none of WQ-401/402/403/405 is Unknown). Before the patch,
+# TOP5_Final's per-field rank formula (COUNTIFS with a strict ">") gave all
+# three field_rank=1 and let all three pass the "<=2" candidacy check,
+# violating TOP-R03's own "same-field max 2" rule. See tests/test_corrective_patch1.py.
+FIELD_CAP_TIE_FORMS_RESPONSE = {
+    "WQ-001": "投資優先順位",
+    "WQ-101": "把握している",
+    "WQ-102": "定期的に確認",
+    "WQ-103": "十分ある",
+    "WQ-104": "定期確認",
+    "WQ-201": "毎月確認",
+    "WQ-202": "詳細に把握",
+    "WQ-203": "迅速に確認",
+    "WQ-204": "複数実施",
+    "WQ-301": "特になし",
+    "WQ-302": "定期点検",
+    "WQ-303": "影響なし",
+    "WQ-401": "ない",
+    "WQ-402": "基準なし",
+    "WQ-403": "計画なし",
+    "WQ-404": "ない",
+    "WQ-405": "時期未定",
+    "WQ-501": "",
+}

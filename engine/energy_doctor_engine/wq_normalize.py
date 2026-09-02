@@ -17,7 +17,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Optional
 
-UNKNOWN_VALUES = {"不明", ""}
+UNKNOWN_VALUES = {"不明", "", "UNKNOWN"}
+"""Corrective Patch 1 / ISS-02: "UNKNOWN" is the canonical sentinel produced
+by forms_adapter.normalize_forms_response() for any of "不明" / "分からない" /
+a blank answer. "不明" and "" are kept here too so this module still behaves
+correctly if called directly with raw Japanese text, bypassing the adapter
+(e.g. existing Task 1A tests/fixtures)."""
 
 # WQ_Normalize!D4:D19 -- answer text -> 状態Score. A key absent from a WQ's
 # table (e.g. an unrecognized answer) reproduces the Excel IF-chain's final

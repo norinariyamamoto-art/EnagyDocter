@@ -10,6 +10,15 @@ slot. Fire is only consulted afterwards for the "TOP5対象" flag (J column).
 This differs from TOP5_Final's rank, which ranks only among post-dedup
 candidates (see top5_final.py) -- see ISSUES.md ISS-06 for the resulting
 edge case this can cause.
+
+Corrective Patch 1 / ISS-03: Issue_Candidate's U column (`WQ_Normalize!E19`,
+WQ-405's urgency score) is a *direct* reference shared by all 16 issues, not
+wrapped in AVERAGE() -- so an Unknown WQ-405 makes `iss.u` blank for every
+single issue, and the naive `0.25*iss.u` term would be Excel's #VALUE! (and
+was a Python TypeError here) for all of them simultaneously. TOP_BASE is
+computed via weighted_score() below for the same reason Web_KPI's formulas
+are (see web_kpi.py) -- this is the only place besides Web_KPI where a
+directly-referenced WQ_Normalize value flows into a weighted formula.
 """
 
 from __future__ import annotations
@@ -17,7 +26,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List
 
-from .excel_compat import excel_round
+from .excel_compat import excel_round, weighted_score
 from .issue_candidate import IssueCandidate
 
 
@@ -52,7 +61,16 @@ def compute_top5_calc(issues: List[IssueCandidate]) -> List[Top5CalcRow]:
     scores = []
     for iss in issues:
         base = excel_round(
-            0.30 * iss.i + 0.25 * iss.u + 0.20 * iss.p + 0.10 * iss.r + 0.10 * iss.c + 0.05 * iss.o,
+            weighted_score(
+                [
+                    (0.30, iss.i),
+                    (0.25, iss.u),
+                    (0.20, iss.p),
+                    (0.10, iss.r),
+                    (0.10, iss.c),
+                    (0.05, iss.o),
+                ]
+            ),
             1,
         )
         score = min(100, base + iss.guard_add)

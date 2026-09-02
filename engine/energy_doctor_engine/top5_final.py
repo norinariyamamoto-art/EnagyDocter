@@ -17,6 +17,24 @@ TOP5_Calc's output:
     (field="Guardrail") exempted from the cap entirely.
   - Final rank (I column) breaks ties by TiePriority (K column: Guardrail=1,
     everything else=2) before falling back to original row order.
+
+Corrective Patch 1 / ISS-06: the G-column field rank above is a direct port
+of TOP5_Final!G's own formula, `COUNTIFS(field, score>own)+1` -- and that
+formula only counts *strictly greater* scores, so when 3+ rows in the same
+non-Guardrail field are tied, every one of them gets the same field_rank
+(e.g. rank 2), and all of them pass the "<=2" candidacy check. That
+reproduces the workbook's formula exactly, but it lets more than 2 same-field
+candidates through the H column when there's a tie -- undermining TOP-R03's
+own "same-field max 2" rule (TOP5_Final!A2) in exactly the tie scenario the
+rule exists for. `_enforce_field_cap` below is a second pass applied strictly
+*after* the (unmodified) per-row eligibility above: for any non-Guardrail
+field where more than 2 rows are eligible, only the top 2 -- ranked by score
+descending, then TiePriority, then original sheet order, the same tie-break
+already used for the real Final Rank below -- are kept eligible; the rest
+are demoted. This does not change field_rank, TiePriority, TOP_SCORE, the
+Guardrail exemption, or the BL-01/BL-03 special case above; it only adds a
+final cap-enforcement step for the specific case those existing rules don't
+already resolve on their own.
 """
 
 from __future__ import annotations
@@ -73,6 +91,31 @@ class Top5FinalRow:
     tie_priority: int
 
 
+_FIELD_CAP = 2
+
+
+def _enforce_field_cap(base_rows: List[dict]) -> None:
+    """Corrective Patch 1 / ISS-06: cap each non-Guardrail field at
+    _FIELD_CAP eligible rows even when 3+ rows tie for the field's rank
+    boundary. Mutates each row's "eligible" in place; already-ineligible
+    rows (score<35, BL-01 suppressed by BL-03, etc.) are left untouched."""
+    by_field: Dict[str, List[dict]] = {}
+    for row in base_rows:
+        if row["eligible"] and row["field"] != "Guardrail":
+            by_field.setdefault(row["field"], []).append(row)
+
+    for rows in by_field.values():
+        if len(rows) <= _FIELD_CAP:
+            continue
+        # Same tie-break the real Final Rank uses: score desc, then
+        # TiePriority asc, then original sheet order (rows is already in
+        # sheet order, and Python's sort is stable, so a plain sort on
+        # (-score, tie_priority) preserves that order for any remaining tie).
+        ranked = sorted(rows, key=lambda r: (-r["score"], r["tie_priority"]))
+        for demoted in ranked[_FIELD_CAP:]:
+            demoted["eligible"] = False
+
+
 def compute_top5_final(calc_rows: List[Top5CalcRow]) -> List[Top5FinalRow]:
     by_id: Dict[str, Top5CalcRow] = {r.issue_id: r for r in calc_rows}
 
@@ -122,6 +165,8 @@ def compute_top5_final(calc_rows: List[Top5CalcRow]) -> List[Top5FinalRow]:
             row["eligible"] = True
         else:
             row["eligible"] = row["field_rank"] <= 2
+
+    _enforce_field_cap(base_rows)
 
     eligible_rows = [r for r in base_rows if r["eligible"]]
     for row in base_rows:
