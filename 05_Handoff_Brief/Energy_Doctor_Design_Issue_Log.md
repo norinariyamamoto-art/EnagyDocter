@@ -14,9 +14,9 @@
 
 ## ED-DI-001｜Unknown表示文言の正本内不一致
 
-**状態：** OPEN / Design Disposition Required  
-**発見経緯：** Task1 Corrective Patch検討時、ISS-02（Forms文言不一致）の裏取り調査で発見。  
-**関連実装Issue：** ISS-02（Corrective Patch 1で暫定対応中）
+**状態：** OPEN / Interim Operational Disposition Applied（2026-09-02）
+**発見経緯：** Task1 Corrective Patch検討時、ISS-02（Forms文言不一致）の裏取り調査で発見。
+**関連実装Issue：** ISS-02（Corrective Patch 1でRESOLVED。暫定運用として継続適用）
 
 ### 事象
 
@@ -25,24 +25,26 @@ V2.2内でUnknown回答の表示文言が統一されていない。
 - `02_回答選択肢`：標準選択肢マスタでは表示値「分からない」／内部値 `UNKNOWN`（例：ANS-SEVERITY4, ANS-YESNOUNK 等、複数の選択肢IDで同様）
 - `68_公開フォーム最小質問セット`：公開Web質問（WQ-101〜WQ-403等）の選択肢は文言として「不明」
 
-### 暫定実装方針（Corrective Patch 1に反映済み）
+### Interim Operational Disposition（2026-09-02決定・暫定運用）
 
-- **S社側のForms実装方針として**、公開Formsの表示は `68_公開フォーム最小質問セット` を優先し、「不明」で実装する。
-- Microsoft Forms本体のGUI変更は人が行い、Claude Codeの作業範囲外とする。
-- Forms Import Adapter / Normalizerでは、次をすべてUnknownとして受理し、内部標準値 `UNKNOWN` へ正規化する：
-  - 不明
-  - 分からない
-  - 空欄
+Microsoft Forms本体の作成をS社側で並行進行させる必要があるため、Full Dispositionを待たず、次の暫定運用のみを決定した。
+
+- Microsoft Formsの公開画面におけるUnknown選択肢の表示文言は、当面、V2.2 `68_公開フォーム最小質問セット` を優先し、**「不明」**で統一する。
+- Forms Import Adapter / Normalizerは、**「不明」「分からない」「空欄」**をすべて内部標準値 `UNKNOWN` として受理する（Corrective Patch 1で実装済み・継続適用）。
+- 本決定はForms作成を進めるための暫定運用上の決定であり、V2.2 `02_回答選択肢` と `68_公開フォーム最小質問セット` の**正本内表記統一を意味しない**。
+- 正本の恒久的な表示文言統一、関連シート・Forms実装仕様・Adapter仕様の同時改訂は、ED-DI-001 **Full Disposition**時に実施する。
+
+この暫定運用の適用により、本Issueは「未解決ではあるが、Forms作業・Task2の着手を止める理由ではない」ものとして扱う。
 
 ### 変更禁止
 
-`02_回答選択肢` または `68_公開フォーム最小質問セット` を、Corrective Patch 1の判断だけで一方に統一・書き換えしない。
+`02_回答選択肢` または `68_公開フォーム最小質問セット` を、Interim Operational Dispositionの範囲を超えて一方に統一・書き換えしない（Full Disposition時にまとめて改訂する）。
 
-### 最終判断事項
+### 最終判断事項（Full Disposition時）
 
 顧客向け表示標準を「不明」とするか「分からない」とするかをS社側で決定し、決定後にV2.2の関連シート（02, 68, 76等）、Forms実装仕様、Engine Adapter仕様を同時改訂する。
 
-### Close条件
+### Close条件（Full Disposition Close条件）
 
 1. 正式表示文言の決定
 2. V2.2正本内の表記統一（該当シートの改訂）
@@ -141,8 +143,17 @@ S社側で、Web_KPI（および必要であればTOP5_Calc）のUnknown時集�
 | 区分 | 内容 |
 |---|---|
 | Corrective Patch 1（Claude Codeが実装・実装Issueとして解決） | ISS-02（**RESOLVED**：Adapterで「不明」「分からない」「空欄」をUnknownとして受理、正本ファイル無改変）、ISS-06（**RESOLVED**：TOP-R03同一分野最大2件を同点時も含め徹底、Guardrail/BL-01/03特例は無変更） |
-| Corrective Patch 1（実装Issue・一部設計判断待ち） | ISS-03（**PARTIALLY RESOLVED / Design Disposition Required**：計算エラー防止は達成。ただしUnknown時のウェイト再正規化方式と全項目Unknown時の挙動はED-DI-003へ切り出し） |
-| 正本側 Design Issue（S社がDisposition、実装側は変更不可） | ED-DI-001（Unknown表示文言の正本内不一致、OPEN）、ED-DI-002（WQ-ID⇔Q-ID Traceability不足、OPEN。ISS-09は本Issueの実装側確認結果として統合管理）、ED-DI-003（公開Web KPI／TOP5算定におけるUnknown時の集約・再正規化ルール、OPEN・新規登録） |
+| Corrective Patch 1（実装Issue・一部設計判断待ち） | ISS-03（**PARTIALLY RESOLVED / Design Disposition Required**：計算エラー防止・例外排除はCorrective Patch 1.1で達成。ウェイト再正規化方式の正式採否はED-DI-003へ切り出し） |
+| 正本側 Design Issue（S社がDisposition、実装側は変更不可） | ED-DI-001（**OPEN / Interim Operational Disposition Applied**：Forms表示は当面「不明」、AdapterがUnknown表記を吸収。Forms作業のブロッカーではない）、ED-DI-002（OPEN。ISS-09は本Issueの実装側確認結果として統合管理）、ED-DI-003（OPEN・新規登録） |
 | 設計判断待ち HOLD（実装側は変更不可） | ISS-04（WQ-403二重加重）、ISS-07（Guardrail複数該当時の正式表示順位）、ISS-08（WQ-301複数選択時60点固定） |
 | Task 1 | Task 1A＝PASS維持／Task 1B＝PENDING維持 |
+
+### 今後の進め方（2026-09-02合意）
+
+1. 今すぐ：ED-DI-001のInterim Operational DispositionをFormsチームへ通知（本ログの内容で通知済みとする）
+2. 着手：Task 2（5模擬案件シナリオの作成・Engine投入）
+3. 並行：ED-DI-002／ED-DI-003の設計判断を整理（Task 2の結果を判断材料として活用）
+4. Task 3着手前またはPilot前：ED-DI-002／ED-DI-003を正式Disposition
+5. その後：実Forms出力でTask 1B／Task 3を実施
+
 

@@ -1,0 +1,4582 @@
+[
+  {
+    "case_id": "SIM-01",
+    "company": "北浜精密工業株式会社",
+    "site": "滋賀第二工場",
+    "theme": "老朽設備型",
+    "profile": "精密機械加工の第二工場。主要工作機械の多くが導入から20年以上経過しており、設備が古いこと自体は現場も認識している（WQ-101は『一部把握』-- 大まかな年式は把握しているが、当時の詳細な導入記録までは追えていない）。日常の故障記録はつけているが傾向分析まではしていない（WQ-102『記録のみ』）。基幹設備の一部には代替機があるが全てではない（WQ-103『一部ある』）。ただし、旧式機種の交換部品が今も供給されているかは、現在の担当者では把握できていない（WQ-104は不明回答の一つとして『分からない』とした -- 老朽設備特有の『そもそも分からない』を自然に反映）。電力・エネルギー管理は月次請求書の確認程度で特別な取り組みはない、建屋は比較的新しく問題なし、部門横断の管理体制は一部あるが、投資の判断基準は後継者不在の家族経営的な体質もあり、担当者が『不明』と回答した（2件目のUnknown）。安全・法令・供給継続に関わる重大な未解決課題は特にない。",
+    "forms_response": {
+      "WQ-001": "設備更新／保全",
+      "WQ-101": "一部把握",
+      "WQ-102": "記録のみ",
+      "WQ-103": "一部ある",
+      "WQ-104": "分からない",
+      "WQ-201": "年数回確認",
+      "WQ-202": "全体のみ",
+      "WQ-203": "時間をかければ確認",
+      "WQ-204": "一部実施",
+      "WQ-301": "特になし",
+      "WQ-302": "定期点検",
+      "WQ-303": "影響なし",
+      "WQ-401": "一部ある",
+      "WQ-402": "不明",
+      "WQ-403": "計画のみ",
+      "WQ-404": "ない",
+      "WQ-405": "1年以内",
+      "WQ-501": "主要生産設備の一部が20年以上稼働しており、部品調達の見通しを確認したい。"
+    },
+    "expected": {
+      "guardrail": "なし",
+      "top5_focus": "設備（年式・故障履歴・代替手段関連）",
+      "edi_direction": "中〜低",
+      "dri_direction": "中",
+      "epi_direction": "中"
+    },
+    "actual": {
+      "diagnosis_status": "OK",
+      "web_kpi": {
+        "web_edi": 68,
+        "web_edi_band": "概ね良好",
+        "web_dri": 63,
+        "web_dri_band": "判断準備中",
+        "web_dri_top5_r": 55,
+        "web_epi": 45,
+        "web_epi_band": "継続監視"
+      },
+      "guardrail_entries": [
+        {
+          "category": "安全・法令",
+          "base_rank": 600,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "品質・顧客要求",
+          "base_rank": 550,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "BCP・供給継続",
+          "base_rank": 500,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        }
+      ],
+      "top_guardrail": null,
+      "normalized": {
+        "WQ-101": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-102": {
+          "raw": "記録のみ",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-103": {
+          "raw": "一部ある",
+          "d": 60,
+          "e": 40,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-104": {
+          "raw": "UNKNOWN",
+          "d": null,
+          "e": null,
+          "unknown": 1,
+          "evidence_c": 35.0
+        },
+        "WQ-201": {
+          "raw": "年数回確認",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-202": {
+          "raw": "全体のみ",
+          "d": 30,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-203": {
+          "raw": "時間をかければ確認",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-204": {
+          "raw": "一部実施",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-301": {
+          "raw": "特になし",
+          "d": 100.0,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-302": {
+          "raw": "定期点検",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-303": {
+          "raw": "影響なし",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-401": {
+          "raw": "一部ある",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-402": {
+          "raw": "UNKNOWN",
+          "d": null,
+          "e": null,
+          "unknown": 1,
+          "evidence_c": 35.0
+        },
+        "WQ-403": {
+          "raw": "計画のみ",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-404": {
+          "raw": "ない",
+          "d": null,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-405": {
+          "raw": "1年以内",
+          "d": null,
+          "e": 75,
+          "unknown": 0,
+          "evidence_c": 70.0
+        }
+      },
+      "issue_candidates": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "main_wq": "WQ-101",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "main_wq": "WQ-102",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "main_wq": "WQ-103",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "main_wq": "WQ-104",
+          "i": 40,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 35.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "main_wq": "WQ-201",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "main_wq": "WQ-202",
+          "i": 40,
+          "u": 75,
+          "p": 75,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "main_wq": "WQ-203",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "main_wq": "WQ-204",
+          "i": 40,
+          "u": 75,
+          "p": 30,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "main_wq": "WQ-301",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "main_wq": "WQ-302",
+          "i": 75,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "main_wq": "WQ-301+303",
+          "i": 75,
+          "u": 75,
+          "p": 60,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "main_wq": "WQ-401",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "main_wq": "WQ-402",
+          "i": 40,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 35.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "main_wq": "WQ-403",
+          "i": 40,
+          "u": 75,
+          "p": 30,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "main_wq": "WQ-404",
+          "i": 0,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "main_wq": "WQ-501",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        }
+      ],
+      "top5_calc": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 4,
+          "is_top5": true
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 5,
+          "is_top5": true
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 6,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "top_base": 42.8,
+          "guard_add": 0,
+          "top_score": 42.8,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 7,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "top_base": 61.3,
+          "guard_add": 0,
+          "top_score": 61.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 2,
+          "is_top5": true
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 8,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "top_base": 52.3,
+          "guard_add": 0,
+          "top_score": 52.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 13,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "top_base": 56.8,
+          "guard_add": 0,
+          "top_score": 56.8,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "top_base": 68.8,
+          "guard_add": 0,
+          "top_score": 68.8,
+          "band": "A",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 10,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "top_base": 42.8,
+          "guard_add": 0,
+          "top_score": 42.8,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 11,
+          "is_top5": false
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "top_base": 34.3,
+          "guard_add": 0,
+          "top_score": 34.3,
+          "band": "詳細のみ",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 12,
+          "is_top5": false
+        }
+      ],
+      "top5_final": [
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 61.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "source_issues": [
+            "EN-03"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 52.3,
+          "band": "B",
+          "field_rank": 4,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "source_issues": [
+            "BL-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 3,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 6,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "source_issues": [
+            "CU-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 7,
+          "is_top5": false,
+          "tie_priority": 2
+        }
+      ],
+      "top5": [
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 61.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "SIM-02",
+    "company": "アオバ紙工株式会社",
+    "site": "千葉工場",
+    "theme": "省エネ型",
+    "profile": "段ボール原紙を加工する工場。電気料金高騰を受けて省エネに力を入れており、電力使用量・デマンドは毎月確認し（WQ-201『毎月確認』）、サブメーターで設備別の使用量まで詳細に把握している（WQ-202『詳細に把握』）。異常発生時も比較的迅速に原因を特定できる体制がある（WQ-203『迅速に確認』）。ただし省エネ改善そのものは一部の設備でしか実施できておらず、全社的な展開はこれから（WQ-204『一部実施』）。設備の年式管理・故障記録は必要最低限（WQ-101『一部把握』、WQ-102『記録のみ』、WQ-103『一部ある』、WQ-104『一部確認』）。建屋には結露が見られ、品質への影響の可能性がある程度は認識されている（WQ-301『結露』、WQ-303『影響の可能性』）。管理体制・投資基準は担当者ベースでの判断にとどまる。安全・法令上の重大な未解決課題はない。",
+    "forms_response": {
+      "WQ-001": "省エネ／投資優先順位",
+      "WQ-101": "一部把握",
+      "WQ-102": "記録のみ",
+      "WQ-103": "一部ある",
+      "WQ-104": "一部確認",
+      "WQ-201": "毎月確認",
+      "WQ-202": "詳細に把握",
+      "WQ-203": "迅速に確認",
+      "WQ-204": "一部実施",
+      "WQ-301": "結露",
+      "WQ-302": "問題時のみ",
+      "WQ-303": "影響の可能性",
+      "WQ-401": "一部ある",
+      "WQ-402": "担当者ごと",
+      "WQ-403": "案件ごと",
+      "WQ-404": "ない",
+      "WQ-405": "6か月以内",
+      "WQ-501": "電気料金の高騰を受け、追加の省エネ余地がないか確認したい。"
+    },
+    "expected": {
+      "guardrail": "なし",
+      "top5_focus": "エネルギー（省エネ改善・使用内訳関連）、建屋（結露）",
+      "edi_direction": "中",
+      "dri_direction": "中〜高",
+      "epi_direction": "低〜中"
+    },
+    "actual": {
+      "diagnosis_status": "OK",
+      "web_kpi": {
+        "web_edi": 64,
+        "web_edi_band": "注意",
+        "web_dri": 64,
+        "web_dri_band": "判断準備中",
+        "web_dri_top5_r": 55,
+        "web_epi": 56,
+        "web_epi_band": "計画対応"
+      },
+      "guardrail_entries": [
+        {
+          "category": "安全・法令",
+          "base_rank": 600,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "品質・顧客要求",
+          "base_rank": 550,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "BCP・供給継続",
+          "base_rank": 500,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        }
+      ],
+      "top_guardrail": null,
+      "normalized": {
+        "WQ-101": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-102": {
+          "raw": "記録のみ",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-103": {
+          "raw": "一部ある",
+          "d": 60,
+          "e": 40,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-104": {
+          "raw": "一部確認",
+          "d": 60,
+          "e": 40,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-201": {
+          "raw": "毎月確認",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-202": {
+          "raw": "詳細に把握",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-203": {
+          "raw": "迅速に確認",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-204": {
+          "raw": "一部実施",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-301": {
+          "raw": "結露",
+          "d": 60.0,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-302": {
+          "raw": "問題時のみ",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-303": {
+          "raw": "影響の可能性",
+          "d": 65,
+          "e": 75,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-401": {
+          "raw": "一部ある",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-402": {
+          "raw": "担当者ごと",
+          "d": 35,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-403": {
+          "raw": "案件ごと",
+          "d": 40,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-404": {
+          "raw": "ない",
+          "d": null,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-405": {
+          "raw": "6か月以内",
+          "d": null,
+          "e": 75,
+          "unknown": 0,
+          "evidence_c": 70.0
+        }
+      },
+      "issue_candidates": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "main_wq": "WQ-101",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "main_wq": "WQ-102",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "main_wq": "WQ-103",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "main_wq": "WQ-104",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "main_wq": "WQ-201",
+          "i": 40,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "main_wq": "WQ-202",
+          "i": 40,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "main_wq": "WQ-203",
+          "i": 40,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "main_wq": "WQ-204",
+          "i": 40,
+          "u": 75,
+          "p": 30,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "main_wq": "WQ-301",
+          "i": 75,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "main_wq": "WQ-302",
+          "i": 75,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "main_wq": "WQ-301+303",
+          "i": 75,
+          "u": 75,
+          "p": 60,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "main_wq": "WQ-401",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "main_wq": "WQ-402",
+          "i": 40,
+          "u": 75,
+          "p": 60,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "main_wq": "WQ-403",
+          "i": 40,
+          "u": 75,
+          "p": 60,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "main_wq": "WQ-404",
+          "i": 0,
+          "u": 75,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "main_wq": "WQ-501",
+          "i": 40,
+          "u": 75,
+          "p": 40,
+          "r": 55,
+          "c": 70,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        }
+      ],
+      "top5_calc": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 6,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 7,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 8,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 9,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "top_base": 48.3,
+          "guard_add": 0,
+          "top_score": 48.3,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "top_base": 48.3,
+          "guard_add": 0,
+          "top_score": 48.3,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "top_base": 46.3,
+          "guard_add": 0,
+          "top_score": 46.3,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 10,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "top_base": 64.8,
+          "guard_add": 0,
+          "top_score": 64.8,
+          "band": "B",
+          "fire": 1,
+          "rank": 2,
+          "is_top5": true
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "top_base": 64.8,
+          "guard_add": 0,
+          "top_score": 64.8,
+          "band": "B",
+          "fire": 1,
+          "rank": 3,
+          "is_top5": true
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "top_base": 68.8,
+          "guard_add": 0,
+          "top_score": 68.8,
+          "band": "A",
+          "fire": 1,
+          "rank": 1,
+          "is_top5": true
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 11,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "top_base": 58.3,
+          "guard_add": 0,
+          "top_score": 58.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 5,
+          "is_top5": true
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "top_base": 60.3,
+          "guard_add": 0,
+          "top_score": 60.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 4,
+          "is_top5": true
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "top_base": 34.3,
+          "guard_add": 0,
+          "top_score": 34.3,
+          "band": "詳細のみ",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "top_base": 54.3,
+          "guard_add": 0,
+          "top_score": 54.3,
+          "band": "B",
+          "fire": 1,
+          "rank": 12,
+          "is_top5": false
+        }
+      ],
+      "top5_final": [
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 6,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "source_issues": [
+            "EN-03"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 7,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "source_issues": [
+            "BL-01"
+          ],
+          "score": 64.8,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 64.8,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 68.8,
+          "band": "A",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 3,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 58.3,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 60.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "source_issues": [
+            "CU-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 8,
+          "is_top5": false,
+          "tie_priority": 2
+        }
+      ],
+      "top5": [
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 68.8,
+          "band": "A",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 64.8,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 60.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 58.3,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 54.3,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "SIM-03",
+    "company": "サンライズ食品株式会社",
+    "site": "宮崎第一食品工場",
+    "theme": "建屋課題型",
+    "profile": "惣菜・加工食品を製造する食品工場。梅雨時期に天井からの雨漏りが増えており、原材料保管エリアへの影響が心配されている（WQ-301『雨漏り』）。建屋の点検体制はほとんど整っておらず（WQ-302『ほとんど未確認』）、品質への明確な影響がすでに出ている（WQ-303『明確な影響あり』）。この建屋起因の品質リスクは未解決のままであり、WQ-404では『品質』を選択した。設備自体は年式・故障記録ともによく管理されており（WQ-101『把握している』、WQ-102『定期的に確認』、WQ-103『十分ある』、WQ-104『一部確認』）、電力管理も年数回の確認程度は行っている。省エネ改善は検討段階。部門横断の管理体制は一部あるが、投資の判断基準は工場長により『分からない』（担当者交代直後で引き継ぎが未完了という設定）。",
+    "forms_response": {
+      "WQ-001": "建屋・環境／保全",
+      "WQ-101": "把握している",
+      "WQ-102": "定期的に確認",
+      "WQ-103": "十分ある",
+      "WQ-104": "一部確認",
+      "WQ-201": "年数回確認",
+      "WQ-202": "一部把握",
+      "WQ-203": "時間をかければ確認",
+      "WQ-204": "検討のみ",
+      "WQ-301": "雨漏り",
+      "WQ-302": "ほとんど未確認",
+      "WQ-303": "明確な影響あり",
+      "WQ-401": "一部ある",
+      "WQ-402": "分からない",
+      "WQ-403": "計画のみ",
+      "WQ-404": "品質",
+      "WQ-405": "3か月以内",
+      "WQ-501": "梅雨時期に天井からの雨漏りが増えており、原材料保管エリアへの影響が心配。"
+    },
+    "expected": {
+      "guardrail": "品質・顧客要求 L2",
+      "top5_focus": "Guardrail課題（品質）、建屋（点検・事業影響）",
+      "edi_direction": "中〜低",
+      "dri_direction": "中",
+      "epi_direction": "高"
+    },
+    "actual": {
+      "diagnosis_status": "OK",
+      "web_kpi": {
+        "web_edi": 67,
+        "web_edi_band": "概ね良好",
+        "web_dri": 63,
+        "web_dri_band": "判断準備中",
+        "web_dri_top5_r": 55,
+        "web_epi": 79,
+        "web_epi_band": "早期対応"
+      },
+      "guardrail_entries": [
+        {
+          "category": "安全・法令",
+          "base_rank": 600,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "品質・顧客要求",
+          "base_rank": 550,
+          "matched": true,
+          "severity_add": 50,
+          "evidence_add": 15,
+          "priority_score": 615,
+          "message": "品質・顧客要求に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
+          "level": "L2"
+        },
+        {
+          "category": "BCP・供給継続",
+          "base_rank": 500,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        }
+      ],
+      "top_guardrail": {
+        "category": "品質・顧客要求",
+        "base_rank": 550,
+        "matched": true,
+        "severity_add": 50,
+        "evidence_add": 15,
+        "priority_score": 615,
+        "message": "品質・顧客要求に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
+        "level": "L2"
+      },
+      "normalized": {
+        "WQ-101": {
+          "raw": "把握している",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-102": {
+          "raw": "定期的に確認",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-103": {
+          "raw": "十分ある",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-104": {
+          "raw": "一部確認",
+          "d": 60,
+          "e": 40,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-201": {
+          "raw": "年数回確認",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-202": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-203": {
+          "raw": "時間をかければ確認",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-204": {
+          "raw": "検討のみ",
+          "d": 35,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-301": {
+          "raw": "雨漏り",
+          "d": 60.0,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-302": {
+          "raw": "ほとんど未確認",
+          "d": 20,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-303": {
+          "raw": "明確な影響あり",
+          "d": 25,
+          "e": 100,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-401": {
+          "raw": "一部ある",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-402": {
+          "raw": "UNKNOWN",
+          "d": null,
+          "e": null,
+          "unknown": 1,
+          "evidence_c": 35.0
+        },
+        "WQ-403": {
+          "raw": "計画のみ",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-404": {
+          "raw": "品質",
+          "d": null,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-405": {
+          "raw": "3か月以内",
+          "d": null,
+          "e": 100,
+          "unknown": 0,
+          "evidence_c": 70.0
+        }
+      },
+      "issue_candidates": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "main_wq": "WQ-101",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "main_wq": "WQ-102",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "main_wq": "WQ-103",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "main_wq": "WQ-104",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "main_wq": "WQ-201",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "main_wq": "WQ-202",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "main_wq": "WQ-203",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "main_wq": "WQ-204",
+          "i": 40,
+          "u": 100,
+          "p": 60,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "main_wq": "WQ-301",
+          "i": 100,
+          "u": 100,
+          "p": 75,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "main_wq": "WQ-302",
+          "i": 100,
+          "u": 100,
+          "p": 75,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "main_wq": "WQ-301+303",
+          "i": 100,
+          "u": 100,
+          "p": 75,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 12,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "main_wq": "WQ-401",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "main_wq": "WQ-402",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 55,
+          "c": 35.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "main_wq": "WQ-403",
+          "i": 40,
+          "u": 100,
+          "p": 30,
+          "r": 55,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "main_wq": "WQ-404",
+          "i": 75,
+          "u": 100,
+          "p": 75,
+          "r": 55,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 12,
+          "fire": 1
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "main_wq": "WQ-501",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 55,
+          "c": 70,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        }
+      ],
+      "top5_calc": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "top_base": 52.5,
+          "guard_add": 0,
+          "top_score": 52.5,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "top_base": 52.5,
+          "guard_add": 0,
+          "top_score": 52.5,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "top_base": 52.5,
+          "guard_add": 0,
+          "top_score": 52.5,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 6,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 7,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 8,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 9,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "top_base": 64.5,
+          "guard_add": 0,
+          "top_score": 64.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 5,
+          "is_top5": true
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "top_base": 85.5,
+          "guard_add": 0,
+          "top_score": 85.5,
+          "band": "S",
+          "fire": 1,
+          "rank": 3,
+          "is_top5": true
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "top_base": 85.5,
+          "guard_add": 0,
+          "top_score": 85.5,
+          "band": "S",
+          "fire": 1,
+          "rank": 4,
+          "is_top5": true
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "top_base": 85.5,
+          "guard_add": 12,
+          "top_score": 97.5,
+          "band": "S",
+          "fire": 1,
+          "rank": 1,
+          "is_top5": true
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 10,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "top_base": 49.0,
+          "guard_add": 0,
+          "top_score": 49.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 11,
+          "is_top5": false
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "top_base": 78.0,
+          "guard_add": 12,
+          "top_score": 90.0,
+          "band": "S",
+          "fire": 1,
+          "rank": 2,
+          "is_top5": true
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "top_base": 60.5,
+          "guard_add": 0,
+          "top_score": 60.5,
+          "band": "B",
+          "fire": 1,
+          "rank": 12,
+          "is_top5": false
+        }
+      ],
+      "top5_final": [
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 6,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "source_issues": [
+            "EN-03"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 64.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "source_issues": [
+            "BL-01"
+          ],
+          "score": 85.5,
+          "band": "S",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 85.5,
+          "band": "S",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 97.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 7,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 3,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 8,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 90.0,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "source_issues": [
+            "CU-01"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 9,
+          "is_top5": false,
+          "tie_priority": 2
+        }
+      ],
+      "top5": [
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 97.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 90.0,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 85.5,
+          "band": "S",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 64.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 60.5,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "SIM-04",
+    "company": "タカマル金属加工株式会社",
+    "site": "岐阜工場",
+    "theme": "BCP型",
+    "profile": "自動車部品向けの金属プレス加工工場。基幹プレス機が1系統しかなく、故障時の代替手段が全くない（WQ-103『ない』）。しかもメーカー保守・交換部品の入手性を現在確認できていない（WQ-104『未確認』）。この供給継続リスクは経営層も把握しており、WQ-404では『供給継続』を選択、対応期限も『3か月以内』と緊急性が高い。一方で、経営管理は比較的しっかりしており、部門横断の管理体制は明確にあり（WQ-401『明確にある』）、投資判断基準も明文化され（WQ-402『明文化済み』）、予算付きの中期計画も存在する（WQ-403『予算付き計画あり』）。建屋・環境面の課題も特になし。電力・エネルギー管理は年数回の確認や部分的な把握にとどまる平均的な水準（極端に悪くはしていない）。",
+    "forms_response": {
+      "WQ-001": "BCP・停電対策／保全",
+      "WQ-101": "一部把握",
+      "WQ-102": "記録のみ",
+      "WQ-103": "ない",
+      "WQ-104": "未確認",
+      "WQ-201": "年数回確認",
+      "WQ-202": "一部把握",
+      "WQ-203": "時間をかければ確認",
+      "WQ-204": "一部実施",
+      "WQ-301": "特になし",
+      "WQ-302": "定期点検",
+      "WQ-303": "影響なし",
+      "WQ-401": "明確にある",
+      "WQ-402": "明文化済み",
+      "WQ-403": "予算付き計画あり",
+      "WQ-404": "供給継続",
+      "WQ-405": "3か月以内",
+      "WQ-501": "主力プレス機が1系統しかなく、故障時の生産停止リスクを相談したい。"
+    },
+    "expected": {
+      "guardrail": "BCP・供給継続 L2",
+      "top5_focus": "Guardrail課題（供給継続）、設備（代替手段・EOL）",
+      "edi_direction": "中",
+      "dri_direction": "中〜高",
+      "epi_direction": "高"
+    },
+    "actual": {
+      "diagnosis_status": "OK",
+      "web_kpi": {
+        "web_edi": 67,
+        "web_edi_band": "概ね良好",
+        "web_dri": 65,
+        "web_dri_band": "概ね判断可能",
+        "web_dri_top5_r": 80,
+        "web_epi": 72,
+        "web_epi_band": "早期対応"
+      },
+      "guardrail_entries": [
+        {
+          "category": "安全・法令",
+          "base_rank": 600,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "品質・顧客要求",
+          "base_rank": 550,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "BCP・供給継続",
+          "base_rank": 500,
+          "matched": true,
+          "severity_add": 50,
+          "evidence_add": 15,
+          "priority_score": 565,
+          "message": "BCP・供給継続に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
+          "level": "L2"
+        }
+      ],
+      "top_guardrail": {
+        "category": "BCP・供給継続",
+        "base_rank": 500,
+        "matched": true,
+        "severity_add": 50,
+        "evidence_add": 15,
+        "priority_score": 565,
+        "message": "BCP・供給継続に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
+        "level": "L2"
+      },
+      "normalized": {
+        "WQ-101": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-102": {
+          "raw": "記録のみ",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-103": {
+          "raw": "ない",
+          "d": 0,
+          "e": 75,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-104": {
+          "raw": "未確認",
+          "d": 20,
+          "e": 75,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-201": {
+          "raw": "年数回確認",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-202": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-203": {
+          "raw": "時間をかければ確認",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-204": {
+          "raw": "一部実施",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-301": {
+          "raw": "特になし",
+          "d": 100.0,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-302": {
+          "raw": "定期点検",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-303": {
+          "raw": "影響なし",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-401": {
+          "raw": "明確にある",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-402": {
+          "raw": "明文化済み",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-403": {
+          "raw": "予算付き計画あり",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-404": {
+          "raw": "供給継続",
+          "d": null,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-405": {
+          "raw": "3か月以内",
+          "d": null,
+          "e": 100,
+          "unknown": 0,
+          "evidence_c": 70.0
+        }
+      },
+      "issue_candidates": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "main_wq": "WQ-101",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "main_wq": "WQ-102",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "main_wq": "WQ-103",
+          "i": 75,
+          "u": 100,
+          "p": 75,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 5,
+          "fire": 1
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "main_wq": "WQ-104",
+          "i": 40,
+          "u": 100,
+          "p": 75,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 5,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "main_wq": "WQ-201",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "main_wq": "WQ-202",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "main_wq": "WQ-203",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "main_wq": "WQ-204",
+          "i": 40,
+          "u": 100,
+          "p": 30,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "main_wq": "WQ-301",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "main_wq": "WQ-302",
+          "i": 75,
+          "u": 100,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "main_wq": "WQ-301+303",
+          "i": 75,
+          "u": 100,
+          "p": 60,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "main_wq": "WQ-401",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "main_wq": "WQ-402",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "main_wq": "WQ-403",
+          "i": 40,
+          "u": 100,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 100,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "main_wq": "WQ-404",
+          "i": 75,
+          "u": 100,
+          "p": 75,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 12,
+          "fire": 1
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "main_wq": "WQ-501",
+          "i": 40,
+          "u": 100,
+          "p": 40,
+          "r": 80,
+          "c": 70,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        }
+      ],
+      "top5_calc": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 6,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 7,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "top_base": 80.5,
+          "guard_add": 5,
+          "top_score": 85.5,
+          "band": "S",
+          "fire": 1,
+          "rank": 2,
+          "is_top5": true
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "top_base": 70.0,
+          "guard_add": 5,
+          "top_score": 75.0,
+          "band": "A",
+          "fire": 1,
+          "rank": 4,
+          "is_top5": true
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 8,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 9,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 10,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "top_base": 61.0,
+          "guard_add": 0,
+          "top_score": 61.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 13,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "top_base": 65.5,
+          "guard_add": 0,
+          "top_score": 65.5,
+          "band": "A",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "top_base": 77.5,
+          "guard_add": 0,
+          "top_score": 77.5,
+          "band": "A",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "top_base": 55.0,
+          "guard_add": 0,
+          "top_score": 55.0,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "top_base": 55.0,
+          "guard_add": 0,
+          "top_score": 55.0,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "top_base": 57.0,
+          "guard_add": 0,
+          "top_score": 57.0,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "top_base": 80.5,
+          "guard_add": 12,
+          "top_score": 92.5,
+          "band": "S",
+          "fire": 1,
+          "rank": 1,
+          "is_top5": true
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "top_base": 63.0,
+          "guard_add": 0,
+          "top_score": 63.0,
+          "band": "B",
+          "fire": 1,
+          "rank": 12,
+          "is_top5": false
+        }
+      ],
+      "top5_final": [
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 85.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "source_issues": [
+            "EN-03"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 61.0,
+          "band": "B",
+          "field_rank": 4,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "source_issues": [
+            "BL-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 92.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "source_issues": [
+            "CU-01"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 6,
+          "is_top5": false,
+          "tie_priority": 2
+        }
+      ],
+      "top5": [
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 92.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 85.5,
+          "band": "S",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 2,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 4,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 63.0,
+          "band": "B",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 5,
+          "is_top5": true,
+          "tie_priority": 2
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "SIM-05",
+    "company": "はるかぜ精密計測株式会社",
+    "site": "浜松テクニカルセンター",
+    "theme": "比較的良好型",
+    "profile": "精密計測機器の開発・小ロット製造を行うテクニカルセンター。設備の年式・故障履歴の把握、代替機の確保、保守体制のいずれも良好（WQ-101『把握している』、WQ-102『定期的に確認』、WQ-103『十分ある』、WQ-104『定期確認』）。部門横断の管理体制・投資判断基準も明文化されている。ただしエネルギー消費量は業種柄大きくないため、電力管理はそこまで頻繁ではない（WQ-201『年数回確認』、WQ-202『一部把握』、WQ-203『時間をかければ確認』、WQ-204『一部実施』）。建屋・環境に課題はなく、安全・法令上の重大な未解決課題もない。中期の設備投資計画は正式な予算化はまだで、案件が出るたびに個別検討している段階（WQ-403『案件ごと』）。特に急いで相談したい事項はない。",
+    "forms_response": {
+      "WQ-001": "投資優先順位／保全",
+      "WQ-101": "把握している",
+      "WQ-102": "定期的に確認",
+      "WQ-103": "十分ある",
+      "WQ-104": "定期確認",
+      "WQ-201": "年数回確認",
+      "WQ-202": "一部把握",
+      "WQ-203": "時間をかければ確認",
+      "WQ-204": "一部実施",
+      "WQ-301": "特になし",
+      "WQ-302": "定期点検",
+      "WQ-303": "影響なし",
+      "WQ-401": "明確にある",
+      "WQ-402": "明文化済み",
+      "WQ-403": "案件ごと",
+      "WQ-404": "ない",
+      "WQ-405": "時期未定",
+      "WQ-501": ""
+    },
+    "expected": {
+      "guardrail": "なし",
+      "top5_focus": "（B評価以上が少なければ無理に5件表示しない）",
+      "edi_direction": "高",
+      "dri_direction": "中〜高",
+      "epi_direction": "低"
+    },
+    "actual": {
+      "diagnosis_status": "OK",
+      "web_kpi": {
+        "web_edi": 87,
+        "web_edi_band": "良好",
+        "web_dri": 75,
+        "web_dri_band": "概ね判断可能",
+        "web_dri_top5_r": 80,
+        "web_epi": 26,
+        "web_epi_band": "低優先"
+      },
+      "guardrail_entries": [
+        {
+          "category": "安全・法令",
+          "base_rank": 600,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "品質・顧客要求",
+          "base_rank": 550,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        },
+        {
+          "category": "BCP・供給継続",
+          "base_rank": 500,
+          "matched": false,
+          "severity_add": 0,
+          "evidence_add": 0,
+          "priority_score": 0,
+          "message": "",
+          "level": ""
+        }
+      ],
+      "top_guardrail": null,
+      "normalized": {
+        "WQ-101": {
+          "raw": "把握している",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-102": {
+          "raw": "定期的に確認",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-103": {
+          "raw": "十分ある",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-104": {
+          "raw": "定期確認",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-201": {
+          "raw": "年数回確認",
+          "d": 70,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-202": {
+          "raw": "一部把握",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-203": {
+          "raw": "時間をかければ確認",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-204": {
+          "raw": "一部実施",
+          "d": 60,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-301": {
+          "raw": "特になし",
+          "d": 100.0,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-302": {
+          "raw": "定期点検",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-303": {
+          "raw": "影響なし",
+          "d": 100,
+          "e": 15,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-401": {
+          "raw": "明確にある",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-402": {
+          "raw": "明文化済み",
+          "d": 100,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-403": {
+          "raw": "案件ごと",
+          "d": 40,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-404": {
+          "raw": "ない",
+          "d": null,
+          "e": null,
+          "unknown": 0,
+          "evidence_c": 70.0
+        },
+        "WQ-405": {
+          "raw": "時期未定",
+          "d": null,
+          "e": 20,
+          "unknown": 0,
+          "evidence_c": 70.0
+        }
+      },
+      "issue_candidates": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "main_wq": "WQ-101",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "main_wq": "WQ-102",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "main_wq": "WQ-103",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "main_wq": "WQ-104",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "main_wq": "WQ-201",
+          "i": 40,
+          "u": 20,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "main_wq": "WQ-202",
+          "i": 40,
+          "u": 20,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "main_wq": "WQ-203",
+          "i": 40,
+          "u": 20,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "main_wq": "WQ-204",
+          "i": 40,
+          "u": 20,
+          "p": 30,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "main_wq": "WQ-301",
+          "i": 40,
+          "u": 20,
+          "p": 40,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "main_wq": "WQ-302",
+          "i": 75,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "main_wq": "WQ-301+303",
+          "i": 75,
+          "u": 20,
+          "p": 60,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "main_wq": "WQ-401",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "main_wq": "WQ-402",
+          "i": 40,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "main_wq": "WQ-403",
+          "i": 40,
+          "u": 20,
+          "p": 60,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 1
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "main_wq": "WQ-404",
+          "i": 0,
+          "u": 20,
+          "p": 0,
+          "r": 80,
+          "c": 70.0,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "main_wq": "WQ-501",
+          "i": 40,
+          "u": 20,
+          "p": 40,
+          "r": 80,
+          "c": 35,
+          "o": 60,
+          "guard_add": 0,
+          "fire": 0
+        }
+      ],
+      "top5_calc": [
+        {
+          "issue_id": "IS-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-03",
+          "field": "設備",
+          "name": "重要設備停止時の代替手段確認",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "top_base": 43.0,
+          "guard_add": 0,
+          "top_score": 43.0,
+          "band": "C",
+          "fire": 1,
+          "rank": 4,
+          "is_top5": true
+        },
+        {
+          "issue_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "top_base": 43.0,
+          "guard_add": 0,
+          "top_score": 43.0,
+          "band": "C",
+          "fire": 1,
+          "rank": 5,
+          "is_top5": true
+        },
+        {
+          "issue_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "top_base": 43.0,
+          "guard_add": 0,
+          "top_score": 43.0,
+          "band": "C",
+          "fire": 1,
+          "rank": 6,
+          "is_top5": false
+        },
+        {
+          "issue_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "top_base": 41.0,
+          "guard_add": 0,
+          "top_score": 41.0,
+          "band": "C",
+          "fire": 1,
+          "rank": 8,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "top_base": 43.0,
+          "guard_add": 0,
+          "top_score": 43.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "top_base": 45.5,
+          "guard_add": 0,
+          "top_score": 45.5,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "top_base": 57.5,
+          "guard_add": 0,
+          "top_score": 57.5,
+          "band": "B",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "top_base": 35.0,
+          "guard_add": 0,
+          "top_score": 35.0,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "top_base": 47.0,
+          "guard_add": 0,
+          "top_score": 47.0,
+          "band": "C",
+          "fire": 1,
+          "rank": 2,
+          "is_top5": true
+        },
+        {
+          "issue_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "top_base": 23.0,
+          "guard_add": 0,
+          "top_score": 23.0,
+          "band": "詳細のみ",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        },
+        {
+          "issue_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "top_base": 39.5,
+          "guard_add": 0,
+          "top_score": 39.5,
+          "band": "C",
+          "fire": 0,
+          "rank": null,
+          "is_top5": false
+        }
+      ],
+      "top5_final": [
+        {
+          "candidate_id": "EQ-01",
+          "field": "設備",
+          "name": "主要設備の年式・更新履歴整理",
+          "source_issues": [
+            "IS-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-02",
+          "field": "設備",
+          "name": "故障・停止履歴の整理と傾向確認",
+          "source_issues": [
+            "IS-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EQ-03",
+          "field": "設備",
+          "name": "重要設備のEOL・復旧リスク確認",
+          "source_issues": [
+            "IS-03",
+            "IS-04"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 43.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 43.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-03",
+          "field": "エネルギー",
+          "name": "電力異常時の原因特定体制",
+          "source_issues": [
+            "EN-03"
+          ],
+          "score": 43.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-04",
+          "field": "エネルギー",
+          "name": "省エネ改善テーマと効果検証の整理",
+          "source_issues": [
+            "EN-04"
+          ],
+          "score": 41.0,
+          "band": "C",
+          "field_rank": 4,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-01",
+          "field": "建屋",
+          "name": "建屋・環境課題の確認",
+          "source_issues": [
+            "BL-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-02",
+          "field": "建屋",
+          "name": "建屋点検・修繕優先順位の整理",
+          "source_issues": [
+            "BL-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "BL-03",
+          "field": "建屋",
+          "name": "建屋環境による品質・操業影響の優先確認",
+          "source_issues": [
+            "BL-03"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-01",
+          "field": "管理",
+          "name": "部門横断の課題管理体制整備",
+          "source_issues": [
+            "MG-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "source_issues": [
+            "MG-02"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 2,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 47.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "GR-01",
+          "field": "Guardrail",
+          "name": "安全・法令・品質・供給継続の未解決事項確認",
+          "source_issues": [
+            "GR-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 1
+        },
+        {
+          "candidate_id": "CU-01",
+          "field": "個別",
+          "name": "顧客固有課題のヒアリング",
+          "source_issues": [
+            "CU-01"
+          ],
+          "score": 0,
+          "band": "詳細のみ",
+          "field_rank": 1,
+          "eligible": false,
+          "final_rank": null,
+          "is_top5": false,
+          "tie_priority": 2
+        }
+      ],
+      "top5": [
+        {
+          "candidate_id": "MG-03",
+          "field": "管理",
+          "name": "3年間の設備・建屋更新ロードマップ整理",
+          "source_issues": [
+            "MG-03"
+          ],
+          "score": 47.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 1,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-01",
+          "field": "エネルギー",
+          "name": "電力使用量・デマンド管理の高度化",
+          "source_issues": [
+            "EN-01"
+          ],
+          "score": 43.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 2,
+          "is_top5": true,
+          "tie_priority": 2
+        },
+        {
+          "candidate_id": "EN-02",
+          "field": "エネルギー",
+          "name": "設備・工程別エネルギー使用の把握",
+          "source_issues": [
+            "EN-02"
+          ],
+          "score": 43.0,
+          "band": "C",
+          "field_rank": 1,
+          "eligible": true,
+          "final_rank": 3,
+          "is_top5": true,
+          "tie_priority": 2
+        }
+      ]
+    }
+  }
+]
