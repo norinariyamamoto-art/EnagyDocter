@@ -7,12 +7,18 @@ IMPORTANT (see Handoff Brief Rev0.3, "重要：KPIの優先関係"): these are t
 They are explicitly NOT the formal EDI/DRI/EPI (Frozen KPI) defined in
 V2.2 sheet `13_算定式・順位ロジック`, and this module must not be extended to
 reproduce that sheet's formulas.
+
+Corrective Patch 1.1 / ED-DI-003: every field below is Optional. A KPI
+becomes None exactly when weighted_score() reports every one of its
+components blank (Unknown) -- see excel_compat.py's weighted_score()
+docstring for why that is None, not a raised exception. See pipeline.py for
+how a None here feeds the pipeline's overall diagnosis_status.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Optional
 
 from .excel_compat import avg_or_none, excel_round, weighted_score
 from .wq_normalize import NormalizedWQ
@@ -20,17 +26,19 @@ from .wq_normalize import NormalizedWQ
 
 @dataclass(frozen=True)
 class WebKPI:
-    web_edi: float
-    web_edi_band: str
-    web_dri: float
-    web_dri_band: str
-    web_dri_top5_r: float
-    web_epi: float
-    web_epi_band: str
+    web_edi: Optional[float]
+    web_edi_band: Optional[str]
+    web_dri: Optional[float]
+    web_dri_band: Optional[str]
+    web_dri_top5_r: Optional[float]
+    web_epi: Optional[float]
+    web_epi_band: Optional[str]
 
 
-def _edi_band(value: float) -> str:
+def _edi_band(value: "float | None") -> "str | None":
     # Web_KPI!C5
+    if value is None:
+        return None
     if value >= 80:
         return "良好"
     if value >= 65:
@@ -42,8 +50,10 @@ def _edi_band(value: float) -> str:
     return "要優先対応"
 
 
-def _dri_band(value: float) -> str:
+def _dri_band(value: "float | None") -> "str | None":
     # Web_KPI!C6
+    if value is None:
+        return None
     if value >= 80:
         return "判断可能"
     if value >= 65:
@@ -55,8 +65,10 @@ def _dri_band(value: float) -> str:
     return "判断保留"
 
 
-def _dri_top5_r(value: float) -> float:
+def _dri_top5_r(value: "float | None") -> "float | None":
     # Web_KPI!F6
+    if value is None:
+        return None
     if value >= 80:
         return 100
     if value >= 65:
@@ -68,8 +80,10 @@ def _dri_top5_r(value: float) -> float:
     return 10
 
 
-def _epi_band(value: float) -> str:
+def _epi_band(value: "float | None") -> "str | None":
     # Web_KPI!C7
+    if value is None:
+        return None
     if value >= 80:
         return "最優先"
     if value >= 65:
@@ -79,6 +93,10 @@ def _epi_band(value: float) -> str:
     if value >= 35:
         return "継続監視"
     return "低優先"
+
+
+def _round_or_none(value: "float | None") -> "float | None":
+    return excel_round(value) if value is not None else None
 
 
 def compute_web_kpi(norm: Dict[str, NormalizedWQ]) -> WebKPI:
@@ -91,7 +109,7 @@ def compute_web_kpi(norm: Dict[str, NormalizedWQ]) -> WebKPI:
     # Corrective Patch 1 / ISS-03: weighted_score() tolerates a fully-blank
     # AVERAGE() group (all-Unknown) by dropping that term and rescaling the
     # remaining weights, instead of Excel's #DIV/0! for AVERAGE() of nothing.
-    web_edi = excel_round(
+    web_edi = _round_or_none(
         weighted_score(
             [
                 (0.40, avg_or_none(d["WQ-101"], d["WQ-102"], d["WQ-103"], d["WQ-104"])),
@@ -110,7 +128,7 @@ def compute_web_kpi(norm: Dict[str, NormalizedWQ]) -> WebKPI:
     # them through weighted_score() alongside the AVERAGE-based terms applies
     # the same "drop blank, rescale remaining weights" treatment uniformly,
     # so an Unknown WQ-204 or WQ-403 answer no longer crashes Web_DRI.
-    web_dri = excel_round(
+    web_dri = _round_or_none(
         weighted_score(
             [
                 (0.30, avg_or_none(d["WQ-101"], d["WQ-102"], d["WQ-201"], d["WQ-202"], d["WQ-302"])),
@@ -152,7 +170,7 @@ def compute_web_kpi(norm: Dict[str, NormalizedWQ]) -> WebKPI:
     else:
         epi_wq204_term = 100
 
-    web_epi = excel_round(
+    web_epi = _round_or_none(
         weighted_score(
             [
                 (0.30, e["WQ-405"]),

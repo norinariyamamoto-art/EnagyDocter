@@ -73,18 +73,18 @@ def avg_or_none(*values: float | None) -> float | None:
 
 
 class InsufficientDataError(ValueError):
-    """Every weighted component of a Web_KPI formula was blank (Unknown) --
-    there is no defined "score" for zero information, so this is raised
-    rather than silently returning 0 (which Corrective Patch 1 / ISS-03
-    explicitly says not to do). This is expected to be unreachable for any
-    realistic Forms submission (all required WQ answered Unknown); it is not
-    Excel's #VALUE! (that failure mode is what this patch removes)."""
+    """Not raised by weighted_score() any more (see its docstring and
+    Corrective Patch 1.1 / ED-DI-003) -- kept as a class in case a future,
+    stricter caller wants to opt into treating "every term blank" as a hard
+    failure rather than the normal INSUFFICIENT_DATA business state that
+    weighted_score() now signals by returning None."""
 
 
-def weighted_score(terms: "list[tuple[float, float | None]]") -> float:
+def weighted_score(terms: "list[tuple[float, float | None]]") -> "float | None":
     """Evaluate a fixed-weight formula (e.g. Web_DRI's
     0.30*A + 0.25*B + 0.20*C + 0.15*D + 0.10*E, weights summing to 1) while
-    tolerating one or more blank (Unknown) terms.
+    tolerating one or more blank (Unknown) terms. Returns None -- not an
+    exception -- when every term is blank (see "All-blank" below).
 
     Corrective Patch 1 / ISS-03: the source workbook already tolerates a
     blank member *inside* an AVERAGE() range (that range's average is simply
@@ -101,17 +101,37 @@ def weighted_score(terms: "list[tuple[float, float | None]]") -> float:
     members Unknown) is handled identically once that group has been reduced
     to None via avg_or_none.
 
+    IMPORTANT -- ED-DI-003 (OPEN / Design Disposition Required): this
+    "exclude blank terms and renormalize the remaining weights to 1" choice
+    is Corrective Patch 1's own provisional implementation, not something
+    V2.2 defines. At least three other treatments are equally defensible
+    (evaluate over the reduced weight without renormalizing; treat the whole
+    KPI as "insufficient data" rather than computing a number from partial
+    input; compute a value but also expose a lowered confidence score) and
+    are listed in Energy_Doctor_Design_Issue_Log.md's ED-DI-003 entry, which
+    S社 has not yet decided between. Do not treat this function's
+    renormalization behavior as the final specification, and do not extend
+    it to Issue_Candidate's U column beyond where Corrective Patch 1 already
+    applied it (top5_calc.py) without ED-DI-003 being resolved first.
+
     This does not import any question-specific Unknown-handling rule from
     V2.2 sheet `03_採点マトリクス` (see ED-DI-002) -- it is a generic,
     question-agnostic fallback that only activates when a term is blank.
+
+    All-blank: Corrective Patch 1 originally raised InsufficientDataError
+    here when every term was blank. Corrective Patch 1.1 / ED-DI-003 changed
+    this to returning None instead: an all-Unknown submission is a normal,
+    expected business state (not a bug or a malformed request), and an
+    uncaught Python exception is not how a caller -- ultimately the Forms
+    pipeline -- should learn about it. Callers (see web_kpi.py and
+    pipeline.py's diagnosis_status) are expected to treat None as "no score
+    computable from zero information" and surface that explicitly, rather
+    than substituting 0/100 or letting it propagate as a crash.
     """
     usable = [(w, v) for w, v in terms if v is not None]
     total_weight = sum(w for w, _ in usable)
     if total_weight == 0:
-        raise InsufficientDataError(
-            "every weighted component of this formula is Unknown/blank -- "
-            "no defined score for zero information"
-        )
+        return None
     return sum(w * v for w, v in usable) / total_weight
 
 

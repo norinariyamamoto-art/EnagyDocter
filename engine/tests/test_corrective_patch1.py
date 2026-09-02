@@ -1,8 +1,14 @@
-"""Corrective Patch 1 regression tests (ISS-02 / ISS-03 / ISS-06).
+"""Corrective Patch 1 (ISS-02 / ISS-03 / ISS-06) and Corrective Patch 1.1
+(ED-DI-003's two implementation-side fixes) regression tests.
 
 See ../ISSUES.md for the original findings, ../PATCH1_NOTES.md for the fix
 list and completion-condition checklist, and Energy_Doctor_Design_Issue_Log.md
-(ED-DI-001, ED-DI-002) for the parts of this left OPEN for S社's disposition.
+(ED-DI-001, ED-DI-002, ED-DI-003) for the parts of this left OPEN for S社's
+disposition -- notably, ED-DI-003 leaves the *choice* of Unknown-weight
+renormalization (vs. not renormalizing, vs. treating the KPI as unavailable,
+vs. a lowered-confidence value) undecided; this patch only changes how the
+current provisional choice is *reported* (status instead of an exception),
+not the choice itself.
 
 ISS-04 (WQ-403 double weighting in Web_DRI), ISS-07 (Guardrail multi-match
 display priority), and ISS-08 (WQ-301 flat 60pt for any non-"特になし"
@@ -12,8 +18,12 @@ so a future change to them shows up as a failing test here, not a silent
 regression.
 """
 
-from energy_doctor_engine import run_pipeline
-from energy_doctor_engine.excel_compat import InsufficientDataError, weighted_score
+from energy_doctor_engine import (
+    DIAGNOSIS_STATUS_INSUFFICIENT_DATA,
+    DIAGNOSIS_STATUS_OK,
+    run_pipeline,
+)
+from energy_doctor_engine.excel_compat import weighted_score
 from energy_doctor_engine.forms_adapter import UNKNOWN, normalize_forms_response
 
 from .fixtures import FIELD_CAP_TIE_FORMS_RESPONSE, TC_A_FORMS_RESPONSE
@@ -106,19 +116,16 @@ def test_unknown_wq405_no_longer_crashes_web_epi():
         assert isinstance(result.web_kpi.web_epi, int)
 
 
-def test_all_wq_unknown_raises_a_typed_insufficient_data_error():
-    """Every one of the 16 scored WQs answered Unknown at once leaves every
-    weighted term of Web_EDI blank -- there is genuinely no information to
-    compute a score from (not the same failure this patch fixes: it's a
-    typed, documented InsufficientDataError, not Excel's opaque #VALUE!, and
-    is not silently coerced to 0 or 100). Corrective Patch 1's completion
-    conditions ask for "不明/分からない/空欄のいずれが入力されても計算エラーが
-    発生しない" for realistic partial-Unknown submissions; this fully
-    degenerate all-Unknown case is called out as a residual, out-of-scope
-    edge case in PATCH1_NOTES.md rather than answered with an invented
-    fallback score."""
-    import pytest
-
+def test_all_wq_unknown_returns_insufficient_data_status_not_an_exception():
+    """Corrective Patch 1.1 / ED-DI-003: every one of the 16 scored WQs
+    answered Unknown at once leaves every weighted term of Web_EDI (and
+    Web_DRI) blank -- there is genuinely no information to compute those two
+    KPIs from. This used to propagate as an uncaught InsufficientDataError
+    (Corrective Patch 1's original behavior); ED-DI-003's review flagged
+    that as effectively an unhandled crash from the caller's point of view.
+    It is now a normal, inspectable pipeline result instead: diagnosis_status
+    signals it, the affected KPIs are None ("該当KPIはnull相当"), and
+    Guardrail/TOP5 are not computed ("Guardrail/TOP5は非表示")."""
     all_unknown = dict(TC_A_FORMS_RESPONSE)
     for wq in (
         "WQ-101", "WQ-102", "WQ-103", "WQ-104",
@@ -127,8 +134,28 @@ def test_all_wq_unknown_raises_a_typed_insufficient_data_error():
         "WQ-401", "WQ-402", "WQ-403", "WQ-404", "WQ-405",
     ):
         all_unknown[wq] = "不明"
-    with pytest.raises(InsufficientDataError):
-        run_pipeline(all_unknown)
+
+    result = run_pipeline(all_unknown)  # must not raise
+
+    assert result.diagnosis_status == DIAGNOSIS_STATUS_INSUFFICIENT_DATA
+    assert result.web_kpi.web_edi is None
+    assert result.web_kpi.web_dri is None
+    assert result.guardrail_entries == []
+    assert result.top_guardrail is None
+    assert result.issue_candidates == []
+    assert result.top5_calc == []
+    assert result.top5_final == []
+    assert result.top5 == []
+
+
+def test_known_tc_a_still_reports_ok_status():
+    """Regression guard: a normal, fully-answered submission must still
+    report diagnosis_status OK, not just avoid crashing."""
+    result = run_pipeline(TC_A_FORMS_RESPONSE)
+    assert result.diagnosis_status == DIAGNOSIS_STATUS_OK
+    assert result.web_kpi.web_edi is not None
+    assert result.web_kpi.web_dri is not None
+    assert result.top5 != []
 
 
 def test_unknown_is_not_collapsed_to_a_zero_score():
@@ -191,13 +218,15 @@ def test_weighted_score_excludes_blank_and_rescales():
     assert weighted_score([(0.3, 60.0), (0.7, 60.0)]) == 60.0
 
 
-def test_weighted_score_all_blank_raises():
-    # Deliberately not silently returning 0 -- see excel_compat.py's
-    # InsufficientDataError docstring.
-    import pytest
-
-    with pytest.raises(InsufficientDataError):
-        weighted_score([(0.5, None), (0.5, None)])
+def test_weighted_score_all_blank_returns_none_not_an_exception():
+    """Corrective Patch 1.1 / ED-DI-003: weighted_score() used to raise
+    InsufficientDataError here (Corrective Patch 1's original behavior).
+    It now returns None instead -- an all-blank formula is a defined,
+    non-exceptional outcome ("no score computable from zero information"),
+    not an error condition -- so callers can check for it explicitly (see
+    web_kpi.py's _round_or_none and pipeline.py's diagnosis_status) instead
+    of needing a try/except that, in practice, was never added anywhere."""
+    assert weighted_score([(0.5, None), (0.5, None)]) is None
 
 
 # ---------------------------------------------------------------------------

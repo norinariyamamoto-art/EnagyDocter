@@ -1,8 +1,11 @@
-# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1 実装）
+# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1 / 1.1 実装）
 
 `Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3.md` の **Task 1** を実施した成果物。
-その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）を適用した。
-Patch 1の修正内容・完了条件チェックリストは `PATCH1_NOTES.md` を参照。
+その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）と、そのレビューで
+`ED-DI-003`として切り出された設計判断待ち事項のうち実装側のみで対応可能な2点
+（全項目Unknown時の例外→正常系status化、暫定実装であることの明記）を適用した
+**Corrective Patch 1.1** を適用した。修正内容・完了条件チェックリストは
+`PATCH1_NOTES.md` を参照。
 `02_Diagnosis_Engine/Energy_Doctor_Public_Diagnosis_Engine_v1.4_Customer_A3.xlsx`
 （Engine v1.4）の `Web_EDI` / `Web_DRI` / `Web_EPI`、`Guardrail`、`TOP5_Calc` /
 `TOP5_Final` のロジックを、Excelの数式のとおりにPythonで再現したもの。
@@ -47,7 +50,7 @@ pip install pytest
 python3 -m pytest -v
 ```
 
-35件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1の16件）。
+36件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1/1.1の17件）。
 
 ## 正本との突合範囲
 

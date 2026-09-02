@@ -11,23 +11,30 @@ Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3 の指示に基づき、ロジッ�
 および `03_Microsoft_Forms/...Implementation_Spec_v1.0.xlsx` のシート `02_Questions` `04_Engine_Mapping`
 も確認した（Task1で再実装はしていない）。
 
-## 現在の状況（Rev0.4 / Corrective Patch 1 反映後）
+## 現在の状況（2026-09-02 / Corrective Patch 1 + 1.1 レビュー反映後）
 
 Handoff Brief Rev0.4は、Task1完了後のレビューで確認された本ドキュメントのISS-01〜08を
-次の3区分に整理した。詳細な修正内容・完了条件チェックリストは `PATCH1_NOTES.md` を参照。
+3区分に整理した。その後、Corrective Patch 1のレビュー結果（`Energy_Doctor_Design_Issue_Log.md`
+2026-09-02更新版）により、ISS-02・ISS-06はRESOLVED、ISS-03はPARTIALLY RESOLVED（設計判断部分は
+新規`ED-DI-003`へ切り出し）と判定された。今回のCorrective Patch 1.1では、ED-DI-003のうち
+実装側で対応可能な2点（全項目Unknown時の例外→正常系status化、暫定実装である旨の明記）のみを
+修正し、再正規化方式そのものの是非はED-DI-003としてS社Disposition待ちのまま変更していない。
+詳細な修正内容・完了条件チェックリストは `PATCH1_NOTES.md` を参照。
 
 | Issue | 区分 | 状況 |
 |---|---|---|
 | ISS-01 | （Task1B、実Forms回帰待ち） | OPEN（未対応、Forms実装後に再検証） |
-| ISS-02 | Corrective Patch 1（実装修正） | **対応済み**（`forms_adapter.py`。詳細は本ファイルのISS-02節） |
-| ISS-03 | Corrective Patch 1（実装修正） | **対応済み**（`weighted_score()`。詳細は本ファイルのISS-03節） |
+| ISS-02 | Corrective Patch 1（実装修正） | **RESOLVED**（`forms_adapter.py`。詳細は本ファイルのISS-02節） |
+| ISS-03 | Corrective Patch 1（実装修正） | **PARTIALLY RESOLVED / Design Disposition Required**（計算エラー防止は達成。Unknown時のウェイト再正規化方式と全項目Unknown時の挙動は`ED-DI-003`へ切り出し。Corrective Patch 1.1で全項目Unknown時の挙動のみ対応。詳細は本ファイルのISS-03節） |
 | ISS-04 | HOLD（設計判断待ち） | 変更なし |
 | ISS-05 | （参考記録、対応区分未指定） | 変更なし |
-| ISS-06 | Corrective Patch 1（実装修正） | **対応済み**（`_enforce_field_cap()`。詳細は本ファイルのISS-06節） |
+| ISS-06 | Corrective Patch 1（実装修正） | **RESOLVED**（`_enforce_field_cap()`。詳細は本ファイルのISS-06節） |
 | ISS-07 | HOLD（設計判断待ち） | 変更なし |
 | ISS-08 | HOLD（設計判断待ち） | 変更なし |
+| ISS-09 | ED-DI-002の実装側確認結果として統合管理（独立Design Issueではない） | OPEN / Blocked by ED-DI-002 |
 | ED-DI-001 | 正本側Design Issue（S社Disposition待ち） | OPEN。`Energy_Doctor_Design_Issue_Log.md`で独立管理。実装側では解消しない |
 | ED-DI-002 | 正本側Design Issue（S社Disposition待ち） | OPEN。本ファイルISS-09を参照。同上 |
+| ED-DI-003（新規） | 正本側Design Issue（S社Disposition待ち） | OPEN。Web_KPI/TOP5_CalcのUnknown時集約・再正規化ルールの正式仕様化。本ファイルのISS-03節を参照 |
 
 ---
 
@@ -53,7 +60,7 @@ Handoff Brief Rev0.4は、Task1完了後のレビューで確認された本ド�
 
 ---
 
-## ISS-02（重要・Corrective Patch 1で対応済み）Microsoft Forms実装仕様の選択肢文言がEngine v1.4の数式と一致しない
+## ISS-02（重要・RESOLVED）Microsoft Forms実装仕様の選択肢文言がEngine v1.4の数式と一致しない
 
 `03_Microsoft_Forms/Energy_Doctor_Microsoft_Forms_Implementation_Spec_v1.0.xlsx`
 シート`02_Questions`の選択肢文言は、Engine v1.4の`WQ_Normalize`シートが厳密一致（IF文）
@@ -106,7 +113,7 @@ Adapter/Normalizer層のみ：新規モジュール`energy_doctor_engine/forms_a
 
 ---
 
-## ISS-03（Corrective Patch 1で対応済み）状態Score（D列）が空欄になった場合、Web_DRI/Web_EPI/TOP5_Calcの一部項目がExcel上で#VALUE!になりうる
+## ISS-03（PARTIALLY RESOLVED / Design Disposition Required — `ED-DI-003`）状態Score（D列）が空欄になった場合、Web_DRI/Web_EPI/TOP5_Calcの一部項目がExcel上で#VALUE!になりうる
 
 `WQ_Normalize`の状態Score（D列）・緊急Score（E列）は、選択肢が想定外（例：ISS-02の文言不一致や、
 本来存在しない自由入力）の場合、IFチェーンの最終分岐で空欄（Excel上は空文字列）になる。
@@ -142,17 +149,58 @@ Unknown処理ルールを規定するものではなく、「空欄の項をそ�
 合計1になるよう再正規化する」という既存のAVERAGE挙動をそのまま拡張した、質問非依存の
 汎用フォールバックである。
 
-**残存する未定義ケース：** 対象の16問すべてがUnknownになる極端なケース（現実的にはまず
-起こらないが理論上は可能）では、`weighted_score()`に渡す全項目のウェイトがゼロになるため、
-0点や100点を勝手に補完せず`InsufficientDataError`という専用の型付き例外を送出する設計とした
-（Excelの#VALUE!とは異なる、意図的に区別された「情報皆無」状態）。これがどう扱われるべきか
-（例：診断不可としてA3出力自体をスキップする等）はビジネスルールの決定事項であり、
-本Patchのスコープ外として報告のみとする。
-
 修正済みファイル：`excel_compat.py`（`weighted_score`/`avg_or_none`/`InsufficientDataError`新設）、
 `web_kpi.py`（Web_DRI/Web_EPIの該当項をすべて`weighted_score`経由に変更）、
 `top5_calc.py`（TOP_BASE計算を`weighted_score`経由に変更）。テストは
 `tests/test_corrective_patch1.py`を参照。
+
+### `ED-DI-003`｜ウェイト再正規化方式はS社Disposition待ちの暫定実装（Corrective Patch 1レビューで判明）
+
+Corrective Patch 1のレビューで、上記の「Unknown項目を除外し残りウェイトを再正規化する」
+方式（`weighted_score()`）は、V2.2が明示的に定めた唯一の仕様ではなく、他にも同様に成立し
+得る設計（①ウェイトを再正規化せず、残った合計が1未満のまま評価する、②該当KPI自体を
+「情報不足」として算出しない、③参考値は出しつつ診断信頼度を下げて表示する、等）がある
+ことが指摘された。これを`Energy_Doctor_Design_Issue_Log.md`の**`ED-DI-003`（新規）**として
+正本側Design Issueに切り出した。**再正規化方式自体（重みの配分ロジック）の是非は、
+引き続きS社Dispositionを待つ事項であり、実装側では決定・変更していない。**
+
+`ED-DI-003`は次の4点の正式決定を求めている（詳細はログ本体を参照）：
+1. Unknown項目のウェイト再正規化を正式仕様とするか、他方式にするか
+2. `Issue_Candidate`のU値にも同じルールを適用するか
+3. 全項目Unknown時の挙動（例外か、正常系のINSUFFICIENT_DATA状態か。顧客表示文言含む）
+4. KPIを算出・表示してよい最低回答数／最低情報充足率の設定要否
+
+### Corrective Patch 1.1での対応（`ED-DI-003`のうち実装側で対応可能な2点のみ）
+
+`ED-DI-003`の4項目のうち、上記3.（全項目Unknown時の挙動）については、S社Dispositionを
+待たずに実装側だけで是正できる問題（Pythonの未捕捉例外がどこにもキャッチされず異常終了に
+見えていた点）があったため、Corrective Patch 1.1として次の2点のみを修正した。1./2./4.
+（再正規化方式そのものの採否、Issue_CandidateのU値への適用可否、最低情報充足率の要否）は
+一切決定・変更していない。
+
+1. **全項目Unknown時を例外ではなく正常な業務状態として返す：** `weighted_score()`が
+   全項目Unknown（ウェイト合計0）の場合に送出していた`InsufficientDataError`を、例外throwから
+   `None`を返す方式に変更した。呼び出し元（`web_kpi.py`）はこれを受けて該当KPI（Web_EDI/
+   Web_DRI）を`None`として扱い、パイプライン全体としては`pipeline.py`が新設した
+   `PipelineResult.diagnosis_status`（`"OK"`または`"INSUFFICIENT_DATA"`）で、Web_EDIまたは
+   Web_DRIが算出不能だったことを呼び出し側が判定できるようにした。この場合、Guardrail・
+   Issue_Candidate・TOP5はいずれも算出せず空リスト/`None`で返す（Guardrail/TOP5非表示）。
+   `InsufficientDataError`クラス自体は削除せず残している（将来、厳格な例外送出を望む
+   呼び出し側が明示的に使う余地を残すため）。
+2. **暫定実装であることの明記：** `weighted_score()`のdocstringに、この再正規化方式が
+   「Corrective Patch 1の暫定実装であり、V2.2が定めた唯一の仕様ではない」旨と、代替案・
+   `ED-DI-003`への参照を追記した。本ファイル（本節）と`PATCH1_NOTES.md`にも同様に
+   `ED-DI-003`への参照を追記した。
+
+修正済みファイル：`excel_compat.py`（`weighted_score()`のdocstring更新・`None`返却化、
+`InsufficientDataError`のdocstring更新）、`web_kpi.py`（`WebKPI`の全フィールドをOptional化、
+`_round_or_none()`新設）、`pipeline.py`（`diagnosis_status`・`DIAGNOSIS_STATUS_OK`/
+`DIAGNOSIS_STATUS_INSUFFICIENT_DATA`新設、`INSUFFICIENT_DATA`時にGuardrail/TOP5をスキップ）。
+テストは`tests/test_corrective_patch1.py`の
+`test_all_wq_unknown_returns_insufficient_data_status_not_an_exception`等を参照。
+
+`Issue_Candidate`のU列への同ルール適用可否（`ED-DI-003`の決定事項2.）は、今回一切変更・
+拡張していない（`top5_calc.py`はCorrective Patch 1時点のまま）。
 
 ---
 
@@ -195,7 +243,7 @@ BL-01は復活せず候補にすらならない。これが意図どおりか（
 
 ---
 
-## ISS-06（Corrective Patch 1で対応済み）TOP-R03（同一分野最大2件ルール）が同点(タイ)時に3件以上通過しうる
+## ISS-06（RESOLVED）TOP-R03（同一分野最大2件ルール）が同点(タイ)時に3件以上通過しうる
 
 `TOP5_Final!G`列（分野内順位）は `COUNTIFS(同一分野, スコア>自分)+1` で計算されるため、
 2位が同点で複数件ある場合、全員が「分野内順位2位」となり、`<=2`判定を全員が
@@ -260,7 +308,12 @@ Corrective Patch 1でも変更していない**（回帰テスト`tests/test_cor
 
 ---
 
-## ISS-09（新規・ED-DI-002関連）公開WQ-ID⇔正式Q-IDの一意対応は確認できなかった
+## ISS-09（`ED-DI-002`の実装側確認結果／独立Design Issueではない）公開WQ-ID⇔正式Q-IDの一意対応は確認できなかった
+
+**状態：** OPEN / Blocked by `ED-DI-002`。`Energy_Doctor_Design_Issue_Log.md`の
+`ED-DI-002`「関連実装確認（2026-09-02追記）」に記載のとおり、本項目は独立のDesign Issueへ
+昇格させず、`ED-DI-002`の実装側裏取り結果として同Issue配下で管理する（本ファイルでは
+参照の便宜上、他のISS番号と並べて記載している）。
 
 Corrective Patch 1のISS-03対応にあたり、V2.2 `03_採点マトリクス`（正式Q-ID Q101〜、
 「不明時処理」列に質問別の扱いが定義されている）を、公開WQ-ID（WQ-101〜）へ適用できないか
@@ -280,9 +333,9 @@ Corrective Patch 1のISS-03対応にあたり、V2.2 `03_採点マトリクス`�
 確認できないものはED-DI-002関連Issueとして残す」）に従い、上記はいずれも「一意に確認
 できたもの」とは判断せず、正式Q-ID側のUnknown処理をこれらのWQへ移植することはしていない。
 
-**Close条件：** `ED-DI-002`のClose条件（WQ-ID⇔Q-ID対応表のV2.2への登録、対応なし項目の
-方針決定、Engine実装への反映、回帰試験PASS）と同一。S社での対応表作成後、本Issueも
-合わせてClose可能。
+**Close条件：** 独立のClose条件は設定しない。`ED-DI-002`本体がClose（WQ-ID⇔Q-ID対応表の
+V2.2への登録、対応なし項目の方針決定、Engine実装への反映、回帰試験PASS）した時点で、
+本項目も合わせて解消したものとして扱う。
 
 ---
 
