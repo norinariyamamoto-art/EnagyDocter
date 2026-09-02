@@ -7,22 +7,27 @@ change is S社's responsibility), and it does not rewrite V2.2 or the Forms
 implementation spec.
 
 Background (see ../ISSUES.md ISS-02 and Energy_Doctor_Design_Issue_Log.md
-ED-DI-001): the source-of-truth spreadsheets disagree on Unknown's display
-text --
+ED-DI-001): the source-of-truth spreadsheets originally disagreed on
+Unknown's display text --
   - V2.2 `68_公開フォーム最小質問セット` (public 18-question wording, which
-    Engine v1.4's own WQ_Normalize formulas are written against) uses 不明.
+    Engine v1.4's own WQ_Normalize formulas are written against) used 不明.
   - V2.2 `02_回答選択肢` (the formal-diagnosis Q-ID answer master) uses
     表示値「分からない」 with internal value UNKNOWN for the equivalent choice.
   - 03_Microsoft_Forms's independently-authored Forms spec also uses
     分からない.
-S社's decision for Corrective Patch 1 (Rev0.4, ISS-02): the public Forms
-display wording follows 68 (不明), but this adapter must accept 不明,
-分からない, and a blank answer interchangeably and normalize all three to the
-single internal sentinel UNKNOWN -- so the engine behaves identically no
-matter which of the two documented display conventions ends up in a given
-Forms export. Which display text S社 ultimately standardizes on is
-ED-DI-001, and is not decided here; this adapter accepts both regardless of
-that outcome.
+
+**ED-DI-001 Final Disposition (S社 Design Disposition, 2026-09-02):** the
+customer-facing Unknown display standard is now officially **「分からない」**
+-- see `05_Handoff_Brief/ED_DI_001_FINAL_PATCH_INSTRUCTION.md`. V2.2/V2.3's
+own sheets (`68_公開フォーム最小質問セット`, `76_MicrosoftForms実装仕様`, and a
+few compound `02_回答選択肢` display values) are to be revised by S社 to match;
+this codebase does not edit those spreadsheets. The internal sentinel stays
+`UNKNOWN`. This adapter's accepted-values logic is unchanged by that
+decision and was never itself display-wording-dependent: it already
+accepted 不明, 分からない, and a blank answer interchangeably (for backward
+compatibility across either display convention, or a mixed Forms export
+during the transition), and continues to do so now that 分からない is the
+confirmed standard.
 """
 
 from __future__ import annotations

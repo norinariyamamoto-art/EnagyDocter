@@ -34,7 +34,7 @@ ED-DI-002〜005はいずれもS社承認済み（Decision Record Rev0.1）とな
 | ISS-07 | HOLD（設計判断待ち） | 変更なし |
 | ISS-08 | HOLD（設計判断待ち） | 変更なし |
 | ISS-09 | ED-DI-002の実装側確認結果として統合管理（独立Design Issueではない） | OPEN / Blocked by ED-DI-002 |
-| ED-DI-001 | 正本側Design Issue（S社Disposition待ち） | OPEN / Interim Operational Disposition Applied。実装側では解消しない |
+| ED-DI-001 | 正本側Design Issue（S社Approved・Implementation Pending） | **Final Disposition Approved / Implementation Pending**（2026-09-02。顧客向け表示標準は「分からない」で確定。V2.2/V2.3・Forms実装仕様への反映はS社側の残作業。実装側ではAdapterの受理ロジック（「不明」「分からない」「空欄」→UNKNOWN）は変更不要、コード側のInterim表記のみFinal Disposition表記へ更新。詳細は`PATCH4_NOTES.md`参照） |
 | ED-DI-002 | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | V2.3シート77（WQ-Q Traceability）確定。Engine側は参照コメント追記のみ（計算ロジック変更なし）。V2.2/V2.3への正式反映自体はS社側の管理事項として残る |
 | ED-DI-003 | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | 残存ウェイト再正規化を正式仕様化、情報充足率を追加。閾値・Issue_CandidateのU値への適用範囲は引き続きTBC（`PATCH2_NOTES.md`参照） |
 | ED-DI-004（Task2発） | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | Web_EDI加重係数は現行維持、分野別状態(`domain_status`)を独立出力として追加 |
@@ -114,6 +114,13 @@ Adapter/Normalizer層のみ：新規モジュール`energy_doctor_engine/forms_a
 `02_回答選択肢`・`68_公開フォーム最小質問セット`・Forms実装仕様のいずれも書き換えていない
 （`tests/test_corrective_patch1.py::test_adapter_does_not_rewrite_v22_or_forms_spec_files`
 でSHA256突合により確認）。
+
+**追記（2026-09-02、ED-DI-001 Final Patch）：** 上記は暫定運用（Rev0.4時点）の記録として
+そのまま残す。ED-DI-001はその後Final Disposition Approvedとなり、顧客向け表示標準は
+「分からない」で確定した（「不明」ではない）。V2.2/V2.3側（`68_公開フォーム最小質問セット`・
+`76_MicrosoftForms実装仕様`・一部`02_回答選択肢`の複合表示値）の改訂対象箇所の特定は
+`PATCH4_NOTES.md`を参照。Adapterの受理ロジック自体（「不明」「分からない」「空欄」→
+UNKNOWN）は変更していない。
 
 ---
 

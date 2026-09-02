@@ -1,4 +1,4 @@
-# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1/1.1 + Engine Patch 2 + ED-DI-003 Final Pipeline Patch 実装）
+# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1/1.1 + Engine Patch 2 + ED-DI-003 Final Pipeline Patch + ED-DI-001 Final Patch 実装）
 
 `Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3.md` の **Task 1** を実施した成果物。
 その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）、そのレビューで
@@ -9,9 +9,12 @@
 その後、ED-DI-003の残る論点（情報充足率の集計粒度・閾値）についてS社が判断するための
 比較データを作る **WQ Sufficiency Validation** を実施し、S社のFinal Disposition
 （WQ単位粒度・50%閾値）確定を受けて、それを本番`diagnosis_status`判定へ統合する
-**ED-DI-003 Final Pipeline Patch** を適用した。各Patch/Validationの修正内容・完了条件
-チェックリストは `PATCH1_NOTES.md` / `PATCH2_NOTES.md` /
-`WQ_SUFFICIENCY_VALIDATION_REPORT.md` / `PATCH3_NOTES.md` を参照。
+**ED-DI-003 Final Pipeline Patch** を適用した。さらに、顧客向けUnknown表示標準を
+「分からない」に正式統一するED-DI-001 Final Disposition（S社承認）を受け、V2.3正本内の
+改訂対象箇所の特定（(A)/(B)区分）とコード側のInterim期記述の更新を行う
+**ED-DI-001 Final Patch** を適用した（正本Excel自体の改訂はS社側作業）。各Patch/Validation
+の修正内容・完了条件チェックリストは `PATCH1_NOTES.md` / `PATCH2_NOTES.md` /
+`WQ_SUFFICIENCY_VALIDATION_REPORT.md` / `PATCH3_NOTES.md` / `PATCH4_NOTES.md` を参照。
 `02_Diagnosis_Engine/Energy_Doctor_Public_Diagnosis_Engine_v1.4_Customer_A3.xlsx`
 （Engine v1.4）の `Web_EDI` / `Web_DRI` / `Web_EPI`、`Guardrail`、`TOP5_Calc` /
 `TOP5_Final` のロジックを、Excelの数式のとおりにPythonで再現したもの。
@@ -65,6 +68,7 @@ engine/
   PATCH2_NOTES.md           Engine Patch 2の修正内容・新規フィールド仕様・完了条件チェックリスト
   WQ_SUFFICIENCY_VALIDATION_REPORT.md  WQ Sufficiency Validationの比較データ・重み按分根拠
   PATCH3_NOTES.md           ED-DI-003 Final Pipeline Patchの修正内容・完了条件チェックリスト
+  PATCH4_NOTES.md           ED-DI-001 Final Patchの(A)/(B)一覧・Forms Implementation Spec整合確認・完了条件チェックリスト
 ```
 
 ## 実行方法
@@ -114,6 +118,7 @@ Final Pipeline Patchでの純増2件）。
 - Engine Patch 2の新規フィールド仕様・完了条件 → `PATCH2_NOTES.md`
 - WQ Sufficiency Validation（ED-DI-003残論点の比較データ）→ `WQ_SUFFICIENCY_VALIDATION_REPORT.md`
 - ED-DI-003 Final Pipeline Patch（本番統合の完了条件・変更点）→ `PATCH3_NOTES.md`
+- ED-DI-001 Final Patch（顧客向けUnknown表示標準「分からない」への統一・改訂対象箇所の特定）→ `PATCH4_NOTES.md`
 
 診断ロジック・しきい値・文言は一切変更していない。矛盾や解釈の分かれる箇所は
 すべて`ISSUES.md`に列挙し、コード側で独自判断による修正は行っていない。
