@@ -1,9 +1,12 @@
 # Task 2｜模擬案件データ5パターン
 
 Handoff Brief Rev0.4 Task 2の成果物。当初はCorrective Patch 1.1適用済みのEngineで実施し、
-その後Engine Patch 2（ED-DI-002〜005実装）適用後に再実行した（`TASK2_REPORT.md`末尾の
-「追記（2026-09-02）」参照）。5ケースのProfile・Forms_Response自体はいずれの実行でも
-変更していない。
+その後Engine Patch 2（ED-DI-002〜005実装）適用後、さらにED-DI-003 Final Pipeline Patch
+（WQ単位情報充足率50%閾値の本番統合）適用後にも再実行した（`TASK2_REPORT.md`末尾の
+「追記（2026-09-02）」、および`../engine/PATCH3_NOTES.md`完了条件6参照）。5ケースの
+Profile・Forms_Response自体はいずれの実行でも変更していない。ED-DI-003 Final Pipeline
+Patch適用後は`task2_results.json`に`web_edi/dri/epi_wq_sufficiency`・`web_edi/dri/epi_status`
+（新設の個別KPI充足率・判定）が追加されたが、既存フィールドの値はすべて無変更。
 
 ## ファイル構成
 

@@ -125,6 +125,17 @@ for scenario in SCENARIOS:
             },
             "actual": {
                 "diagnosis_status": result.diagnosis_status,
+                # ED-DI-003 Final Disposition (2026-09-02): WQ-level information
+                # sufficiency and its per-KPI OK/INSUFFICIENT_DATA status, now
+                # the fields that actually drive diagnosis_status above (see
+                # pipeline.py's MIN_WQ_SUFFICIENCY_THRESHOLD). Reported here as
+                # new output alongside the pre-existing (unchanged) fields.
+                "web_edi_wq_sufficiency": result.web_edi_wq_sufficiency,
+                "web_dri_wq_sufficiency": result.web_dri_wq_sufficiency,
+                "web_epi_wq_sufficiency": result.web_epi_wq_sufficiency,
+                "web_edi_status": result.web_edi_status,
+                "web_dri_status": result.web_dri_status,
+                "web_epi_status": result.web_epi_status,
                 "web_kpi": {
                     "web_edi": result.web_kpi.web_edi,
                     "web_edi_band": result.web_kpi.web_edi_band,
@@ -160,6 +171,12 @@ for r in results:
     kpi = r["actual"]["web_kpi"]
     print(f"  status={r['actual']['diagnosis_status']}")
     print(f"  Web_EDI={kpi['web_edi']} ({kpi['web_edi_band']})  Web_DRI={kpi['web_dri']} ({kpi['web_dri_band']})  Web_EPI={kpi['web_epi']} ({kpi['web_epi_band']})")
+    a = r["actual"]
+    print(
+        f"  wq_sufficiency: EDI={a['web_edi_wq_sufficiency']:.4f}({a['web_edi_status']}) "
+        f"DRI={a['web_dri_wq_sufficiency']:.4f}({a['web_dri_status']}) "
+        f"EPI={a['web_epi_wq_sufficiency']:.4f}({a['web_epi_status']})"
+    )
     tg = r["actual"]["top_guardrail"]
     pending = r["actual"]["guardrail_pending"]
     print(f"  Guardrail: {'判定保留(WQ-404 Unknown)' if pending else (tg['category'] + ' ' + tg['level'] if tg else 'なし')}")

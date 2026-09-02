@@ -1,19 +1,26 @@
-"""Tests for the WQ-level information-sufficiency **Validation** exercise
+"""Tests for WQ-level information sufficiency
 (energy_doctor_engine/wq_sufficiency_validation.py).
 
-Per `05_Handoff_Brief/WQ_SUFFICIENCY_VALIDATION_INSTRUCTION.md`: this is a
-comparison-data exercise, not a production feature, so these tests check
-(1) the flat per-WQ weight tables are derived correctly from web_kpi.py's
-actual formula structure, (2) the sufficiency/threshold arithmetic itself,
-(3) the 6 boundary-case patterns' measured values (as a regression guard on
-those numbers, since wq_sufficiency_fixtures.py's comments quote them), and
-(4) that this module stays structurally disconnected from pipeline.py's
-production diagnosis_status / MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC.
+Originally written for the **Validation** exercise (comparison data only,
+structurally disconnected from pipeline.py -- see
+`05_Handoff_Brief/WQ_SUFFICIENCY_VALIDATION_INSTRUCTION.md`). ED-DI-003's
+**Final Disposition** (2026-09-02, see
+`05_Handoff_Brief/ED_DI_003_FINAL_PIPELINE_PATCH_INSTRUCTION.md`) has since
+adopted this module's WQ-level granularity and the 50% threshold as the
+formal production rule, and pipeline.py now imports and calls
+compute_wq_sufficiency() directly -- so the "structurally disconnected"
+guard test that used to live here was removed (it would now fail by
+design; see PATCH3_NOTES.md). These tests check (1) the flat per-WQ weight
+tables are derived correctly from web_kpi.py's actual formula structure,
+(2) the sufficiency/threshold arithmetic itself, (3) the 6 boundary-case
+patterns' measured values (as a regression guard on those numbers, since
+wq_sufficiency_fixtures.py's comments quote them), and (4) that this
+module's own historical 40/50/60% comparison function
+(compute_wq_sufficiency_validation) still works and agrees with the
+production compute_wq_sufficiency() at the 50% column specifically.
 """
 
 from __future__ import annotations
-
-import inspect
 
 import pytest
 
@@ -37,6 +44,7 @@ from .wq_sufficiency_fixtures import (
     PATTERN_4_ABOUT_50_PERCENT,
     PATTERN_5_ABOUT_40_PERCENT,
     PATTERN_6_EPI_CRITICAL_WQS_UNKNOWN,
+    PATTERN_6B_EPI_CRITICAL_WQS_UNKNOWN_TC_A_BASE,
 )
 
 
@@ -138,32 +146,40 @@ def test_threshold_boundary_uses_greater_or_equal():
     assert result.status_at_60["web_edi"] == DIAGNOSIS_STATUS_OK
 
 
-def test_changing_wq_sufficiency_module_never_touches_pipeline_constant():
-    """Structural-disconnection guard: this module must not reference
-    pipeline.py's production threshold constant or call run_pipeline() as
-    actual code (an AST check, so prose mentioning those names in this
-    module's own docstrings -- explaining what it deliberately does NOT do
-    -- doesn't trip a plain substring search). Nor may pipeline.py import
-    this module."""
-    import ast
+def test_production_pipeline_uses_this_modules_wq_level_sufficiency():
+    """ED-DI-003 Final Disposition: pipeline.py's production decision must
+    use exactly this module's compute_wq_sufficiency() (same weight tables,
+    same numbers) -- not a separately re-implemented calculation. Cross-check
+    a case with mixed per-KPI sufficiency (Pattern 6) between the module
+    called directly and run_pipeline()'s PipelineResult fields."""
+    from energy_doctor_engine.wq_sufficiency_validation import compute_wq_sufficiency
 
-    tree = ast.parse(inspect.getsource(wqsv))
-    names = {
-        node.id
-        for node in ast.walk(tree)
-        if isinstance(node, ast.Name)
-    } | {
-        node.attr
-        for node in ast.walk(tree)
-        if isinstance(node, ast.Attribute)
-    }
-    assert "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC" not in names
-    assert "run_pipeline" not in names
-    assert not hasattr(wqsv, "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC")
-    assert not hasattr(wqsv, "run_pipeline")
+    norm = _norm(PATTERN_6_EPI_CRITICAL_WQS_UNKNOWN)
+    direct = compute_wq_sufficiency(norm)
+    result = run_pipeline(PATTERN_6_EPI_CRITICAL_WQS_UNKNOWN)
+    assert result.web_edi_wq_sufficiency == pytest.approx(direct.web_edi)
+    assert result.web_dri_wq_sufficiency == pytest.approx(direct.web_dri)
+    assert result.web_epi_wq_sufficiency == pytest.approx(direct.web_epi)
 
-    pipeline_source = inspect.getsource(pipeline_module)
-    assert "wq_sufficiency_validation" not in pipeline_source
+
+def test_historical_validation_comparison_still_agrees_with_production_at_50_percent():
+    """compute_wq_sufficiency_validation() (kept for historical
+    reproducibility of the original 40/50/60% comparison) must still agree
+    with the production per-KPI status at its status_at_50 column, since
+    both are now built from the same compute_wq_sufficiency() values and
+    MIN_WQ_SUFFICIENCY_THRESHOLD == 0.50."""
+    assert pipeline_module.MIN_WQ_SUFFICIENCY_THRESHOLD == 0.50
+    for forms_response in (
+        PATTERN_2_ABOUT_75_PERCENT,
+        PATTERN_3_ABOUT_60_PERCENT,
+        PATTERN_4_ABOUT_50_PERCENT,
+        PATTERN_6_EPI_CRITICAL_WQS_UNKNOWN,
+    ):
+        validation = compute_wq_sufficiency_validation_from_forms_response(forms_response)
+        result = run_pipeline(forms_response)
+        assert validation.status_at_50["web_edi"] == result.web_edi_status
+        assert validation.status_at_50["web_dri"] == result.web_dri_status
+        assert validation.status_at_50["web_epi"] == result.web_epi_status
 
 
 def _norm(forms_response):
@@ -282,9 +298,50 @@ def test_pattern_6_is_consistent_with_guardrail_pending_and_review_items():
     reason_wqs = {wq for item in result.review_items for wq in item.reason_wq}
     assert reason_wqs == {"WQ-104", "WQ-303", "WQ-404"}
     # The existing (Engine Patch 2) term-level information_sufficiency for
-    # Web_EPI does NOT collapse here (0.7, still >= the 0.5 TBC threshold,
-    # so production diagnosis_status stays OK) -- this is the concrete
-    # illustration of why term-level vs. WQ-level granularity is a genuine
-    # open question: the two metrics disagree on this exact case.
+    # Web_EPI does NOT collapse here (0.7) -- this is the concrete
+    # illustration of why term-level vs. WQ-level granularity was a genuine
+    # open question: the two metrics disagree on this exact case. ED-DI-003
+    # Final Disposition resolved that disagreement in favor of the WQ-level
+    # figure below (0.325), which IS what now drives diagnosis_status.
     assert result.web_kpi.web_epi_information_sufficiency == pytest.approx(0.7)
-    assert result.diagnosis_status == DIAGNOSIS_STATUS_OK
+
+
+def test_pattern_6_epi_only_insufficient_still_shows_top5_normally():
+    """ED-DI-003 Final Pipeline Patch completion condition 3: with Unknowns
+    concentrated on Web_EPI's urgency/impact-heavy WQs (WQ-405/303/104/404,
+    same set as Pattern 6 above but layered on TC_A_FORMS_RESPONSE, which
+    actually has issues that fire -- Pattern 6's own TC_B baseline has every
+    answer already at its best choice, so nothing ever fires there and TOP5
+    is legitimately empty regardless of information sufficiency, which would
+    not exercise this completion condition), Web_EDI/Web_DRI stay
+    individually OK (WQ-level sufficiency 0.8333/0.9167, both >= 0.50) while
+    Web_EPI alone is INSUFFICIENT_DATA (0.325 < 0.50), so the overall
+    diagnosis_status is INSUFFICIENT_DATA -- but TOP5 must still be computed
+    and displayed normally, because Web_DRI itself produced a concrete
+    web_dri_top5_r (TOP5 eligibility depends only on that, per Final
+    Disposition point 5, never on diagnosis_status)."""
+    result = run_pipeline(PATTERN_6B_EPI_CRITICAL_WQS_UNKNOWN_TC_A_BASE)
+
+    assert result.web_edi_wq_sufficiency == pytest.approx(0.8333333333333334)
+    assert result.web_dri_wq_sufficiency == pytest.approx(0.9166666666666667)
+    assert result.web_epi_wq_sufficiency == pytest.approx(0.325)
+    assert result.web_edi_status == DIAGNOSIS_STATUS_OK
+    assert result.web_dri_status == DIAGNOSIS_STATUS_OK
+    assert result.web_epi_status == DIAGNOSIS_STATUS_INSUFFICIENT_DATA
+    assert result.diagnosis_status == DIAGNOSIS_STATUS_INSUFFICIENT_DATA
+
+    # Sufficient KPIs' own computed values are preserved and displayable
+    # (Final Disposition point 4) even though the overall status is not OK.
+    assert result.web_kpi.web_edi is not None
+    assert result.web_kpi.web_dri is not None
+
+    # TOP5 is populated normally -- not suppressed by the overall
+    # INSUFFICIENT_DATA status.
+    assert result.web_kpi.web_dri_top5_r is not None
+    assert len(result.top5_calc) > 0
+    assert len(result.top5) > 0
+
+    # Guardrail / guardrail_pending / review_items remain available, exactly
+    # as under Engine Patch 2's existing rules (completion condition 4).
+    assert result.guardrail_pending is True
+    assert len(result.review_items) > 0

@@ -1,5 +1,10 @@
 # WQ単位 情報充足率 Validation レポート
 
+> **追記（2026-09-02、ED-DI-003 Final Pipeline Patch）：** 本レポートが提示した比較データを
+> 踏まえ、S社はED-DI-003のFinal Disposition（WQ単位粒度・50%閾値）を確定した。本番
+> `pipeline.py`への実装統合は`PATCH3_NOTES.md`を参照。本レポート自体は当時の比較データ・
+> 検証記録としてそのまま残し、内容は変更していない。
+
 `05_Handoff_Brief/WQ_SUFFICIENCY_VALIDATION_INSTRUCTION.md`（2026-09-02）に基づく検証結果。
 Energy_Doctor_Design_Issue_Log.mdのED-DI-003は現在「Implemented / Pilot Threshold &
 Granularity TBC」であり、情報充足率の集計粒度（トップレベル項単位 vs WQ単位）と、

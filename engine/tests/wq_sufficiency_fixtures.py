@@ -25,11 +25,11 @@ from __future__ import annotations
 
 import copy
 
-from .fixtures import TC_B_FORMS_RESPONSE
+from .fixtures import TC_A_FORMS_RESPONSE, TC_B_FORMS_RESPONSE
 
 
-def _unknown(*wq_ids: str) -> dict:
-    fr = copy.deepcopy(TC_B_FORMS_RESPONSE)
+def _unknown(*wq_ids: str, base: dict = TC_B_FORMS_RESPONSE) -> dict:
+    fr = copy.deepcopy(base)
     for wq_id in wq_ids:
         fr[wq_id] = "不明"
     return fr
@@ -96,3 +96,17 @@ PATTERN_5_ABOUT_40_PERCENT = _unknown(
 # (driven by WQ-404), consistent with the same four WQs driving both this
 # module's EPI-only insufficiency and the existing ED-DI-005 outputs.
 PATTERN_6_EPI_CRITICAL_WQS_UNKNOWN = _unknown("WQ-405", "WQ-303", "WQ-104", "WQ-404")
+
+# Same WQ-104/303/404/405-Unknown pattern as Pattern 6 above, but built on
+# TC_A_FORMS_RESPONSE (which has several issues that actually fire) rather
+# than the "every answer is already the best choice" TC_B baseline (where
+# nothing fires and TOP5 is legitimately empty regardless of any
+# information-sufficiency status). Used specifically to demonstrate ED-DI-003
+# Final Pipeline Patch completion condition 3: Web_EPI alone going
+# INSUFFICIENT_DATA (measured EDI=0.8333, DRI=0.9167, EPI=0.325, all
+# consistent with Pattern 6 above since both share the same weight tables)
+# must not suppress TOP5, which stays populated as long as Web_DRI itself
+# produced a concrete web_dri_top5_r.
+PATTERN_6B_EPI_CRITICAL_WQS_UNKNOWN_TC_A_BASE = _unknown(
+    "WQ-405", "WQ-303", "WQ-104", "WQ-404", base=TC_A_FORMS_RESPONSE
+)

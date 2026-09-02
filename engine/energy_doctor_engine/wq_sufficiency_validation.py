@@ -1,30 +1,36 @@
-"""WQ-level information sufficiency -- **Validation-only** exercise.
+"""WQ-level information sufficiency -- ED-DI-003 **Final Disposition**
+(S社 Design Disposition Decision Record, "Final Disposition Approved /
+Implementation Pending", 2026-09-02).
 
-Handoff: `05_Handoff_Brief/WQ_SUFFICIENCY_VALIDATION_INSTRUCTION.md` (2026-09-02),
-responding to Energy_Doctor_Design_Issue_Log.md's ED-DI-003 status
-"Implemented / Pilot Threshold & Granularity TBC". Engine Patch 2 formalized
+History: this module began as a **Validation-only** exercise (see
+`05_Handoff_Brief/WQ_SUFFICIENCY_VALIDATION_INSTRUCTION.md`, 2026-09-02)
+responding to ED-DI-003's then-open "Implemented / Pilot Threshold &
+Granularity TBC" status. Engine Patch 2 had formalized
 `weighted_score()`'s exclude-and-renormalize approach and added
 `information_sufficiency` at **top-level-term granularity** (see
-`web_kpi.py` / `excel_compat.py`). S社's review of Engine Patch 2 flagged
-that whether sufficiency should instead be measured at **WQ granularity**
-is a genuine open Pilot-blocking question, not an implementation defect.
+`web_kpi.py` / `excel_compat.py`). The Validation exercise built the WQ-level
+weight tables below and a 6-pattern x 40/50/60% comparison
+(`compute_wq_sufficiency_validation`, `WQ_SUFFICIENCY_VALIDATION_REPORT.md`)
+so S社 could decide the granularity and threshold question before Pilot.
 
-This module exists solely to produce comparison data -- WQ-level sufficiency
-for Web_EDI/Web_DRI/Web_EPI, each judged independently against three
-candidate thresholds (40%/50%/60%) -- so S社 can decide the granularity and
-threshold question before Pilot. **It decides nothing itself:**
+**That decision has now been made** (see
+`05_Handoff_Brief/ED_DI_003_FINAL_PIPELINE_PATCH_INSTRUCTION.md` and
+Energy_Doctor_Design_Issue_Log.md's ED-DI-003 entry): **WQ-level granularity,
+50% threshold**, exactly as implemented below and exercised by the
+Validation exercise's Pattern 2/6 comparison. This module's weight tables
+and `_wq_level_sufficiency()` are therefore now the single source of truth
+for information sufficiency used both:
 
-- It does NOT replace, wrap, or feed into `pipeline.py`'s
-  `MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC` or `diagnosis_status`.
-- `pipeline.py` does not import this module, and this module does not call
-  `run_pipeline()`. The two are structurally disconnected on purpose.
-- It does NOT change `weighted_score()`, `web_kpi.py`'s formulas/weights, or
-  Issue_Candidate's U-value handling (ED-DI-003 point 5 / Engine Patch 2).
-- It does NOT touch ED-DI-001 (Unknown display wording) in any way.
-- 40%/50%/60% are candidate thresholds for comparison only -- none of the
-  three is asserted here to be "the" correct value; that is an S社 decision.
+- by `compute_wq_sufficiency()` below, which `pipeline.py` imports and calls
+  on every `run_pipeline()` invocation to decide each of Web_EDI/Web_DRI/
+  Web_EPI's individual status and the overall `diagnosis_status` (see
+  `pipeline.py`'s `MIN_WQ_SUFFICIENCY_THRESHOLD`), and
+- by `compute_wq_sufficiency_validation()`, kept unchanged for historical
+  reproducibility of the original 40%/50%/60% three-threshold comparison
+  report -- production code does not call it; only the formal 50% path
+  (`compute_wq_sufficiency()`) is wired into `pipeline.py`.
 
-Definition (per the handoff instruction, verbatim):
+Definition (unchanged from the Validation exercise, now formal):
 
     WQ-level information sufficiency
         = (sum of declared weight for *answered* WQs)
@@ -35,8 +41,7 @@ A WQ counts as "answered" when its post-Adapter-normalization
 i.e. the Unknown/blank check is the same one WQ_Normalize itself already
 performs, not a secondary "is D or E populated" test.
 
-How each KPI's flat per-WQ weight table below was derived ("展開方法"),
-per completion condition 7
+How each KPI's flat per-WQ weight table below was derived ("展開方法")
 -----------------------------------------------------------------------
 Each KPI's weight table is produced by walking `web_kpi.py`'s
 `weighted_score()` call for that KPI term by term, *exactly as written*,
@@ -50,16 +55,18 @@ three different-sized terms is not treated as "one WQ, one equal share";
 it is treated as "whatever the existing formula already implies its total
 influence to be", which is what "情報充足率" should track if it is meant
 to describe how much of the *existing scoring formula's* weight rests on
-answered material.
+answered material. This flattening method is itself part of the ED-DI-003
+Final Disposition (see the handoff instruction's point 1) -- not just the
+resulting numbers -- so `web_kpi.py`'s term structure remains the sole
+source of truth this table must be kept in sync with by inspection.
 
 **When the same WQ appears in more than one term within the same KPI, its
 per-term contributions are summed, not deduplicated.** This is the
 instructed treatment of Web_DRI's known ISS-04 issue (WQ-403 appears both
 in the 0.15 `avg_or_none(WQ-401,402,403)` term and again as the standalone
-0.10*D17 term) -- ISS-04 itself stays HOLD and is not corrected here; this
-module simply mirrors the existing double-weighting rather than silently
-fixing it, so WQ-403's flat weight in Web_DRI is (0.15/3) + 0.10 = 0.15,
-not a deduplicated 0.10 or 0.05.
+0.10*D17 term) -- ISS-04 itself stays HOLD and is not corrected here (ED-DI-003
+Final Disposition explicitly reaffirms this), so WQ-403's flat weight in
+Web_DRI is (0.15/3) + 0.10 = 0.15, not a deduplicated 0.10 or 0.05.
 
 Web_EPI's guardrail_urgency / WQ-404 slot: `web_kpi.py`'s third Web_EPI
 term is `avg_or_none(e["WQ-104"], guardrail_urgency)`, where
@@ -74,11 +81,10 @@ treats that half of the term as a **virtual WQ-404 weight slot** (0.25/2 =
 Rationale: "information sufficiency" is meant to describe whether the
 respondent actually supplied information, not whether the point-value
 formula happens to have a fallback constant for missing information; 40 is
-a stand-in for "we don't know", not a real urgency reading. This is a
-documented interpretive choice (the instruction explicitly allows using a
-better-justified alternative to bare equal-split, with rationale stated),
-and it is exactly what boundary-case Pattern 6 below is designed to
-exercise and cross-check against `guardrail_pending`.
+a stand-in for "we don't know", not a real urgency reading. **ED-DI-003
+Final Disposition point 3 explicitly adopts this virtual-WQ-404-slot
+interpretation as the formal production rule** (this was surfaced during
+the Validation exercise for S社's confirmation, and has now been confirmed).
 
 Each KPI's flat table sums to 1.0 (Web_DRI's sum of *term* weights is 1.0;
 WQ-403 alone accounts for 0.15 of it via double-counting, as above).
@@ -90,8 +96,17 @@ from dataclasses import dataclass
 from typing import Dict
 
 from .forms_adapter import normalize_forms_response
-from .pipeline import DIAGNOSIS_STATUS_INSUFFICIENT_DATA, DIAGNOSIS_STATUS_OK
 from .wq_normalize import NormalizedWQ, normalize
+
+# Local copies of the two diagnosis-status label strings, matching
+# pipeline.py's DIAGNOSIS_STATUS_OK / DIAGNOSIS_STATUS_INSUFFICIENT_DATA
+# verbatim. Defined here rather than imported from pipeline.py to avoid a
+# circular import (pipeline.py imports compute_wq_sufficiency() from this
+# module for its production decision) -- this module only needs the two
+# label strings for its own status_at_40/50/60 comparison output, not any
+# of pipeline.py's decision logic itself.
+_STATUS_OK = "OK"
+_STATUS_INSUFFICIENT_DATA = "INSUFFICIENT_DATA"
 
 # --- Flat per-WQ weight tables -------------------------------------------
 # Derived from web_kpi.py's compute_web_kpi() term-by-term, as documented
@@ -161,8 +176,12 @@ _EPI_WQ_WEIGHTS: Dict[str, float] = {
 }
 
 THRESHOLDS = (0.40, 0.50, 0.60)
-"""Candidate comparison thresholds only -- see module docstring. Not a
-decision; S社 selects the Pilot threshold from data produced with these."""
+"""The three candidate thresholds compared during the Validation exercise.
+50% (the middle value) is the one ED-DI-003 Final Disposition formally
+adopted -- see pipeline.py's MIN_WQ_SUFFICIENCY_THRESHOLD. This tuple is
+kept only so compute_wq_sufficiency_validation() can still reproduce the
+original three-way comparison for historical reference; it is not read by
+any production decision path."""
 
 
 def _wq_level_sufficiency(weights: Dict[str, float], norm: Dict[str, NormalizedWQ]) -> float:
@@ -184,13 +203,48 @@ def _wq_level_sufficiency(weights: Dict[str, float], norm: Dict[str, NormalizedW
 
 
 def _status_at(value: float, threshold: float) -> str:
-    return DIAGNOSIS_STATUS_OK if value >= threshold else DIAGNOSIS_STATUS_INSUFFICIENT_DATA
+    return _STATUS_OK if value >= threshold else _STATUS_INSUFFICIENT_DATA
+
+
+@dataclass(frozen=True)
+class WQSufficiency:
+    """ED-DI-003 Final Disposition: the formal, production WQ-level
+    information sufficiency for each of Web_EDI/Web_DRI/Web_EPI, computed
+    independently. See compute_wq_sufficiency() below -- this is what
+    pipeline.py actually uses to decide diagnosis_status."""
+
+    web_edi: float
+    web_dri: float
+    web_epi: float
+
+
+def compute_wq_sufficiency(norm: Dict[str, NormalizedWQ]) -> WQSufficiency:
+    """Formal production WQ-level information sufficiency (ED-DI-003 Final
+    Disposition, 2026-09-02) for Web_EDI/Web_DRI/Web_EPI, computed
+    independently per KPI -- one KPI can be information-insufficient while
+    the others are not (e.g. Web_EPI alone, when Unknowns concentrate on
+    its urgency/impact-heavy WQs; see the Validation exercise's Pattern 6).
+
+    `pipeline.py`'s `run_pipeline()` calls this on every invocation and
+    compares each of the three returned values against
+    `MIN_WQ_SUFFICIENCY_THRESHOLD` (0.50) to decide `web_edi_status` /
+    `web_dri_status` / `web_epi_status` and the overall `diagnosis_status`.
+    """
+    return WQSufficiency(
+        web_edi=_wq_level_sufficiency(_EDI_WQ_WEIGHTS, norm),
+        web_dri=_wq_level_sufficiency(_DRI_WQ_WEIGHTS, norm),
+        web_epi=_wq_level_sufficiency(_EPI_WQ_WEIGHTS, norm),
+    )
 
 
 @dataclass(frozen=True)
 class WQSufficiencyValidation:
-    """Validation-only comparison output. Never constructed by
-    pipeline.py / run_pipeline() and never fed back into PipelineResult."""
+    """Historical: the original three-threshold (40%/50%/60%) comparison
+    output from the Validation exercise, kept only so that comparison can
+    still be reproduced (e.g. re-running WQ_SUFFICIENCY_VALIDATION_REPORT.md's
+    figures). ED-DI-003 Final Disposition settled on 50% -- production code
+    (pipeline.py) does not call this function; it calls compute_wq_sufficiency()
+    directly and applies only the formal 50% threshold."""
 
     wq_sufficiency_edi: float
     wq_sufficiency_dri: float
@@ -201,9 +255,10 @@ class WQSufficiencyValidation:
 
 
 def compute_wq_sufficiency_validation(norm: Dict[str, NormalizedWQ]) -> WQSufficiencyValidation:
-    """Compute WQ-level information sufficiency for Web_EDI/Web_DRI/Web_EPI
-    and their OK/INSUFFICIENT_DATA status under each of the 40/50/60%
-    candidate thresholds, independently per KPI.
+    """Reproduce the original Validation exercise's OK/INSUFFICIENT_DATA
+    status under each of the 40/50/60% candidate thresholds, independently
+    per KPI. Not used by pipeline.py -- see WQSufficiencyValidation's
+    docstring.
 
     `norm` is the same Dict[str, NormalizedWQ] produced by
     wq_normalize.normalize() (typically after forms_adapter's Unknown
@@ -211,9 +266,8 @@ def compute_wq_sufficiency_validation(norm: Dict[str, NormalizedWQ]) -> WQSuffic
     use, so this can be run alongside them on the exact same case without
     recomputation drift.
     """
-    edi = _wq_level_sufficiency(_EDI_WQ_WEIGHTS, norm)
-    dri = _wq_level_sufficiency(_DRI_WQ_WEIGHTS, norm)
-    epi = _wq_level_sufficiency(_EPI_WQ_WEIGHTS, norm)
+    sufficiency = compute_wq_sufficiency(norm)
+    edi, dri, epi = sufficiency.web_edi, sufficiency.web_dri, sufficiency.web_epi
 
     def statuses_at(threshold: float) -> Dict[str, str]:
         return {
@@ -237,9 +291,10 @@ def compute_wq_sufficiency_validation_from_forms_response(
 ) -> WQSufficiencyValidation:
     """Convenience wrapper: applies the same Adapter normalization step
     run_pipeline() uses (forms_adapter.normalize_forms_response ->
-    wq_normalize.normalize) and then computes the validation output --
-    without calling run_pipeline() itself, keeping this module usable
-    standalone by scripts/tests that only have raw Forms_Response input."""
+    wq_normalize.normalize) and then computes the historical 40/50/60%
+    comparison output -- without calling run_pipeline() itself, keeping this
+    usable standalone by scripts/tests that only have raw Forms_Response
+    input. See WQSufficiencyValidation's docstring: not used by pipeline.py."""
     adapted = normalize_forms_response(forms_response)
     norm = normalize(adapted)
     return compute_wq_sufficiency_validation(norm)

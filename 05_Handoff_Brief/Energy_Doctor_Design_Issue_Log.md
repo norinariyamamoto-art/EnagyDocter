@@ -165,6 +165,16 @@ Pilot開始前に、次を満たすこと。
 
 上記4点がすべて完了した時点で、本Issueを完全Closeとする。それまでは**Implemented / Pilot Threshold & Granularity TBC**として保持する。
 
+### WQ Sufficiency Validation（2026-09-02実施・PASS / Accepted for Design Evaluation）
+
+Close条件①（粒度決定）②（Threshold決定）の判断材料として、WQ単位の情報充足率をトップレベル項単位と並行実装し、6パターンの境界ケース×40/50/60%の比較データを作成した（`engine/energy_doctor_engine/wq_sufficiency_validation.py`、`engine/WQ_SUFFICIENCY_VALIDATION_REPORT.md`）。本番`diagnosis_status`・`MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC`とは構造的に非接続（AST検証済み）で、既存71テスト全PASS、Task2結果は不変、ISS-04（WQ-403二重加重）はHOLDのまま重複排除せず反映。**実装作業自体はPASS / Accepted for Design Evaluationとする。**
+
+**①粒度の判断状況：** パターン2（回答率75%、全KPI OK）とパターン6（同じく回答率75%だがWeb_EPI重要WQにUnknownが集中、Web_EPIのみ40/50/60%すべてNG）の比較、およびパターン6における「WQ単位0.325」対「既存トップレベル項単位0.70（現行TBC閾値0.5でOK）」という乖離が実データで確認された。トップレベル項単位では「項内の1問回答で項全体を充足扱い」となり、特定KPIに重要な情報が欠けていても高い充足率が残り得ることが実証された。**これにより、S社がこれまで第一候補としていたWQ単位を正式採用する方向がかなり強まった。** ただし正式決定はまだ行っていない。
+
+**②Thresholdの判断状況：** まだ**TBCのまま**。6パターンの実測表（EDI/DRI/EPI×40/50/60%、上記「今後の進め方」直下のチャット記録、または`WQ_SUFFICIENCY_VALIDATION_REPORT.md`§3参照）をS社でレビューしてから正式決定する。
+
+**要確認事項（不具合ではなくThreshold選定のための確認）：** Web_EPIの`guardrail_urgency`スロット（WQ-404起因）は、値計算上は常に数値が入るが、Validationでは「virtual WQ-404スロット」として扱い、WQ-404自体がUnknownの場合のみ未回答扱いとしている。この解釈上の判断が占める有効ウェイトは**Web_EPI全体の0.125（12.5%）**であり、Threshold選定に直接影響するため、最終決定時に確認すること。
+
 ---
 
 ## ED-DI-004｜Web_EDIの分野間集約方式と重大弱点の希釈
@@ -290,7 +300,7 @@ S社内レビューにより、Engine Patch 2（ED-DI-002〜005 Approved Disposi
 | Corrective Patch 1（Claude Codeが実装・実装Issueとして解決） | ISS-02（**RESOLVED**）、ISS-06（**RESOLVED**） |
 | Corrective Patch 1 / Engine Patch 2（実装Issue） | ISS-03（**RESOLVED**：Corrective Patch1/1.1＋Engine Patch2で対応完了。ED-DI-003側にPilot前の残論点あり） |
 | 正本側 Design Issue（Implementation Complete） | ED-DI-002（**Implementation Complete**：77_WQ-Q_Traceability確定・Engine実装反映済み）、ED-DI-004（**Implementation Complete**：40/20/20/20維持＋domain_status実装）、ED-DI-005（**Implementation Complete**：review_items/guardrail_pending実装） |
-| 正本側 Design Issue（実装済み・Pilot前の残論点あり） | ED-DI-003（**Implemented / Pilot Threshold & Granularity TBC**：再正規化方式・情報充足率の枠組みはAccepted。粒度（項単位/WQ単位）と閾値の正式決定がPilot前に必要） |
+| 正本側 Design Issue（実装済み・Pilot前の残論点あり） | ED-DI-003（**Implemented / Pilot Threshold & Granularity TBC**：再正規化方式・情報充足率の枠組みはAccepted。WQ Sufficiency Validation実施済み（PASS/Accepted for Design Evaluation）。粒度はWQ単位が有力候補まで進展。Thresholdは40/50/60%比較データ提示済みで正式決定はまだ） |
 | 暫定運用のまま（Full Disposition未定） | ED-DI-001（**OPEN / Interim Operational Disposition Applied**：Forms表示は当面「不明」、Forms作業のブロッカーではない） |
 | 設計判断待ち HOLD（実装側は変更不可） | ISS-04（WQ-403二重加重）、ISS-07（Guardrail複数該当時の正式表示順位）、ISS-08（WQ-301複数選択時60点固定） |
 | Task 1 | Task 1A＝PASS維持／Task 1B＝PENDING維持 |

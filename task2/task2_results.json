@@ -34,6 +34,12 @@
     },
     "actual": {
       "diagnosis_status": "OK",
+      "web_edi_wq_sufficiency": 0.9,
+      "web_dri_wq_sufficiency": 0.8666666666666667,
+      "web_epi_wq_sufficiency": 0.875,
+      "web_edi_status": "OK",
+      "web_dri_status": "OK",
+      "web_epi_status": "OK",
       "web_kpi": {
         "web_edi": 68,
         "web_edi_band": "概ね良好",
@@ -980,6 +986,12 @@
     },
     "actual": {
       "diagnosis_status": "OK",
+      "web_edi_wq_sufficiency": 1.0,
+      "web_dri_wq_sufficiency": 1.0,
+      "web_epi_wq_sufficiency": 1.0,
+      "web_edi_status": "OK",
+      "web_dri_status": "OK",
+      "web_epi_status": "OK",
       "web_kpi": {
         "web_edi": 64,
         "web_edi_band": "注意",
@@ -1909,6 +1921,12 @@
     },
     "actual": {
       "diagnosis_status": "OK",
+      "web_edi_wq_sufficiency": 1.0,
+      "web_dri_wq_sufficiency": 0.9500000000000001,
+      "web_epi_wq_sufficiency": 1.0,
+      "web_edi_status": "OK",
+      "web_dri_status": "OK",
+      "web_epi_status": "OK",
       "web_kpi": {
         "web_edi": 67,
         "web_edi_band": "概ね良好",
@@ -2857,6 +2875,12 @@
     },
     "actual": {
       "diagnosis_status": "OK",
+      "web_edi_wq_sufficiency": 1.0,
+      "web_dri_wq_sufficiency": 1.0,
+      "web_epi_wq_sufficiency": 1.0,
+      "web_edi_status": "OK",
+      "web_dri_status": "OK",
+      "web_epi_status": "OK",
       "web_kpi": {
         "web_edi": 67,
         "web_edi_band": "概ね良好",
@@ -3796,6 +3820,12 @@
     },
     "actual": {
       "diagnosis_status": "OK",
+      "web_edi_wq_sufficiency": 1.0,
+      "web_dri_wq_sufficiency": 1.0,
+      "web_epi_wq_sufficiency": 1.0,
+      "web_edi_status": "OK",
+      "web_dri_status": "OK",
+      "web_epi_status": "OK",
       "web_kpi": {
         "web_edi": 87,
         "web_edi_band": "良好",

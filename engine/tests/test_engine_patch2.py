@@ -50,37 +50,48 @@ def test_partial_unknown_reduces_information_sufficiency_by_its_declared_weight(
 # ED-DI-003 point 3/4: TBC threshold, generalized INSUFFICIENT_DATA
 # ---------------------------------------------------------------------------
 
-def test_threshold_is_a_named_constant_marked_tbc():
-    """Completion condition 2: the threshold must be a single named constant
-    with a TBC (To Be Confirmed) comment -- not a magic number scattered
-    across the code. (A bare float can't carry its own `__doc__`, so this
-    checks the constant's name and the module source's documented rationale
-    instead of a runtime docstring attribute.)"""
+# NOTE (ED-DI-003 Final Pipeline Patch, 2026-09-02): the two tests below were
+# originally written against MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC (the
+# provisional, term-level-granularity threshold from Engine Patch 2). That
+# constant no longer exists -- ED-DI-003's Final Disposition replaced it with
+# MIN_WQ_SUFFICIENCY_THRESHOLD (0.50, WQ-level granularity, no longer TBC),
+# so both tests were updated to check the new constant/behavior instead. This
+# is a deliberate, disposition-driven rewrite, not a silently-changed
+# expectation -- see PATCH3_NOTES.md's test change list.
+
+
+def test_threshold_is_a_named_constant_marked_final():
+    """Completion condition (Final Disposition patch): the threshold must be
+    a single named constant, and its docstring must document that it is now
+    a *final* value (no longer TBC) per ED-DI-003 Final Disposition."""
     import inspect
 
-    assert hasattr(pipeline_module, "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC")
-    assert 0.0 < pipeline_module.MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC < 1.0
-    assert "TBC" in "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC"
+    assert hasattr(pipeline_module, "MIN_WQ_SUFFICIENCY_THRESHOLD")
+    assert pipeline_module.MIN_WQ_SUFFICIENCY_THRESHOLD == 0.50
+    assert "_TBC" not in "MIN_WQ_SUFFICIENCY_THRESHOLD"
     source = inspect.getsource(pipeline_module)
-    assert "TBC (To Be Confirmed)" in source
-    assert "S社" in source  # documented as pending S社 confirmation, not a final value
+    assert "Final Disposition" in source
+    assert "No longer TBC" in source
 
 
 def test_changing_the_threshold_changes_pipeline_behavior(monkeypatch):
-    """Completion condition 2: prove the threshold is load-bearing, not
-    decorative -- the same input must flip between OK and INSUFFICIENT_DATA
-    purely because the module constant changed. Uses the equipment-all-
-    unknown fixture above (EDI sufficiency 0.60, DRI sufficiency also <1.0
-    since WQ-101/102 feed its 0.30 term and WQ-103/104 feed its 0.25 term)."""
+    """Prove the threshold is load-bearing, not decorative -- the same input
+    must flip between OK and INSUFFICIENT_DATA purely because the module
+    constant changed. Uses the equipment-all-unknown fixture above: with
+    WQ-101..104 all Unknown, WQ-level sufficiency is EDI=0.60, DRI=0.7133,
+    EPI=0.75 (see WQ_SUFFICIENCY_VALIDATION_REPORT.md's weight tables) --
+    all three comfortably above the default 0.50 threshold, so a lenient
+    threshold (0.1) keeps diagnosis_status OK, and a strict one (0.99, above
+    every one of the three) flips it to INSUFFICIENT_DATA."""
     partial = dict(TC_A_FORMS_RESPONSE)
     for wq in ("WQ-101", "WQ-102", "WQ-103", "WQ-104"):
         partial[wq] = "不明"
 
-    monkeypatch.setattr(pipeline_module, "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC", 0.1)
+    monkeypatch.setattr(pipeline_module, "MIN_WQ_SUFFICIENCY_THRESHOLD", 0.1)
     lenient = run_pipeline(partial)
     assert lenient.diagnosis_status == pipeline_module.DIAGNOSIS_STATUS_OK
 
-    monkeypatch.setattr(pipeline_module, "MIN_INFORMATION_SUFFICIENCY_THRESHOLD_TBC", 0.99)
+    monkeypatch.setattr(pipeline_module, "MIN_WQ_SUFFICIENCY_THRESHOLD", 0.99)
     strict = run_pipeline(partial)
     assert strict.diagnosis_status == pipeline_module.DIAGNOSIS_STATUS_INSUFFICIENT_DATA
 
