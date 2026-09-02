@@ -1,4 +1,4 @@
-# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1/1.1 + Engine Patch 2 実装）
+# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1/1.1 + Engine Patch 2 実装 + WQ Sufficiency Validation）
 
 `Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3.md` の **Task 1** を実施した成果物。
 その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）、そのレビューで
@@ -6,7 +6,10 @@
 **Corrective Patch 1.1**、そしてTask2のレビューで新規登録された`ED-DI-004`/`ED-DI-005`を
 含むED-DI-002〜005のS社承認済み決定（Decision Record Rev0.1）を実装した
 **Engine Patch 2**（情報充足率・分野別状態・要確認事項・Guardrail判定保留）を適用した。
-各Patchの修正内容・完了条件チェックリストは `PATCH1_NOTES.md` / `PATCH2_NOTES.md` を参照。
+さらに、ED-DI-003の残る論点（情報充足率の集計粒度・閾値）についてS社が判断するための
+比較データを作る **WQ Sufficiency Validation**（本番ロジックには非接続の検証専用モジュール）
+を実施した。各Patch/Validationの修正内容・完了条件チェックリストは `PATCH1_NOTES.md` /
+`PATCH2_NOTES.md` / `WQ_SUFFICIENCY_VALIDATION_REPORT.md` を参照。
 `02_Diagnosis_Engine/Energy_Doctor_Public_Diagnosis_Engine_v1.4_Customer_A3.xlsx`
 （Engine v1.4）の `Web_EDI` / `Web_DRI` / `Web_EPI`、`Guardrail`、`TOP5_Calc` /
 `TOP5_Final` のロジックを、Excelの数式のとおりにPythonで再現したもの。
@@ -36,6 +39,9 @@ engine/
     top5_final.py          TOP5_Finalシート（重複統合TOP-R02・分野上限TOP-R03・最終順位）
     pipeline.py             上記を正しい依存順序で実行する end-to-end 関数（Adapter適用、
                            diagnosis_status判定、Guardrail→要確認事項→TOP5の表示階層を含む）
+    wq_sufficiency_validation.py  WQ Sufficiency Validation: WQ単位情報充足率・40/50/60%
+                           3閾値比較（Validation専用。pipeline.pyから非接続、本番ロジックへ
+                           未接続）
   tests/
     fixtures.py             TC-A/B/Cの入力データ＋ISS-06検証用の3件同点フィクスチャ
     test_tc_a.py             TC-A: Excel実測値との厳密一致テスト
@@ -44,10 +50,13 @@ engine/
     test_excel_compat.py    Excelの計算クセ共通関数の単体テスト
     test_corrective_patch1.py  Corrective Patch 1（ISS-02/03/06）の回帰テスト
     test_engine_patch2.py      Engine Patch 2（ED-DI-002/003/004/005）の回帰テスト
+    wq_sufficiency_fixtures.py  WQ Sufficiency Validationの6境界ケースForms_Response
+    test_wq_sufficiency_validation.py  WQ Sufficiency Validationの回帰テスト
   ISSUES.md                判断に迷った点・矛盾に見えた点の一覧
   COMPARISON.md             TC-A/B/CのExcel期待値とコード結果の比較表
   PATCH1_NOTES.md           Corrective Patch 1/1.1の修正内容・完了条件チェックリスト
   PATCH2_NOTES.md           Engine Patch 2の修正内容・新規フィールド仕様・完了条件チェックリスト
+  WQ_SUFFICIENCY_VALIDATION_REPORT.md  WQ Sufficiency Validationの比較データ・重み按分根拠
 ```
 
 ## 実行方法
@@ -58,8 +67,8 @@ pip install pytest
 python3 -m pytest -v
 ```
 
-53件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1/1.1の17件＋
-Engine Patch 2の17件）。
+71件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1/1.1の17件＋
+Engine Patch 2の17件＝既存53件、＋WQ Sufficiency Validationの18件）。
 
 ## 正本との突合範囲
 
@@ -87,12 +96,14 @@ Engine Patch 2の17件）。
 | `forms_adapter.py` | （Engine v1.4のシートに対応なし。Corrective Patch 1の新規Adapter層） | 「不明」「分からない」「空欄」を内部標準値`UNKNOWN`へ正規化 |
 | `domain_status.py` | （Engine v1.4のシートに対応なし。Engine Patch 2の新規出力） | Web_EDIの分野内訳と同一グルーピングを独立出力（ED-DI-004） |
 | `review_items.py` | （Engine v1.4のシートに対応なし。Engine Patch 2の新規出力） | Unknownで発火しなかった課題を「要確認事項」として検出（ED-DI-005） |
+| `wq_sufficiency_validation.py` | （Engine v1.4のシートに対応なし。ED-DI-003残論点のValidation専用モジュール） | WQ単位情報充足率・40/50/60%比較。本番ロジックには非接続 |
 
 ## Issue一覧・比較表
 
 - 判断に迷った点・矛盾に見えた点 → `ISSUES.md`
 - TC-A/B/CのExcel期待値とコード結果の比較 → `COMPARISON.md`
 - Engine Patch 2の新規フィールド仕様・完了条件 → `PATCH2_NOTES.md`
+- WQ Sufficiency Validation（ED-DI-003残論点の比較データ）→ `WQ_SUFFICIENCY_VALIDATION_REPORT.md`
 
 診断ロジック・しきい値・文言は一切変更していない。矛盾や解釈の分かれる箇所は
 すべて`ISSUES.md`に列挙し、コード側で独自判断による修正は行っていない。
