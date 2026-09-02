@@ -1,7 +1,9 @@
 # Task 2｜模擬案件データ5パターン
 
-Handoff Brief Rev0.4 Task 2の成果物。Engineロジック（`../engine/energy_doctor_engine/`）は
-一切変更していない（Corrective Patch 1.1適用済みの現行実装をそのまま使用）。
+Handoff Brief Rev0.4 Task 2の成果物。当初はCorrective Patch 1.1適用済みのEngineで実施し、
+その後Engine Patch 2（ED-DI-002〜005実装）適用後に再実行した（`TASK2_REPORT.md`末尾の
+「追記（2026-09-02）」参照）。5ケースのProfile・Forms_Response自体はいずれの実行でも
+変更していない。
 
 ## ファイル構成
 

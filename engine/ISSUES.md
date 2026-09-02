@@ -11,30 +11,34 @@ Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3 の指示に基づき、ロジッ�
 および `03_Microsoft_Forms/...Implementation_Spec_v1.0.xlsx` のシート `02_Questions` `04_Engine_Mapping`
 も確認した（Task1で再実装はしていない）。
 
-## 現在の状況（2026-09-02 / Corrective Patch 1 + 1.1 レビュー反映後）
+## 現在の状況（2026-09-02 / Engine Patch 2 反映後）
 
 Handoff Brief Rev0.4は、Task1完了後のレビューで確認された本ドキュメントのISS-01〜08を
-3区分に整理した。その後、Corrective Patch 1のレビュー結果（`Energy_Doctor_Design_Issue_Log.md`
-2026-09-02更新版）により、ISS-02・ISS-06はRESOLVED、ISS-03はPARTIALLY RESOLVED（設計判断部分は
-新規`ED-DI-003`へ切り出し）と判定された。今回のCorrective Patch 1.1では、ED-DI-003のうち
-実装側で対応可能な2点（全項目Unknown時の例外→正常系status化、暫定実装である旨の明記）のみを
-修正し、再正規化方式そのものの是非はED-DI-003としてS社Disposition待ちのまま変更していない。
-詳細な修正内容・完了条件チェックリストは `PATCH1_NOTES.md` を参照。
+3区分に整理した。Corrective Patch 1/1.1でISS-02・ISS-06をRESOLVED、ISS-03を
+PARTIALLY RESOLVEDとした。その後、Task2（模擬案件5パターン）のレビューで新規に
+ED-DI-004（Web_EDI分野間集約の希釈）・ED-DI-005（Unknown時Issue可視化）が登録され、
+ED-DI-002〜005はいずれもS社承認済み（Decision Record Rev0.1）となった。**Engine Patch 2**
+（本パッケージの最新変更）は、この承認済み決定のうちEngineへの実装が必要な部分
+（情報充足率・分野別状態・要確認事項・Guardrail判定保留、およびED-DI-003の正式仕様化）を
+実装したもの。詳細な修正内容・完了条件チェックリストは `PATCH2_NOTES.md` を参照
+（Corrective Patch 1/1.1の詳細は引き続き `PATCH1_NOTES.md` を参照）。
 
 | Issue | 区分 | 状況 |
 |---|---|---|
 | ISS-01 | （Task1B、実Forms回帰待ち） | OPEN（未対応、Forms実装後に再検証） |
 | ISS-02 | Corrective Patch 1（実装修正） | **RESOLVED**（`forms_adapter.py`。詳細は本ファイルのISS-02節） |
-| ISS-03 | Corrective Patch 1（実装修正） | **PARTIALLY RESOLVED / Design Disposition Required**（計算エラー防止は達成。Unknown時のウェイト再正規化方式と全項目Unknown時の挙動は`ED-DI-003`へ切り出し。Corrective Patch 1.1で全項目Unknown時の挙動のみ対応。詳細は本ファイルのISS-03節） |
+| ISS-03 | Corrective Patch 1 / Engine Patch 2（実装修正） | **RESOLVED**（Engine Patch 2でED-DI-003が正式Approved Dispositionとなり、`weighted_score()`のdocstringも「正式仕様」表記に更新。情報充足率の追加・全項目Unknown時のstatus一般化も完了。詳細は本ファイルのISS-03節） |
 | ISS-04 | HOLD（設計判断待ち） | 変更なし |
 | ISS-05 | （参考記録、対応区分未指定） | 変更なし |
 | ISS-06 | Corrective Patch 1（実装修正） | **RESOLVED**（`_enforce_field_cap()`。詳細は本ファイルのISS-06節） |
 | ISS-07 | HOLD（設計判断待ち） | 変更なし |
 | ISS-08 | HOLD（設計判断待ち） | 変更なし |
 | ISS-09 | ED-DI-002の実装側確認結果として統合管理（独立Design Issueではない） | OPEN / Blocked by ED-DI-002 |
-| ED-DI-001 | 正本側Design Issue（S社Disposition待ち） | OPEN。`Energy_Doctor_Design_Issue_Log.md`で独立管理。実装側では解消しない |
-| ED-DI-002 | 正本側Design Issue（S社Disposition待ち） | OPEN。本ファイルISS-09を参照。同上 |
-| ED-DI-003（新規） | 正本側Design Issue（S社Disposition待ち） | OPEN。Web_KPI/TOP5_CalcのUnknown時集約・再正規化ルールの正式仕様化。本ファイルのISS-03節を参照 |
+| ED-DI-001 | 正本側Design Issue（S社Disposition待ち） | OPEN / Interim Operational Disposition Applied。実装側では解消しない |
+| ED-DI-002 | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | V2.3シート77（WQ-Q Traceability）確定。Engine側は参照コメント追記のみ（計算ロジック変更なし）。V2.2/V2.3への正式反映自体はS社側の管理事項として残る |
+| ED-DI-003 | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | 残存ウェイト再正規化を正式仕様化、情報充足率を追加。閾値・Issue_CandidateのU値への適用範囲は引き続きTBC（`PATCH2_NOTES.md`参照） |
+| ED-DI-004（Task2発） | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | Web_EDI加重係数は現行維持、分野別状態(`domain_status`)を独立出力として追加 |
+| ED-DI-005（Task2発） | 正本側Design Issue（S社Approved・Implementation Pending→**実装済み**） | `review_items`・`guardrail_pending`を追加。表示階層（Guardrail→要確認事項→TOP5）をpipeline.pyに反映 |
 
 ---
 

@@ -1,5 +1,5 @@
-"""Run the 5 Task 2 scenarios through the existing engine (Corrective Patch
-1.1 applied, unmodified) and dump full results as JSON for the evaluation
+"""Run the 5 Task 2 scenarios through the existing engine (Engine Patch 2
+applied, unmodified) and dump full results as JSON for the evaluation
 report. No engine logic is touched by this script."""
 
 import json
@@ -74,6 +74,24 @@ def guardrail_to_dict(entry):
     }
 
 
+def review_item_to_dict(item):
+    return {
+        "issue_id": item.issue_id,
+        "field": item.field,
+        "name": item.name,
+        "reason_wq": list(item.reason_wq),
+    }
+
+
+def domain_status_to_dict(ds):
+    return {
+        "equipment": ds.equipment,
+        "energy": ds.energy,
+        "building": ds.building,
+        "management": ds.management,
+    }
+
+
 def normalized_to_dict(norm):
     return {
         wq_id: {
@@ -110,14 +128,20 @@ for scenario in SCENARIOS:
                 "web_kpi": {
                     "web_edi": result.web_kpi.web_edi,
                     "web_edi_band": result.web_kpi.web_edi_band,
+                    "web_edi_information_sufficiency": result.web_kpi.web_edi_information_sufficiency,
                     "web_dri": result.web_kpi.web_dri,
                     "web_dri_band": result.web_kpi.web_dri_band,
                     "web_dri_top5_r": result.web_kpi.web_dri_top5_r,
+                    "web_dri_information_sufficiency": result.web_kpi.web_dri_information_sufficiency,
                     "web_epi": result.web_kpi.web_epi,
                     "web_epi_band": result.web_kpi.web_epi_band,
+                    "web_epi_information_sufficiency": result.web_kpi.web_epi_information_sufficiency,
                 },
+                "domain_status": domain_status_to_dict(result.domain_status),
+                "guardrail_pending": result.guardrail_pending,
                 "guardrail_entries": [guardrail_to_dict(e) for e in result.guardrail_entries],
                 "top_guardrail": guardrail_to_dict(result.top_guardrail) if result.top_guardrail else None,
+                "review_items": [review_item_to_dict(i) for i in result.review_items],
                 "normalized": normalized_to_dict(result.normalized),
                 "issue_candidates": [issue_to_dict(i) for i in result.issue_candidates],
                 "top5_calc": [top5_calc_to_dict(r) for r in result.top5_calc],
@@ -137,7 +161,11 @@ for r in results:
     print(f"  status={r['actual']['diagnosis_status']}")
     print(f"  Web_EDI={kpi['web_edi']} ({kpi['web_edi_band']})  Web_DRI={kpi['web_dri']} ({kpi['web_dri_band']})  Web_EPI={kpi['web_epi']} ({kpi['web_epi_band']})")
     tg = r["actual"]["top_guardrail"]
-    print(f"  Guardrail: {tg['category'] + ' ' + tg['level'] if tg else 'なし'}")
+    pending = r["actual"]["guardrail_pending"]
+    print(f"  Guardrail: {'判定保留(WQ-404 Unknown)' if pending else (tg['category'] + ' ' + tg['level'] if tg else 'なし')}")
+    print(f"  domain_status: {r['actual']['domain_status']}")
+    print(f"  information_sufficiency: EDI={kpi['web_edi_information_sufficiency']:.2f} DRI={kpi['web_dri_information_sufficiency']:.2f} EPI={kpi['web_epi_information_sufficiency']:.2f}")
+    print(f"  review_items ({len(r['actual']['review_items'])}件): {[(i['issue_id'], i['reason_wq']) for i in r['actual']['review_items']]}")
     print(f"  TOP5 ({len(r['actual']['top5'])}件):")
     for row in r["actual"]["top5"]:
         print(f"    #{row['final_rank']} {row['candidate_id']:8s} {row['name']} score={row['score']} band={row['band']}")

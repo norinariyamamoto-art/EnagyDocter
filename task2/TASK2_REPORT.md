@@ -271,6 +271,43 @@ WQ-404は「供給継続」、対応期限も「3か月以内」。一方で経�
 
 ---
 
+## 追記（2026-09-02）：Engine Patch 2適用後の再実行結果
+
+`Energy_Doctor_Design_Issue_Log.md`のED-DI-004/005承認・Engine Patch 2実装を受け、
+`run_scenarios.py`を再実行した（`python3 run_scenarios.py`）。**Web_EDI/Web_DRI/Web_EPIの
+数値・帯評価、Guardrail判定、TOP5の順位・スコアは全ケースで本レポート作成時点から
+一切変化していない**（加重係数・TOP5順位ロジックは変更禁止のため期待どおり）。
+新規追加された出力を確認した結果は以下のとおり：
+
+| Case | review_items | domain_status（設備/エネルギー/建屋/管理） | information_sufficiency（EDI/DRI/EPI） |
+|---|---|---|---|
+| SIM-01 | **IS-04(WQ-104), MG-02(WQ-402)** | 60/53/100/65 | 1.00/1.00/1.00 |
+| SIM-02 | なし | 60/87/62/50 | 1.00/1.00/1.00 |
+| SIM-03 | **MG-02(WQ-402)** | 90/55/35/65 | 1.00/1.00/1.00 |
+| SIM-04 | なし | 35/63/100/100 | 1.00/1.00/1.00 |
+| SIM-05 | なし | 100/63/100/70 | 1.00/1.00/1.00 |
+
+- **SIM-01・SIM-03のUnknown事例は、本レポート「結果の分類」提案-Bで指摘したとおり
+  review_itemsに正しく出現することを確認した。** SIM-01ではIS-04（老朽設備の部品供給
+  「分からない」）とMG-02（投資判断基準「不明」）の両方が、SIM-03ではMG-02
+  （投資判断基準「分からない」）が、それぞれ「要確認事項」として可視化された
+  （提案-Bで懸念した「Unknownが実質非表示になる」問題がED-DI-005実装により解消）。
+- **domain_status（ED-DI-004）により、Web_EDI単独では見えなかった分野間の差が可視化
+  された。** 例えばSIM-01はWeb_EDI=68（概ね良好）だが、domain_statusでは設備60・
+  エネルギー53に対し建屋100と、分野間に大きな差があることが分かる。SIM-03も
+  Web_EDI=67に対し建屋domain_statusは35と、テーマである建屋課題の深刻さが
+  domain_status側では明確に表れている（提案-Aで指摘した希釈の懸念に対し、
+  domain_statusが補完情報として機能することを確認）。
+- **information_sufficiency はいずれのケースも1.00（全KPI）だった。** これは
+  Web_EDI/Web_DRI/Web_EPIの各構成項（本実装ではWeb_EDIの4分野グループ等、数式の
+  各weighted項単位で判定）が、SIM-01・SIM-03のUnknown回答（各グループ内の1問のみ）
+  によって丸ごと空欄化されるほどではなかったため。全問Unknownのような極端なケースで
+  初めて0に近づく設計であり、今回の5ケースでは1問程度のUnknown混在ではinformation_
+  sufficiencyの数値には表れない（グループ単位の粗い粒度であることの実例。粒度の
+  妥当性は`excel_compat.py`の`weighted_score()`docstringにS社確認事項として明記済み）。
+- Guardrail・診断エラー（`diagnosis_status`）もすべて従来どおりで、Engine Patch 2に
+  よる副作用は確認されなかった。
+
 ## 完了条件チェック
 
 - [x] 5パターン（老朽設備型・省エネ型・建屋課題型・BCP型・比較的良好型）を作成

@@ -1,11 +1,12 @@
-# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1 / 1.1 実装）
+# Energy Doctor 診断Engine（Task 1A + Corrective Patch 1/1.1 + Engine Patch 2 実装）
 
 `Energy_Doctor_ClaudeCode_Handoff_Brief_Rev0.3.md` の **Task 1** を実施した成果物。
-その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）と、そのレビューで
-`ED-DI-003`として切り出された設計判断待ち事項のうち実装側のみで対応可能な2点
-（全項目Unknown時の例外→正常系status化、暫定実装であることの明記）を適用した
-**Corrective Patch 1.1** を適用した。修正内容・完了条件チェックリストは
-`PATCH1_NOTES.md` を参照。
+その後、Rev0.4の **Corrective Patch 1**（ISS-02・ISS-03・ISS-06のみ）、そのレビューで
+`ED-DI-003`として切り出された事項のうち実装側のみで対応可能な2点を適用した
+**Corrective Patch 1.1**、そしてTask2のレビューで新規登録された`ED-DI-004`/`ED-DI-005`を
+含むED-DI-002〜005のS社承認済み決定（Decision Record Rev0.1）を実装した
+**Engine Patch 2**（情報充足率・分野別状態・要確認事項・Guardrail判定保留）を適用した。
+各Patchの修正内容・完了条件チェックリストは `PATCH1_NOTES.md` / `PATCH2_NOTES.md` を参照。
 `02_Diagnosis_Engine/Energy_Doctor_Public_Diagnosis_Engine_v1.4_Customer_A3.xlsx`
 （Engine v1.4）の `Web_EDI` / `Web_DRI` / `Web_EPI`、`Guardrail`、`TOP5_Calc` /
 `TOP5_Final` のロジックを、Excelの数式のとおりにPythonで再現したもの。
@@ -24,12 +25,17 @@ engine/
                          でも計算エラーを起こさない加重平均 weighted_score() を再現する共通関数
     forms_adapter.py     Forms Import Adapter / Normalizer（Corrective Patch 1 / ISS-02）
     wq_normalize.py      WQ_Normalizeシート（状態Score/緊急Score/Unknown/Evidence C）
-    web_kpi.py            Web_KPIシート（Web_EDI / Web_DRI / Web_EPI）
+    web_kpi.py            Web_KPIシート（Web_EDI / Web_DRI / Web_EPI、Engine Patch 2で
+                           情報充足率(*_information_sufficiency)を追加）
+    domain_status.py       Engine Patch 2 / ED-DI-004: 分野別状態（設備/エネルギー/建屋/管理）
     issue_candidate.py   Issue_Candidateシート（16課題のI/U/P/R/C/O、発火判定）
+    review_items.py        Engine Patch 2 / ED-DI-005: 要確認事項（Unknownで発火しなかった課題）
     guardrail.py           Guardrailシート（安全・法令／品質・顧客要求／BCP・供給継続）
-    top5_calc.py           TOP5_Calcシート（TOP_BASE→TOP_SCORE→暫定順位）
+    top5_calc.py           TOP5_Calcシート（TOP_BASE→TOP_SCORE→暫定順位。Engine Patch 2で
+                           U列の重み再正規化を廃止しUnknown=0代入方式へ変更）
     top5_final.py          TOP5_Finalシート（重複統合TOP-R02・分野上限TOP-R03・最終順位）
-    pipeline.py             上記を正しい依存順序で実行する end-to-end 関数（Adapter適用含む）
+    pipeline.py             上記を正しい依存順序で実行する end-to-end 関数（Adapter適用、
+                           diagnosis_status判定、Guardrail→要確認事項→TOP5の表示階層を含む）
   tests/
     fixtures.py             TC-A/B/Cの入力データ＋ISS-06検証用の3件同点フィクスチャ
     test_tc_a.py             TC-A: Excel実測値との厳密一致テスト
@@ -37,9 +43,11 @@ engine/
     test_tc_c.py             TC-C: 同上（安全・法令Guardrailの同点優先を含む）
     test_excel_compat.py    Excelの計算クセ共通関数の単体テスト
     test_corrective_patch1.py  Corrective Patch 1（ISS-02/03/06）の回帰テスト
+    test_engine_patch2.py      Engine Patch 2（ED-DI-002/003/004/005）の回帰テスト
   ISSUES.md                判断に迷った点・矛盾に見えた点の一覧
   COMPARISON.md             TC-A/B/CのExcel期待値とコード結果の比較表
-  PATCH1_NOTES.md           Corrective Patch 1の修正内容・完了条件チェックリスト
+  PATCH1_NOTES.md           Corrective Patch 1/1.1の修正内容・完了条件チェックリスト
+  PATCH2_NOTES.md           Engine Patch 2の修正内容・新規フィールド仕様・完了条件チェックリスト
 ```
 
 ## 実行方法
@@ -50,7 +58,8 @@ pip install pytest
 python3 -m pytest -v
 ```
 
-36件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1/1.1の17件）。
+53件のテストがすべてPASSすることを確認済み（Task 1Aの19件＋Corrective Patch 1/1.1の17件＋
+Engine Patch 2の17件）。
 
 ## 正本との突合範囲
 
@@ -76,11 +85,14 @@ python3 -m pytest -v
 | `top5_calc.py` | `TOP5_Calc` | TOP_BASE/TOP_SCORE/暫定順位（全16件対象のランキング） |
 | `top5_final.py` | `TOP5_Final` | TOP-R02重複統合・TOP-R03分野上限（Corrective Patch 1で同点時も最大2件を徹底）・最終順位（候補のみのランキング） |
 | `forms_adapter.py` | （Engine v1.4のシートに対応なし。Corrective Patch 1の新規Adapter層） | 「不明」「分からない」「空欄」を内部標準値`UNKNOWN`へ正規化 |
+| `domain_status.py` | （Engine v1.4のシートに対応なし。Engine Patch 2の新規出力） | Web_EDIの分野内訳と同一グルーピングを独立出力（ED-DI-004） |
+| `review_items.py` | （Engine v1.4のシートに対応なし。Engine Patch 2の新規出力） | Unknownで発火しなかった課題を「要確認事項」として検出（ED-DI-005） |
 
 ## Issue一覧・比較表
 
 - 判断に迷った点・矛盾に見えた点 → `ISSUES.md`
 - TC-A/B/CのExcel期待値とコード結果の比較 → `COMPARISON.md`
+- Engine Patch 2の新規フィールド仕様・完了条件 → `PATCH2_NOTES.md`
 
 診断ロジック・しきい値・文言は一切変更していない。矛盾や解釈の分かれる箇所は
 すべて`ISSUES.md`に列挙し、コード側で独自判断による修正は行っていない。

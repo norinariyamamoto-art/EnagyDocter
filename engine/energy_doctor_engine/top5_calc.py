@@ -11,14 +11,30 @@ This differs from TOP5_Final's rank, which ranks only among post-dedup
 candidates (see top5_final.py) -- see ISSUES.md ISS-06 for the resulting
 edge case this can cause.
 
-Corrective Patch 1 / ISS-03: Issue_Candidate's U column (`WQ_Normalize!E19`,
-WQ-405's urgency score) is a *direct* reference shared by all 16 issues, not
-wrapped in AVERAGE() -- so an Unknown WQ-405 makes `iss.u` blank for every
-single issue, and the naive `0.25*iss.u` term would be Excel's #VALUE! (and
-was a Python TypeError here) for all of them simultaneously. TOP_BASE is
-computed via weighted_score() below for the same reason Web_KPI's formulas
-are (see web_kpi.py) -- this is the only place besides Web_KPI where a
-directly-referenced WQ_Normalize value flows into a weighted formula.
+Issue_Candidate's U column (`WQ_Normalize!E19`, WQ-405's urgency score) is a
+*direct* reference shared by all 16 issues, not wrapped in AVERAGE() -- so an
+Unknown WQ-405 makes `iss.u` blank for every single issue at once, and the
+naive `0.25*iss.u` term would be Excel's #VALUE! (and was a Python TypeError
+here, in Corrective Patch 1) for all of them simultaneously.
+
+Engine Patch 2 / ED-DI-003 point 5 (S社 Design Disposition Decision Record
+Rev0.1, 2026-09-02; see Energy_Doctor_Design_Issue_Log.md's ED-DI-003
+"Approved Disposition" and V2.3 sheet `78_Web診断Disposition` row 6):
+**unlike Web_KPI's formulas, TOP_BASE deliberately does NOT renormalize when
+U is blank.** Corrective Patch 1 originally routed this through the same
+weighted_score() used for Web_EDI/DRI/EPI, but S社's disposition on
+Issue_Candidate's U specifically rejected that: "Unknownはスコアに加算せず"
+(an Unknown contributes nothing to the score) rather than having the other
+five weights (I/P/R/C/O) rescaled to compensate. A blank U term is instead
+substituted with 0 -- weights stay exactly 0.30/0.25/0.20/0.10/0.10/0.05, so
+an issue whose urgency input is Unknown does not get a boosted TOP_BASE from
+renormalization, and this issue's own resolution of that Unknown (whether it
+should be flagged rather than silently scored at all) is delegated to
+ED-DI-005's review_items (see review_items.py) rather than handled here.
+I/P/R/C/O never carry a blank value by construction (see issue_candidate.py
+and web_kpi.py's web_dri_top5_r, which the pipeline already guarantees is
+concrete before TOP5_Calc runs), so 0-substitution is needed only for U, and
+this formula can no longer raise or return None.
 """
 
 from __future__ import annotations
@@ -26,7 +42,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List
 
-from .excel_compat import excel_round, weighted_score
+from .excel_compat import excel_round
 from .issue_candidate import IssueCandidate
 
 
@@ -60,17 +76,11 @@ def compute_top5_calc(issues: List[IssueCandidate]) -> List[Top5CalcRow]:
     bases = []
     scores = []
     for iss in issues:
+        # ED-DI-003 point 5: U substituted with 0 when Unknown, weights
+        # otherwise untouched (no renormalization) -- see module docstring.
+        u = iss.u if iss.u is not None else 0
         base = excel_round(
-            weighted_score(
-                [
-                    (0.30, iss.i),
-                    (0.25, iss.u),
-                    (0.20, iss.p),
-                    (0.10, iss.r),
-                    (0.10, iss.c),
-                    (0.05, iss.o),
-                ]
-            ),
+            0.30 * iss.i + 0.25 * u + 0.20 * iss.p + 0.10 * iss.r + 0.10 * iss.c + 0.05 * iss.o,
             1,
         )
         score = min(100, base + iss.guard_add)

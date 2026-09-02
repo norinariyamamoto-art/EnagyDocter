@@ -5,12 +5,22 @@ E..L = I/U/P/R/C/O/Guard加算/発火). Each function below corresponds to one
 row and is commented with its exact source formula. Column letters in the
 comments are Issue_Candidate's own (E=I, F=U, G=P, H=R, I=C, J=O, K=Guard加算,
 L=発火) -- not to be confused with this module's Python variable names.
+
+ED-DI-002 Approved: this module's `main_wq` field is the same public-WQ
+identity used by V2.3 sheet `77_WQ-Q_Traceability` (now the formal
+WQ-ID<->Q-ID mapping authority). That mapping does not change anything here
+-- per the Traceability sheet's own header note, public WQ answers are never
+auto-generated or transcribed into individual formal Q-ID answers, so this
+module continues to score `main_wq` against its own public-WQ-only rules.
+See review_items.py, which uses `main_wq` (and issue_id, for BL-03's
+two-WQ case) purely to explain *why* an issue didn't fire when the reason is
+an Unknown answer -- it does not feed anything back into scoring here.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from .excel_compat import blank_eq, blank_ge, blank_lt, excel_search
 from .wq_normalize import NormalizedWQ
@@ -30,9 +40,9 @@ class IssueCandidate:
     name: str
     main_wq: str
     i: float  # Impact
-    u: "float | None"  # Urgency (WQ_Normalize!E19 -- blank if WQ-405 is Unknown)
+    u: Optional[float]  # Urgency (WQ_Normalize!E19 -- blank if WQ-405 is Unknown)
     p: float  # Probability/state
-    r: float  # Risk (Web_DRI-derived, shared across all issues)
+    r: Optional[float]  # Risk (Web_DRI's TOP5用R -- see build_issue_candidates)
     c: float  # Confidence/evidence
     o: float  # Opportunity
     guard_add: float
@@ -40,7 +50,10 @@ class IssueCandidate:
 
 
 def build_issue_candidates(
-    norm: Dict[str, NormalizedWQ], wq001_raw: str, wq501_raw: str, web_dri_top5_r: float
+    norm: Dict[str, NormalizedWQ],
+    wq001_raw: str,
+    wq501_raw: str,
+    web_dri_top5_r: Optional[float],
 ) -> List[IssueCandidate]:
     d = {k: v.d for k, v in norm.items()}
     c = {k: v.raw for k, v in norm.items()}

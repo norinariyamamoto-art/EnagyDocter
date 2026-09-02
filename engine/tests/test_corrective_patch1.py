@@ -67,6 +67,9 @@ def test_adapter_does_not_rewrite_v22_or_forms_spec_files():
     guarded_paths = [
         "01_Core_Design/Energy_Doctor_LP_SelfDiagnosis_Design_V2.2.xlsx",
         "03_Microsoft_Forms/Energy_Doctor_Microsoft_Forms_Implementation_Spec_v1.0.xlsx",
+        # Engine Patch 2: V2.3 (WQ-Q Traceability Approved) must stay
+        # untouched too -- see "変更禁止: 正本ファイル（V2.2/V2.3のxlsx...）".
+        "01_Core_Design/Energy_Doctor_LP_SelfDiagnosis_Design_V2_3_Traceability_Approved.xlsx",
     ]
 
     recorded = {}
@@ -124,8 +127,16 @@ def test_all_wq_unknown_returns_insufficient_data_status_not_an_exception():
     (Corrective Patch 1's original behavior); ED-DI-003's review flagged
     that as effectively an unhandled crash from the caller's point of view.
     It is now a normal, inspectable pipeline result instead: diagnosis_status
-    signals it, the affected KPIs are None ("該当KPIはnull相当"), and
-    Guardrail/TOP5 are not computed ("Guardrail/TOP5は非表示")."""
+    signals it and the affected KPIs are None ("該当KPIはnull相当").
+
+    Engine Patch 2 / ED-DI-005 note: unlike Corrective Patch 1.1, Guardrail
+    and Issue_Candidate/review_items are no longer forced empty here --
+    ED-DI-005's disposition ("重大事項の未確認を非表示にしない") means
+    Guardrail must stay visible (as guardrail_pending, since WQ-404 is also
+    Unknown in this fixture) even when the rest of the diagnosis is
+    INSUFFICIENT_DATA. Only TOP5 (which needs a defined Web_DRI-derived R)
+    stays empty. See tests/test_engine_patch2.py for the dedicated
+    ED-DI-003/004/005 test suite."""
     all_unknown = dict(TC_A_FORMS_RESPONSE)
     for wq in (
         "WQ-101", "WQ-102", "WQ-103", "WQ-104",
@@ -140,9 +151,9 @@ def test_all_wq_unknown_returns_insufficient_data_status_not_an_exception():
     assert result.diagnosis_status == DIAGNOSIS_STATUS_INSUFFICIENT_DATA
     assert result.web_kpi.web_edi is None
     assert result.web_kpi.web_dri is None
+    assert result.guardrail_pending is True
     assert result.guardrail_entries == []
     assert result.top_guardrail is None
-    assert result.issue_candidates == []
     assert result.top5_calc == []
     assert result.top5_final == []
     assert result.top5 == []
@@ -214,19 +225,31 @@ def test_unknown_wq301_does_not_fire_bl01():
 def test_weighted_score_excludes_blank_and_rescales():
     # 0.5*100 + 0.5*None -> the blank term drops out and the remaining
     # weight (0.5) is rescaled to 1.0, leaving the visible term's own value.
-    assert weighted_score([(0.5, 100.0), (0.5, None)]) == 100.0
-    assert weighted_score([(0.3, 60.0), (0.7, 60.0)]) == 60.0
+    # Engine Patch 2 / ED-DI-003: weighted_score() now returns a
+    # WeightedScoreResult(value, information_sufficiency) instead of a bare
+    # float -- see excel_compat.py.
+    result = weighted_score([(0.5, 100.0), (0.5, None)])
+    assert result.value == 100.0
+    assert result.information_sufficiency == 0.5
+
+    result = weighted_score([(0.3, 60.0), (0.7, 60.0)])
+    assert result.value == 60.0
+    assert result.information_sufficiency == 1.0
 
 
 def test_weighted_score_all_blank_returns_none_not_an_exception():
     """Corrective Patch 1.1 / ED-DI-003: weighted_score() used to raise
     InsufficientDataError here (Corrective Patch 1's original behavior).
-    It now returns None instead -- an all-blank formula is a defined,
-    non-exceptional outcome ("no score computable from zero information"),
-    not an error condition -- so callers can check for it explicitly (see
-    web_kpi.py's _round_or_none and pipeline.py's diagnosis_status) instead
-    of needing a try/except that, in practice, was never added anywhere."""
-    assert weighted_score([(0.5, None), (0.5, None)]) is None
+    It now returns a WeightedScoreResult with value=None instead -- an
+    all-blank formula is a defined, non-exceptional outcome ("no score
+    computable from zero information"), not an error condition -- so callers
+    can check for it explicitly (see web_kpi.py's _round_or_none and
+    pipeline.py's diagnosis_status) instead of needing a try/except that, in
+    practice, was never added anywhere. information_sufficiency is 0.0 in
+    this case, consistent with every term being blank."""
+    result = weighted_score([(0.5, None), (0.5, None)])
+    assert result.value is None
+    assert result.information_sufficiency == 0.0
 
 
 # ---------------------------------------------------------------------------

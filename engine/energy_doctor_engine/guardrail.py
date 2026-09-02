@@ -8,6 +8,19 @@ display purposes is whichever matched category has the highest Priority
 Score, which is exactly the base-rank ordering (安全・法令 > 品質・顧客要求 >
 BCP・供給継続) since severity/evidence add-ons are identical (+50/+15) across
 all three when matched.
+
+ED-DI-002 Approved (V2.3 sheet `77_WQ-Q_Traceability`, WQ-404 row): the
+formal Guardrail-relevant Q-IDs behind this public question are now closed
+to Q101/Q103/Q104/Q106/Q108/Q109/Q110/Q112/Q404/Q408 -- but the Engine's own
+input is WQ-404 alone (the formal Q-IDs are not individually collected by
+the public 18 questions and are never auto-derived from it; see
+issue_candidate.py's module docstring). This module's own category logic is
+therefore unchanged; the closed Q-ID list is the *reason* WQ-404's Unknown
+case is treated as a Guardrail-relevant "判定保留" (pending) rather than an
+ordinary Unknown elsewhere in the form -- see pipeline.py's
+guardrail_pending, which is what actually distinguishes an Unknown WQ-404
+(guardrail_pending=True, this module's entries deliberately not evaluated)
+from a confirmed "ない" (guardrail_pending=False, no category matches).
 """
 
 from __future__ import annotations

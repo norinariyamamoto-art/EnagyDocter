@@ -37,12 +37,22 @@
       "web_kpi": {
         "web_edi": 68,
         "web_edi_band": "概ね良好",
+        "web_edi_information_sufficiency": 1.0,
         "web_dri": 63,
         "web_dri_band": "判断準備中",
         "web_dri_top5_r": 55,
+        "web_dri_information_sufficiency": 1.0,
         "web_epi": 45,
-        "web_epi_band": "継続監視"
+        "web_epi_band": "継続監視",
+        "web_epi_information_sufficiency": 1.0
       },
+      "domain_status": {
+        "equipment": 60,
+        "energy": 53,
+        "building": 100,
+        "management": 65
+      },
+      "guardrail_pending": false,
       "guardrail_entries": [
         {
           "category": "安全・法令",
@@ -76,6 +86,24 @@
         }
       ],
       "top_guardrail": null,
+      "review_items": [
+        {
+          "issue_id": "IS-04",
+          "field": "設備",
+          "name": "EOL・部品供給状況の確認",
+          "reason_wq": [
+            "WQ-104"
+          ]
+        },
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "reason_wq": [
+            "WQ-402"
+          ]
+        }
+      ],
       "normalized": {
         "WQ-101": {
           "raw": "一部把握",
@@ -955,12 +983,22 @@
       "web_kpi": {
         "web_edi": 64,
         "web_edi_band": "注意",
+        "web_edi_information_sufficiency": 1.0,
         "web_dri": 64,
         "web_dri_band": "判断準備中",
         "web_dri_top5_r": 55,
+        "web_dri_information_sufficiency": 1.0,
         "web_epi": 56,
-        "web_epi_band": "計画対応"
+        "web_epi_band": "計画対応",
+        "web_epi_information_sufficiency": 1.0
       },
+      "domain_status": {
+        "equipment": 60,
+        "energy": 87,
+        "building": 62,
+        "management": 50
+      },
+      "guardrail_pending": false,
       "guardrail_entries": [
         {
           "category": "安全・法令",
@@ -994,6 +1032,7 @@
         }
       ],
       "top_guardrail": null,
+      "review_items": [],
       "normalized": {
         "WQ-101": {
           "raw": "一部把握",
@@ -1873,12 +1912,22 @@
       "web_kpi": {
         "web_edi": 67,
         "web_edi_band": "概ね良好",
+        "web_edi_information_sufficiency": 1.0,
         "web_dri": 63,
         "web_dri_band": "判断準備中",
         "web_dri_top5_r": 55,
+        "web_dri_information_sufficiency": 1.0,
         "web_epi": 79,
-        "web_epi_band": "早期対応"
+        "web_epi_band": "早期対応",
+        "web_epi_information_sufficiency": 1.0
       },
+      "domain_status": {
+        "equipment": 90,
+        "energy": 55,
+        "building": 35,
+        "management": 65
+      },
+      "guardrail_pending": false,
       "guardrail_entries": [
         {
           "category": "安全・法令",
@@ -1921,6 +1970,16 @@
         "message": "品質・顧客要求に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
         "level": "L2"
       },
+      "review_items": [
+        {
+          "issue_id": "MG-02",
+          "field": "管理",
+          "name": "設備投資の共通優先順位基準の整備",
+          "reason_wq": [
+            "WQ-402"
+          ]
+        }
+      ],
       "normalized": {
         "WQ-101": {
           "raw": "把握している",
@@ -2801,12 +2860,22 @@
       "web_kpi": {
         "web_edi": 67,
         "web_edi_band": "概ね良好",
+        "web_edi_information_sufficiency": 1.0,
         "web_dri": 65,
         "web_dri_band": "概ね判断可能",
         "web_dri_top5_r": 80,
+        "web_dri_information_sufficiency": 1.0,
         "web_epi": 72,
-        "web_epi_band": "早期対応"
+        "web_epi_band": "早期対応",
+        "web_epi_information_sufficiency": 1.0
       },
+      "domain_status": {
+        "equipment": 35,
+        "energy": 63,
+        "building": 100,
+        "management": 100
+      },
+      "guardrail_pending": false,
       "guardrail_entries": [
         {
           "category": "安全・法令",
@@ -2849,6 +2918,7 @@
         "message": "BCP・供給継続に関する未解決課題が回答されています。内容と対応期限の確認が必要です。",
         "level": "L2"
       },
+      "review_items": [],
       "normalized": {
         "WQ-101": {
           "raw": "一部把握",
@@ -3729,12 +3799,22 @@
       "web_kpi": {
         "web_edi": 87,
         "web_edi_band": "良好",
+        "web_edi_information_sufficiency": 1.0,
         "web_dri": 75,
         "web_dri_band": "概ね判断可能",
         "web_dri_top5_r": 80,
+        "web_dri_information_sufficiency": 1.0,
         "web_epi": 26,
-        "web_epi_band": "低優先"
+        "web_epi_band": "低優先",
+        "web_epi_information_sufficiency": 1.0
       },
+      "domain_status": {
+        "equipment": 100,
+        "energy": 63,
+        "building": 100,
+        "management": 70
+      },
+      "guardrail_pending": false,
       "guardrail_entries": [
         {
           "category": "安全・法令",
@@ -3768,6 +3848,7 @@
         }
       ],
       "top_guardrail": null,
+      "review_items": [],
       "normalized": {
         "WQ-101": {
           "raw": "把握している",
