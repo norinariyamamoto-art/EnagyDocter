@@ -69,6 +69,7 @@ engine/
   WQ_SUFFICIENCY_VALIDATION_REPORT.md  WQ Sufficiency Validationの比較データ・重み按分根拠
   PATCH3_NOTES.md           ED-DI-003 Final Pipeline Patchの修正内容・完了条件チェックリスト
   PATCH4_NOTES.md           ED-DI-001 Final Patchの(A)/(B)一覧・Forms Implementation Spec整合確認・完了条件チェックリスト
+  ED_DI_001_V2_3_VERIFICATION_REPORT.md  S社改訂後のV2.3正本の差分検証結果（31セル一致確認）
 ```
 
 ## 実行方法
@@ -119,6 +120,7 @@ Final Pipeline Patchでの純増2件）。
 - WQ Sufficiency Validation（ED-DI-003残論点の比較データ）→ `WQ_SUFFICIENCY_VALIDATION_REPORT.md`
 - ED-DI-003 Final Pipeline Patch（本番統合の完了条件・変更点）→ `PATCH3_NOTES.md`
 - ED-DI-001 Final Patch（顧客向けUnknown表示標準「分からない」への統一・改訂対象箇所の特定）→ `PATCH4_NOTES.md`
+- ED-DI-001 V2.3正本改訂後の差分検証結果 → `ED_DI_001_V2_3_VERIFICATION_REPORT.md`
 
 診断ロジック・しきい値・文言は一切変更していない。矛盾や解釈の分かれる箇所は
 すべて`ISSUES.md`に列挙し、コード側で独自判断による修正は行っていない。
